@@ -179,7 +179,7 @@ export class RegistroAOComponent implements OnInit {
                   this.api.addProductoAO(datosProd).subscribe(res=>{
                     if(i==this.datosProducto.length-1){
                       this.cancelar()
-
+                      this.sub.cargarAOVinculada()
                       this.messageService.add({key: 'mensaje', severity:'success', summary: 'Registro de Actividad Operativa', detail: 'Registro realizado correctamente'});
                     }
                   })
