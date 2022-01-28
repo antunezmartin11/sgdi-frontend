@@ -1,0 +1,108 @@
+<div class="grid">
+  <div class="col-2">
+    <app-body></app-body>
+  </div>
+  <div class="col-10">
+    <p-fieldset legend="Implementación del Sistema de Control Interno">
+      <div class="grid">
+        <div class="col-4">
+          <button pButton type="button" icon="pi pi-save" iconPos="left" style="width: 40%" class="btnPlani" routerLink="../registroProducto">Agregar Producto&nbsp;</button>
+        </div>
+      </div>
+      <br>
+      <div class="grid">
+        <p-table #dt1 [value]="datos" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+                 [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-customers p-datatable-gridlines"
+                 [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
+                 [globalFilterFields]="['usuario','fechaInicio','fechaFin','fechaReg']">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  N°
+                </div>
+              </th>
+              <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  Producto Priorizado
+                </div>
+              </th>
+              <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  Riesgo Identificado
+                </div>
+              </th>
+              <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  Medidas de Control
+                </div>
+              </th>
+              <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  Organo / Unidad Responsable
+                </div>
+              </th>
+              <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  Fecha de Inicio
+                </div>
+              </th>
+              <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  Fecha de Fin
+                </div>
+              </th>
+              <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  Medios de Verificación
+                </div>
+              </th>
+              <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  Observaciones
+                </div>
+              </th>
+              <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  Acciones
+                </div>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-datos>
+            <tr>
+              <td>
+                {{datos.numeracion}}
+              </td>
+              <td>{{datos.nombreProducto}}</td>
+              <td>{{datos.riesgoPriorizado}}</td>
+              <td>{{datos.nombreMedidaControl}}</td>
+              <td></td>
+              <td>
+                <span class="image-text">{{datos.fecInicio | date: 'MM/dd/yyyy'}}</span>
+              </td>
+              <td>
+                <span class="image-text">{{datos.fecFin | date: 'MM/dd/yyyy'}}</span>
+              </td>
+              <td>
+                {{datos.nombreDocumento}}
+              </td>
+
+              <td>
+                {{datos.observacion}}
+              </td>
+              <td style="text-align: center"><button pButton type="button" icon="pi pi-pencil" iconPos="left" style="width: 50%" class="p-button-danger">&nbsp;</button></td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="7">No se encontraron registros.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+      </div>
+    </p-fieldset>
+  </div>
+</div>
+

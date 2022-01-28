@@ -1,0 +1,46 @@
+<div class="grid" *ngIf="estado" style="background-color: #13151d; height: 1280px">
+  <div class="col" style="margin-top: 50%">
+    <ul>
+      <li>SGDI</li>
+      <li><button pButton type="button" icon="pi pi-home" label="INICIO" class="p-button-text ic" routerLink="../home"></button></li>
+      <li><button pButton type="button" icon="pi pi-calendar-plus" label="Planificación" class="p-button-text ic" routerLink="../menuPlanificacion"></button></li>
+      <li><button pButton type="button" icon="pi pi-fw pi-list" label="Seguimiento" class="p-button-text ic" routerLink="../menuPlanificacion"></button></li>
+      <li><button pButton type="button" icon="pi pi-fw pi-check" label="Evaluación" class="p-button-text ic" routerLink="../menuPlanificacion"></button></li>
+    </ul>
+
+    <ul>
+      <li>Perfil</li>
+      <li><button pButton type="button" icon="pi pi-sign-out" label="Cerrar Sesion" class="p-button-text ic" (click)="cerrarSesion()"></button></li>
+    </ul>
+  </div>
+</div>
+<!--
+<div class="grid">
+<div class="col">
+  <p-splitter *ngIf="estadoM" [style]="{'height': '960px', 'width':'280px'}" [panelSizes]="[250,150]" [minSizes]="[3,0]"  styleClass="p-mb-5">
+    <ng-template pTemplate >
+      <div class="grid" style="background-color: #13151d;">
+        <div class="p-col p-d-flex p-ai-center p-jc-center">
+          <div class="p-col p-d-flex p-ai-center p-jc-center">
+
+            <div class="grid" style="margin-top: 60%">
+              <div class="col">
+
+                <div class="p-text-wrap" id="usu" style="width: 10rem" *ngFor="let u of usu">
+                  {{u.nombre}}
+                </div>
+              </div>
+            </div>
+            <ul style="width: 100%">
+              <li>Home</li>
+            </ul>
+            <button pButton icon="pi pi-sign-out" (click)="cerrarSesion()" iconPos="right" id="btnCerrar" style="width: 100%; margin-top: 140%">Cerrar Sesion &nbsp; </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-splitter>
+</div>
+
+</div>
+-->

@@ -1,0 +1,126 @@
+<div class="grid">
+  <div class="col-2">
+    <app-body></app-body>
+  </div>
+  <div class="col-10">
+    <p-fieldset legend="Modulo de informes de auditoria">
+      <div class="grid">
+        <div class="col-4">
+          <button pButton type="button" icon="pi pi-file" iconPos="left" style="width: 40%" class="btnPlani" routerLink="../registroInforme">Agregar Documento&nbsp;&nbsp;</button>&nbsp;
+
+        </div>
+      </div>
+      <br>
+
+      <div class="grid">
+
+        <div class="col-12">
+          <p-table #dt1 [value]="datos" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+                   [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-customers p-datatable-gridlines"
+                   [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
+                   [globalFilterFields]="['usuario','fechaInicio','fechaFin','fechaReg']">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    N°
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Tipo de Documento
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    N° Documento
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    N° Informe
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Nombre de Informe
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Fecha de Recepción
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Tipo de Control
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Informe OCI
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Fecha de envio OCI
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Detalle
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Visto Bueno
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Acciones
+                  </div>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-datos>
+              <tr>
+                <td>
+                  {{datos.numeracion}}
+                </td>
+                <td>
+                  {{datos.nombreDocumento}}
+                </td>
+                <td>
+                  <span class="image-text">{{datos.numDocumento}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos.numInforme}}</span>
+                </td>
+                <td>
+                  {{datos.nomInforme}}
+                </td>
+                <td>
+                  {{datos.fechaFin | date: 'MM/dd/yyyy'}}
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: center"><button pButton type="button" icon="pi pi-eye" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="getRecomendaciones(datos.idInformeAuditoria)">&nbsp;</button></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7">No se encontraron registros.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+      </div>
+    </p-fieldset>
+  </div>
+</div>
+<app-lista-recomendacion [estado]="modalRecomendacion"></app-lista-recomendacion>

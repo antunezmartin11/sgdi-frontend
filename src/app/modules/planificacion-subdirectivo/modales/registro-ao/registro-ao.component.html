@@ -1,0 +1,298 @@
+<p-dialog header="Vincular Actividad Operativa" [closable]="false" [(visible)]="estado" position="center"  [breakpoints]="{'1800px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+  <ng-template pTemplate="Vincular Actividad Operativa">
+    <div class="field grid">
+      <div class="col-3">
+        <label for="state" class="col" style="width:100%">Accion Estrategica</label>
+      </div>
+      <div class="col-8">
+        <select id="state" class="inputfield w-full" style="appearance: auto; height: 30px;"  [(ngModel)]="valorAE" (change)="buscarAE()">
+          <option value="0">Seleccionar</option>
+          <option value="{{lista.idaccionEstregica}}" *ngFor="let lista of addAEDireccion" >{{lista.nomAccionEstrategica}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="field grid">
+      <div class="col-3">
+        <label for="lastname3" class="col-fixed" style="width:100px">Codigo</label>
+      </div>
+      <div class="col-6">
+        <input id="lastname3" type="text" class="inputfield" style="height: 30px" [disabled]="true" [(ngModel)]="codigoAE">
+      </div>
+    </div>
+    <p-fieldset legend="Actividad Operativa">
+      <div class="field grid">
+        <div class="col-3">
+          <label for="lastname3" class="col-fixed" style="width:100px">Actividad</label>
+        </div>
+        <div class="col-3">
+          <select class="inputfield w-full" style="appearance: auto; height: 30px;"  [(ngModel)]="idActividadOperativa" (change)="getDatoSAO()">
+            <option value="0">Seleccionar</option>
+            <option value="{{ao.id}}" *ngFor="let ao of listaAO">{{ao.descripcion}}</option>
+          </select>
+        </div>
+        <div class="col-3">
+          <button pButton type="button" icon="pi pi-plus" iconPos="left" style="width: 50%" class="btnPlani" (click)="agregarUnidad()"> &nbsp;</button>
+        </div>
+      </div>
+      <div class="field grid">
+        <div class="col-3">
+          <label for="lastname3" class="col-fixed" style="width:100px">Codigo</label>
+        </div>
+        <div class="col-6">
+          <input id="lastname4" [disabled]="true" type="text" class="inputfield" style="height: 30px" [(ngModel)]="codigoAO">
+        </div>
+      </div>
+      <div class="field grid">
+        <div class="col-3">
+          <label for="lastname3" class="col-fixed" style="width:100px">Objetivo</label>
+        </div>
+        <div class="col-3">
+          <select  class="inputfield w-full" style="appearance: auto; height: 30px;"  [(ngModel)]="idObjetivoAO">
+            <option value="0">Seleccionar</option>
+            <option value="{{obj.id}}" *ngFor="let obj of objetivos">{{obj.objetivo}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="field grid">
+        <div class="col-3">
+          <label for="lastname3" class="col-fixed" style="width:100px">Sub Dirección</label>
+        </div>
+        <div class="col-3">
+          <select id="states8" class="inputfield w-full" style="appearance: auto; height: 30px;"  [(ngModel)]="idUnidad">
+            <option value="0">Seleccionar</option>
+            <option value="{{uni.id_responsable}}" *ngFor="let uni of listaUnidadDireccion">{{uni.nombre}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-12">
+          <p-table #dt1 [value]="addUnidad" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+                   [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-datos p-datatable-gridlines"
+                   [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
+                   [globalFilterFields]="['numeracion','organo','recomendacion']">
+            <ng-template pTemplate="caption">
+              <div class="p-d-flex">
+
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr style="font-size: 14px">
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    N°
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Actividad Operativa
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Objetivo
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Sub Dirección
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Seleccionar
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Eliminar
+                  </div>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-datos>
+              <tr style="font-size: 14px">
+                <td>
+                  {{datos.numeracion}}
+                </td>
+                <td>
+                  <span class="image-text">{{datos.nombreAO}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos.nombreObjetivoAO}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos.nombreUnidad}}</span>
+                </td>
+                <td style="text-align: center;"><p-checkbox name="groupname" [(ngModel)]="datos.estado" [binary]="true" ></p-checkbox></td>
+                <td style="text-align: center"><button pButton type="button" icon="pi pi-trash" iconPos="left" style="width: 60%" class="p-button-raised p-button-danger" (click)="eliminarSubDireccion(datos.numeracion)">&nbsp;</button></td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7">No se encontraron registros.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </p-fieldset>
+    <p-fieldset legend="Asignación de productos">
+      <div class="grid">
+        <div class="col-2">
+          Producto
+        </div>
+        <div class="col-3">
+          <select id="states3" class="inputfield w-full" style="appearance: auto; height: 30px;"  [(ngModel)]="idProducto">
+            <option value="0">Seleccionar</option>
+            <option value="{{pro.id}}" *ngFor="let pro of listaProducto">{{pro.producto}}</option>
+
+          </select>
+        </div>
+        <div class="col-2">
+          Peso
+        </div>
+        <div class="col-3">
+          <input type="text" class="inputfield" style="height: 30px;" [(ngModel)]="pesoProducto" (keypress)="validarNumero($event)">
+        </div>
+        <div class="col-2">
+          <button pButton type="button" icon="pi pi-plus" iconPos="left" style="width: 50%" class="btnPlani" (click)="agregarProducto()"> &nbsp;</button>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-2">
+          Indicador
+        </div>
+        <div class="col-6">
+          <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="indicador" (keypress)="validarLetrasNumero($event)">
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-2">
+          Formula
+        </div>
+        <div class="col-6">
+          <input type="text" class="inputfield"  [(ngModel)]="formula" style="height: 30px; width: 100%;" (keypress)="validarLetrasNumero($event)">
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-2">
+          Estandar
+        </div>
+        <div class="col-6">
+          <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="estandar" (keypress)="validarLetrasNumero($event)">
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-3">
+          Evidencia de Cumplimiento
+        </div>
+        <div class="col-3">
+          <select id="states56" class="inputfield w-full" style="appearance: auto; height: 30px;"  [(ngModel)]="idTipodocumento">
+            <option value="0">Seleccionar</option>
+            <option value="{{doc.idTipoDocumento}}" *ngFor="let doc of listarTipoDocumento ">{{doc.nombreDocumento}}</option>
+          </select>
+        </div>
+        <div class="col-3">
+          Meta
+        </div>
+        <div class="col-3">
+          <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="meta" (keypress)="validarNumero($event)">
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-12">
+          <p-table #dt1 [value]="datosProducto" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+                   [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-datos p-datatable-gridlines"
+                   [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
+                   [globalFilterFields]="['numeracion','organo','recomendacion']">
+            <ng-template pTemplate="caption">
+              <div class="p-d-flex">
+
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr style="font-size: 14px">
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    N°
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Producto
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Peso
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Indicador
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Formula
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Estandar
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Meta
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Eliminar
+                  </div>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-datos>
+              <tr style="font-size: 14px">
+                <td>
+                  {{datos.numeracion}}
+                </td>
+                <td>
+                  <span class="image-text">{{datos.nombreProducto}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos.peso}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos.indicador}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos.formula}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos.estandar}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos.meta}}</span>
+                </td>
+                <td style="text-align: center"><button pButton type="button" icon="pi pi-trash" iconPos="left" style="width: 60%" class="p-button-raised p-button-danger" (click)="eliminarSubDireccion(datos.numeracion)">&nbsp;</button></td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7">No se encontraron registros.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </p-fieldset>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton type="button" icon="pi pi-calendar-plus" iconPos="left" style="width: 20%" class="btnPlani" (click)="guardarRegistro()">Guardar&nbsp;</button>
+    <button pButton type="button" icon="pi pi-times" iconPos="left" style="width: 20%" class="p-button-danger" (click)="cancelar()">Cancelar&nbsp;</button>
+  </ng-template>
+</p-dialog>
+<p-toast key="mensaje"></p-toast>

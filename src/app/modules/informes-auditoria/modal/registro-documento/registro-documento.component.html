@@ -1,0 +1,132 @@
+<div class="grid">
+  <div class="col-2">
+    <app-body></app-body>
+  </div>
+  <div class="col-10">
+    <p-fieldset legend="Registro de Informes de Auditoria / Plan de Acción">
+      <div class="grid">
+        <div class="col-2">Tipo Documento</div>
+        <div class="col-3">
+          <select id="states56" class="inputfield w-full" style="appearance: auto; height: 30px;"  [(ngModel)]="tipoDocumento">
+            <option selected>Seleccionar</option>
+            <option value="{{doc.idTipoDocumento}}" *ngFor="let doc of listaTipoDocumento">{{doc.nombreDocumento}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-2">N° Documento</div>
+        <div class="col-5">
+          <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="numDocumento">
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-2">N° Informe</div>
+        <div class="col-5">
+          <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="numInforme">
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-2">Nombre de Informe</div>
+        <div class="col-5">
+          <textarea [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize" [(ngModel)]="nomInforme"></textarea>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-2">Fecha de Recepción</div>
+        &nbsp;&nbsp;<p-calendar [(ngModel)]="fechaRegistro" [showIcon]="true" ></p-calendar>
+      </div>
+
+      <p-fieldset legend="Recomendaciones / Situaciones Adversas">
+        <div class="grid">
+          <div class="col-6">
+            <div class="grid">
+              <div class="col-4">Recomendación / Situación Adversa</div>
+              <div class="col-5">
+                <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="recomendacion">
+              </div>
+            </div>
+            <div class="grid">
+              <div class="col-4">
+                Organo / Unidad Responsable
+              </div>
+              <div class="col-5">
+                <select  class="inputfield w-full" style="appearance: auto; height: 30px;"  [(ngModel)]="organo" >
+                  <option selected>Seleccionar</option>
+                  <option value="{{organo.id}}" *ngFor="let organo of listaOrgano">{{organo.nombre}}</option>
+                </select>
+              </div>
+
+            </div>
+            <div class="grid">
+              <div class="col-3">
+                <button pButton type="button" icon="pi pi-plus" iconPos="left" style="width: 60%" class="btnPlani" (click)="agregarRecomendacion()">Agregar &nbsp;</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <p-table #dt1 [value]="listaRecomendacion" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+                     [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-datos p-datatable-gridlines"
+                     [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
+                     [globalFilterFields]="['numeracion','organo','recomendacion']">
+              <ng-template pTemplate="caption">
+                <div class="p-d-flex">
+
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      N°
+                    </div>
+                  </th>
+                  <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Organo/Unidad
+                    </div>
+                  </th>
+                  <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Recomendacion
+                    </div>
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-listaRecomendacion>
+                <tr>
+                  <td>
+                    {{listaRecomendacion.numeracion}}
+                  </td>
+                  <td>
+                    <span class="image-text">{{listaRecomendacion.organo}}</span>
+                  </td>
+                  <td>
+                    <span class="image-text">{{listaRecomendacion.recomendacion}}</span>
+                  </td>
+
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="7">No se encontraron registros.</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </p-fieldset>
+      <div class="grid">
+        <div class="col-4"></div>
+        <div class="col-4"></div>
+        <div class="col-4">
+          <div class="col-12">
+            <button pButton type="button" icon="pi pi-save" iconPos="left" style="width: 40%" class="btnPlani" (click)="addRegistro()">Agregar &nbsp;</button>&nbsp;
+            <button pButton type="button" icon="pi pi-times" iconPos="left" style="width: 40%" class="p-button-danger" (click)="cancelar()">Cancelar&nbsp;</button>
+
+          </div>
+        </div>
+      </div>
+    </p-fieldset>
+  </div>
+</div>
+<p-toast key="mensaje"></p-toast>

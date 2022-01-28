@@ -1,0 +1,172 @@
+<p-dialog header="Establecer hito para sub directivos" [(visible)]="estadoHitoSub" position="center"  [breakpoints]="{'1800px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [closable]="false">
+  <ng-template pTemplate="Establecer hito para sub directivos">
+   <p-fieldset legend="Registrar Hito">
+     <div class="grid">
+       <div class="col-5">
+         <div class="grid">
+           <div class="col-6">Mes de inicio</div>
+           <div class="col-6">
+             <p-calendar [(ngModel)]="fechaInicio" [showIcon]="true" ></p-calendar>
+           </div>
+         </div>
+         <div class="grid">
+           <div class="col-6">Mes de Fin</div>
+           <div class="col-6">
+             <p-calendar [(ngModel)]="fechaFin" [showIcon]="true" ></p-calendar>
+           </div>
+         </div>
+       </div>
+
+       <div class="col-7">
+         <p-table #dt1 [value]="datos" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+                  [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-customers p-datatable-gridlines"
+                  [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
+                  [globalFilterFields]="['usuario','fechaInicio','fechaFin','fechaReg']">
+           <ng-template pTemplate="caption">
+             <div class="p-d-flex">
+			<span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+            </span>
+             </div>
+           </ng-template>
+           <ng-template pTemplate="header">
+             <tr>
+               <th>
+                 <div class="p-d-flex p-jc-between p-ai-center">
+                   N°
+                 </div>
+               </th>
+               <th>
+                 <div class="p-d-flex p-jc-between p-ai-center">
+                   Sub Directivo
+                 </div>
+               </th>
+               <th>
+                 <div class="p-d-flex p-jc-between p-ai-center">
+                  Unidad
+                 </div>
+               </th>
+               <th>
+                 <div class="p-d-flex p-jc-between p-ai-center">
+                   Seleccionar
+                 </div>
+               </th>
+             </tr>
+           </ng-template>
+           <ng-template pTemplate="body" let-datos>
+             <tr>
+               <td>
+                 {{datos.id}}
+               </td>
+               <td>
+                 <span class="image-text">{{datos.fechaInicio | date: 'MM/dd/yyyy'}}</span>
+               </td>
+               <td>
+                 <span class="image-text">{{datos.fechaFin | date: 'MM/dd/yyyy'}}</span>
+               </td>
+               <td>
+                 {{datos.usuario}}
+               </td>
+               <td>
+                 {{datos.fechaReg}}
+               </td>
+             </tr>
+           </ng-template>
+           <ng-template pTemplate="emptymessage">
+             <tr>
+               <td colspan="7">No se encontraron resultados.</td>
+             </tr>
+           </ng-template>
+         </p-table>
+       </div>
+
+     </div>
+     <div class="grid">
+       <div class="col-4"></div>
+       <div class="col-4"></div>
+       <div class="col-4">
+
+           <button pButton type="button" icon="pi pi-calendar-plus" iconPos="left" style="width: 40%" class="btnPlani" (click)="guardarHitoSubDirectivo()">Guardar&nbsp;&nbsp;</button>&nbsp;
+           <button pButton type="button" icon="pi pi-times" iconPos="left" style="width: 40%" class="p-button-danger" (click)="cancelar()">Cancelar&nbsp;</button>
+
+
+       </div>
+     </div>
+   </p-fieldset>
+    <div class="grid">
+      <div class="col">
+        <p-table #dt1 [value]="datos" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+                 [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-customers p-datatable-gridlines"
+                 [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
+                 [globalFilterFields]="['usuario','fechaInicio','fechaFin','fechaReg']">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  N°
+                </div>
+              </th>
+              <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  Mes Inicio
+                </div>
+              </th>
+              <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  Mes Cierre
+                </div>
+              </th>
+              <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  Detalle
+                </div>
+              </th>
+              <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  Acciones
+                </div>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-datos>
+            <tr>
+              <td>
+                {{datos.id}}
+              </td>
+              <td>
+                <span class="image-text">{{datos.fechaInicio | date: 'MM/dd/yyyy'}}</span>
+              </td>
+              <td>
+                <span class="image-text">{{datos.fechaFin | date: 'MM/dd/yyyy'}}</span>
+              </td>
+              <td>
+                {{datos.usuario}}
+              </td>
+              <td>
+                {{datos.fechaReg}}
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="7">No se encontraron resultados.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="grid">
+      <div class="col-4"></div>
+      <div class="col-4"></div>
+      <div class="col-4">
+        <button pButton type="button" icon="pi pi-times" iconPos="left" style="width: 40%" class="p-button-danger" (click)="cancelar()">Cancelar&nbsp;</button>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-toast key="mensaje"></p-toast>

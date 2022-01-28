@@ -1,0 +1,369 @@
+<p-dialog header="Vincular Acción Estrategica" [(visible)]="estado" position="center" [closable]="false"  [breakpoints]="{'1800px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+  <ng-template pTemplate="Vincular Acción Estrategica">
+    <div class="field grid">
+      <div class="col-3">
+        <label for="state" class="col" style="width:100%">Accion Estrategica</label>
+      </div>
+      <div class="col-8">
+        <select id="state" class="inputfield w-full" style="appearance: auto; height: 30px;" (change)="buscarAE()" [(ngModel)]="accionSelect">
+          <option value="0">Seleccionar</option>
+          <option *ngFor="let ae of descripcionAE" value="{{ae.code}}" style="width: 200px;">{{ae.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="field grid">
+      <div class="col-3">
+        <label for="codigo" class="col-fixed" style="width:100px">Codigo</label>
+      </div>
+      <div class="col-9">
+        <input id="codigo" type="text" class="inputfield" style="height: 30px" [(ngModel)]="codigo" [disabled]="true">
+      </div>
+    </div>
+    <div class="field grid">
+      <div class="col-3">
+        <label for="indicador" class="col-fixed" style="width:100px">Indicador</label>
+      </div>
+      <div class="col-9">
+        <input id="indicador" type="text" class="inputfield" style="height: 30px; width: 80%;" [(ngModel)]="indicador" [disabled]="true">
+      </div>
+    </div>
+
+    <p-fieldset legend="Direcciones responsables">
+      <div class="field grid">
+        <div class="col-3">
+          <label class="col-fixed" style="width:100px">Direccion Responsable</label>
+        </div>
+        <div class="col-6">
+          <select class="inputfield w-full" style="appearance: auto; height: 30px;" (change)="getNombreDireccion()" [(ngModel)]="direccion">
+            <option value="0">Seleccionar</option>
+            <option *ngFor="let ae of listaDirectivo" value="{{ae.id}}" style="width: 200px;">{{ae.nombre}}</option>
+          </select>
+        </div>
+        <div class="col-3">
+          <button pButton type="button" icon="pi pi-plus" iconPos="left" style="width: 50%" class="btnPlani"  (click)="agregarDireccion()">&nbsp; Agregar &nbsp;</button>
+        </div>
+      </div>
+      <div class="field grid">
+        <div class="col-3">
+          <label  class="col-fixed" style="width:100px">Objetivo</label>
+        </div>
+        <div class="col-3">
+          <select id="states" class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="idObjetivo" (change)="getProcesos()">
+            <option value="0">Seleccionar</option>
+            <option value="{{objetivo.id}}" *ngFor="let objetivo of listaObjetivo">{{objetivo.descripcion}}</option>
+          </select>
+        </div>
+        <div class="col-2">
+          <label class="col-fixed">Contribución</label>
+        </div>
+        <div class="col-3">
+          <input id="lastname6" type="text" placeholder="Ejm: 0.1" class="inputfield" style="height: 30px" (keypress)="validarNumero($event)" [(ngModel)]="contribucionObjetivo">
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-12">
+          <p-table #dt1 [value]="addDireccion" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+                   [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-datos p-datatable-gridlines"
+                   [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
+                   [globalFilterFields]="['numeracion','organo','recomendacion']">
+            <ng-template pTemplate="caption">
+              <div class="p-d-flex">
+
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr style="font-size: 14px">
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    N°
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Direccion
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Responsable
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Objetivo
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Contribución
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Seleccionar
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Eliminar
+                  </div>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-datos>
+              <tr style="font-size: 14px">
+                <td>
+                  {{datos.numeracion}}
+                </td>
+                <td>
+                  <span class="image-text">{{datos.nombre}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos.responsable}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos.objetivo}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos.contribucion}}</span>
+                </td>
+                <td style="text-align: center;"><p-checkbox name="groupname" [(ngModel)]="datos.estado" [binary]="true" ></p-checkbox></td>
+                <td style="text-align: center"><button pButton type="button" icon="pi pi-trash" iconPos="left" style="width: 60%" class="p-button-raised p-button-danger" (click)="eliminarDireccion(datos.id)">&nbsp;</button></td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7">No se encontraron registros.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </p-fieldset>
+
+    <div class="field grid">
+      <div class="col">
+        <label class="col-fixed">Programacion</label>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-1">
+
+        <p-checkbox  label="Ene" value="val1" [(ngModel)]="ene" (onChange)="cambiarEstadoInput(1)"></p-checkbox>
+      </div>
+      <div class="col-1">
+        <p-checkbox label="Feb" value="val1" [(ngModel)]="feb" (onChange)="cambiarEstadoInput(2)" ></p-checkbox>
+      </div>
+      <div class="col-1">
+        <p-checkbox  label="Mar" value="val1" [(ngModel)]="mar" (onChange)="cambiarEstadoInput(3)"></p-checkbox>
+      </div>
+      <div class="col-1">
+        <p-checkbox  label="Abr" value="val1" [(ngModel)]="abr" (onChange)="cambiarEstadoInput(4)"></p-checkbox>
+      </div>
+      <div class="col-1">
+        <p-checkbox  label="May" value="val1" [(ngModel)]="may" (onChange)="cambiarEstadoInput(5)"></p-checkbox>
+      </div>
+      <div class="col-1">
+        <p-checkbox label="Jun" value="val1" [(ngModel)]="jun" (onChange)="cambiarEstadoInput(6)"></p-checkbox>
+      </div>
+      <div class="col-1">
+        <p-checkbox  label="Jul" value="val1" [(ngModel)]="jul" (onChange)="cambiarEstadoInput(7)"></p-checkbox>
+      </div>
+      <div class="col-1">
+        <p-checkbox  label="Ago" value="val1" [(ngModel)]="ago" (onChange)="cambiarEstadoInput(8)"></p-checkbox>
+      </div>
+      <div class="col-1">
+        <p-checkbox  label="Set" value="val1" [(ngModel)]="set" (onChange)="cambiarEstadoInput(9)"></p-checkbox>
+      </div>
+      <div class="col-1">
+        <p-checkbox  label="Oct" value="val1" [(ngModel)]="oct" (onChange)="cambiarEstadoInput(10)"></p-checkbox>
+      </div>
+      <div class="col-1">
+        <p-checkbox  label="Nov" value="val1" [(ngModel)]="nov" (onChange)="cambiarEstadoInput(11)"></p-checkbox>
+      </div>
+      <div class="col-1">
+        <p-checkbox  label="Dic" value="val1" [(ngModel)]="dic" (onChange)="cambiarEstadoInput(12)"></p-checkbox>
+      </div>
+    </div>
+    <div class="field grid">
+      <div class="col-1">
+        <input type="text" [disabled]="txtene" class="inputfield" style="height: 30px; width: 50px;" (keypress)="validarNumero($event)" [(ngModel)]="contribucionEne">
+      </div>
+      <div class="col-1">
+        <input type="text" [disabled]="txtfeb" class="inputfield" style="height: 30px; width: 50px;" (keypress)="validarNumero($event)" [(ngModel)]="contribucionFeb">
+      </div>
+      <div class="col-1">
+        <input type="text" [disabled]="txtmar" class="inputfield" style="height: 30px; width: 50px;" (keypress)="validarNumero($event)" [(ngModel)]="contribucionMar">
+      </div>
+      <div class="col-1">
+        <input type="text" [disabled]="txtabr" class="inputfield" style="height: 30px; width: 50px;" (keypress)="validarNumero($event)" [(ngModel)]="contribucionAbr">
+      </div>
+      <div class="col-1">
+        <input type="text" [disabled]="txtmay" class="inputfield" style="height: 30px; width: 50px;" (keypress)="validarNumero($event)" [(ngModel)]="contribucionMay">
+      </div>
+      <div class="col-1">
+        <input type="text" [disabled]="txtjun" class="inputfield" style="height: 30px; width: 50px;" (keypress)="validarNumero($event)" [(ngModel)]="contribucionJun">
+      </div>
+      <div class="col-1">
+        <input type="text" [disabled]="txtjul" class="inputfield" style="height: 30px; width: 50px;" (keypress)="validarNumero($event)" [(ngModel)]="contribucionJul">
+      </div>
+      <div class="col-1">
+        <input type="text" [disabled]="txtago" class="inputfield" style="height: 30px; width: 50px;" (keypress)="validarNumero($event)" [(ngModel)]="contribucionAgo">
+      </div>
+      <div class="col-1">
+        <input type="text" [disabled]="txtset" class="inputfield" style="height: 30px; width: 50px;" (keypress)="validarNumero($event)" [(ngModel)]="contribucionSet">
+      </div>
+      <div class="col-1">
+        <input type="text" [disabled]="txtoct" class="inputfield" style="height: 30px; width: 50px;" (keypress)="validarNumero($event)" [(ngModel)]="contribucionOct">
+      </div>
+      <div class="col-1">
+        <input type="text" [disabled]="txtnov" class="inputfield" style="height: 30px; width: 50px;" (keypress)="validarNumero($event)" [(ngModel)]="contribucionNov">
+      </div>
+      <div class="col-1">
+        <input type="text" [disabled]="txtdic" class="inputfield" style="height: 30px; width: 50px;" (keypress)="validarNumero($event)" [(ngModel)]="contribucionDic">
+      </div>
+    </div>
+    <p-fieldset legend="Selección de productos">
+      <div class="grid">
+        <div class="col-2">
+          Producto
+        </div>
+        <div class="col-3">
+          <select id="states3" class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="idProducto" (change)="setProceso()">
+            <option value="0">Seleccionar</option>
+            <option value="{{producto.id}}" *ngFor="let producto of listaProducto">{{producto.objetivo}}</option>
+          </select>
+        </div>
+        <div class="col-1">
+          Peso
+        </div>
+        <div class="col-3">
+          <input type="text" class="inputfield" placeholder="Ejm: 0.3" style="height: 30px;" [(ngModel)]="peso" (keypress)="validarNumero($event)">
+        </div>
+        <div class="col-3">
+          <button pButton type="button" icon="pi pi-plus" iconPos="left" style="width: 50%" class="btnPlani"  (click)="agregarProductos()">&nbsp; Agregar &nbsp;</button>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-2">
+          Formula
+        </div>
+        <div class="col-6">
+          <input type="text" class="inputfield" placeholder="Formula para el producto seleccionado" style="height: 30px; width: 100%;" [(ngModel)]="formula">
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-3">
+          Evidencia de Cumplimiento
+        </div>
+        <div class="col-3">
+          <select id="states56" class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="evidencia" >
+            <option selected value="0">Seleccionar</option>
+            <option value="{{doc.idTipoDocumento}}" *ngFor="let doc of listaDocumento">{{doc.nombreDocumento}}</option>
+          </select>
+        </div>
+        <div class="col-3">
+          Contribución
+        </div>
+        <div class="col-3">
+          <input type="text" class="inputfield" placeholder="Ejm: 0.1" style="height: 30px; width: 100%;" (keypress)="validarNumero($event)" [(ngModel)]="contribucionProducto">
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-12">
+          <p-table #dt1 [value]="listaProductos" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+                   [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-datos p-datatable-gridlines"
+                   [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
+                   [globalFilterFields]="['numeracion','organo','recomendacion']">
+            <ng-template pTemplate="caption">
+              <div class="p-d-flex">
+
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr style="font-size: 14px">
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    N°
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Objetivo
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Producto
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Peso
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Formula
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Evidencia
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Contribución
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Elimnar
+                  </div>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-datos1>
+              <tr style="font-size: 14px">
+                <td>
+                  {{datos1.numeracion}}
+                </td>
+                <td>
+                  <span class="image-text">{{datos1.objetivo}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos1.nombreProducto}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos1.peso}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos1.formula}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos1.evidencia}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos1.contribucionProducto}}</span>
+                </td>
+                <td style="text-align: center"><button pButton type="button" icon="pi pi-trash" iconPos="left" style="width: 60%" class="p-button-raised p-button-danger" (click)="eliminarProducto(datos1.id)">&nbsp;</button></td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7">No se encontraron registros.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </p-fieldset>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton type="button" icon="pi pi-save" iconPos="left" style="width: 20%" class="btnPlani" (click)="guardarRegistro()">Guardar&nbsp;</button>
+    <button pButton type="button" icon="pi pi-times" iconPos="left" style="width: 20%" class="p-button-danger" (click)="cancelar()">Cancelar&nbsp;</button>
+  </ng-template>
+</p-dialog>
+
+<p-toast key="mensaje"></p-toast>

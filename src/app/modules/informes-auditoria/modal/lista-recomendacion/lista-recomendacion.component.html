@@ -1,0 +1,61 @@
+<p-dialog header="Recomendaciones registradas" [closable]="false" [(visible)]="estado" position="center"  [breakpoints]="{'1800px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+  <ng-template pTemplate="Recomendaciones">
+    <p-fieldset legend="Lista de recomendaciones">
+      <p-table #dt1 [value]="listaRecomendacion" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+               [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-datos p-datatable-gridlines"
+               [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
+               [globalFilterFields]="['numeracion','organo','recomendacion']">
+        <ng-template pTemplate="caption">
+          <div class="p-d-flex">
+
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th>
+              <div class="p-d-flex p-jc-between p-ai-center">
+                N°
+              </div>
+            </th>
+            <th>
+              <div class="p-d-flex p-jc-between p-ai-center">
+                Organo/Unidad
+              </div>
+            </th>
+            <th>
+              <div class="p-d-flex p-jc-between p-ai-center">
+                Recomendacion
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-listaRecomendacion>
+          <tr>
+            <td>
+              {{listaRecomendacion.numeracion}}
+            </td>
+            <td>
+              <span class="image-text">{{listaRecomendacion.organo}}</span>
+            </td>
+            <td>
+              <span class="image-text">{{listaRecomendacion.recomendacion}}</span>
+            </td>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="7">No se encontraron registros.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-fieldset>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton type="button" icon="pi pi-calendar-plus" iconPos="left" style="width: 20%" class="btnPlani">Guardar&nbsp;</button>
+    <button pButton type="button" icon="pi pi-times" iconPos="left" style="width: 20%" class="p-button-danger" (click)="cancelar()">Cancelar&nbsp;</button>
+  </ng-template>
+</p-dialog>
+
+
+

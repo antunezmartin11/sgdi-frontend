@@ -1,0 +1,48 @@
+
+<div class="grid " style="margin-top: 15%" >
+  <div class="col-6">
+    <img src="assets/img/logo.png" alt="" id="logo">
+  </div>
+  <div class="col-6">
+    <div class="grid " style="text-align: center; margin-left: 20%">
+      <h2 >Acceso al Sistema </h2>
+    </div>
+    <p-messages severity="warn">
+      <ng-template pTemplate>
+        <span class="custom-message">Ingresas sus credenciales para continuar</span>
+      </ng-template>
+    </p-messages>
+    <form action="" (ngSubmit)="login()">
+      <div class="grid login" >
+        <div class="col">
+          <label ><strong>DNI</strong></label><br>
+          <input id="float-input" type="text" pInputText class="inpLogin" [(ngModel)]="usuario" required="" [ngModelOptions]="{'standalone':true}">
+        </div>
+      </div>
+      <div class="grid login">
+        <div class="col">
+            <label ><strong>Contraseña</strong></label><br>
+            <input id="float-i" type="text" pInputText class="inpLogin" [(ngModel)]="contrasenna" [ngModelOptions]="{'standalone':true}">
+
+        </div>
+      </div>
+      <br>
+      <p-messages severity="error" *ngIf="mensajeError">
+        <ng-template pTemplate>
+          <span class="custom-message">{{mensaje}}</span>
+        </ng-template>
+      </p-messages>
+      <p-messages severity="error" *ngIf="errorLogin">
+        <ng-template pTemplate>
+          <span class="custom-message">Los datos ingresados no coinciden con los registros</span>
+        </ng-template>
+      </p-messages>
+      <div class="grid login">
+        <div class="col">
+          <button pButton type="submit" icon="pi pi-arrow-right" iconPos="right" style="width: 20%" class="p-button-info">Ingresar &nbsp;</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>

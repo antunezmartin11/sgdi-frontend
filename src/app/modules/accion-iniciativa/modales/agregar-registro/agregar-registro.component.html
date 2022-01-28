@@ -1,0 +1,92 @@
+<p-dialog header="Registro Nueva Accion/iniciativa" [(visible)]="modalAgregar" position="center" [closable]="false"  [breakpoints]="{'1800px': '75vw', '640px': '100vw'}" [style]="{width: '80vw',height:'50vw'}">
+  <ng-template pTemplate="Registro Nueva Accion/iniciativa">
+    <div class="field grid">
+
+        <br>
+        <div class="grid">
+          <div class="col-4">
+            <label  class="col"  style="height: 30px; width:100%" >Accion / Iniciativa</label>
+          </div>
+          <div class="col-6">
+            <input type="text" class="inputfield" style="height: 30px; width:100%" [(ngModel)]="accionIniciativa">
+          </div>
+          <div class="col-2"></div>
+          <div class="col-4" style="margin-top: 10px;">
+            <label  class="col"  style="height: 30px; width:100%" >Descripción</label>
+          </div>
+          <div class="col-6">
+            <input  type="text" class="inputfield" style="height: 30px; width:100%; margin-top: 10px" [(ngModel)]="descripcion">
+          </div>
+          <div class="col-2"></div>
+          <div class="col-4" style="margin-top: 10px;">
+            <label  class="col"  style="height: 30px; width:100%" >Organo</label>
+          </div>
+          <div class="col-6" style="margin-top: 10px">
+            <select  class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="idOrgano">
+              <option value="0">Seleccionar</option>
+              <option value="{{lista.id}}" *ngFor="let lista of listaOrgano">{{lista.nombre}}</option>
+            </select>
+          </div>
+          <div class="col-4" style="margin-top: 10px;">
+            <label  class="col"  style="height: 30px; width:100%" >Medio de Verificación</label>
+          </div>
+          <div class="col-6" style="margin-top: 10px">
+            <select class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="medioVerificacion">
+              <option value="0">Seleccionar</option>
+              <option value="{{doc.idTipoDocumento}}" *ngFor="let doc of listDocumento">{{doc.nombreDocumento}}</option>
+            </select>
+          </div>
+          <div class="col-2"></div>
+          <div class="col-4" style="margin-top: 10px;">
+            <label  class="col"  style="height: 30px; width:100%" >Tipo</label>
+          </div>
+          <div class="col-6" style="margin-top: 10px">
+            <select class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="tipo">
+              <option value="0">Seleccionar</option>
+              <option value="1">Obligatorio</option>
+              <option value="2">Opcional</option>
+            </select>
+          </div>
+          <div class="col-2"></div>
+          <div class="col-4" style="margin-top: 10px;">
+            <label  class="col"  style="height: 30px; width:100%" >Fecha Inicio</label>
+          </div>
+          <div class="col-8" style="margin-top: 10px">
+            <p-calendar  [showIcon]="true" (keypress)="validarFecha($event)" [(ngModel)]="fechaInicio"></p-calendar>
+          </div>
+          <div class="col-4" style="margin-top: 10px;">
+            <label  class="col"  style="height: 30px; width:100%" >Fecha Fin</label>
+          </div>
+          <div class="col-8" style="margin-top: 10px">
+            <p-calendar  [showIcon]="true" (keypress)="validarFecha($event)" [(ngModel)]="fechaFin"></p-calendar>
+          </div>
+        </div>
+    </div>
+    <div class="grid">
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+
+    </div>
+
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" icon="pi pi-save" iconPos="left" style="width: 20%" class="btnPlani" (click)="guardar()">Guardar&nbsp;</button>
+    <button pButton type="button" icon="pi pi-times" iconPos="left" style="width: 20%" class="p-button-danger" (click)="cancelar()">Cancelar&nbsp;</button>
+  </ng-template>
+
+
+
+</p-dialog>
+
+<p-toast key="mensaje"></p-toast>

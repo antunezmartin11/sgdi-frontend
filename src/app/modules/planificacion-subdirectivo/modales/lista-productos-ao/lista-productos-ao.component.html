@@ -1,0 +1,91 @@
+<p-dialog header="Productos Registrados" [closable]="false" [(visible)]="modalProductosAO" position="center"  [breakpoints]="{'1800px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+  <ng-template pTemplate="Productos">
+    <p-fieldset legend="Lista de Productos">
+      <p-table #dt1 [value]="listaProductos" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+               [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-datos p-datatable-gridlines"
+               [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
+               [globalFilterFields]="['numeracion','organo','recomendacion']">
+        <ng-template pTemplate="caption">
+          <div class="p-d-flex">
+
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th>
+              <div class="p-d-flex p-jc-between p-ai-center">
+                N°
+              </div>
+            </th>
+            <th>
+              <div class="p-d-flex p-jc-between p-ai-center">
+                Producto
+              </div>
+            </th>
+            <th>
+              <div class="p-d-flex p-jc-between p-ai-center">
+                Peso
+              </div>
+            </th>
+            <th>
+              <div class="p-d-flex p-jc-between p-ai-center">
+                Formula
+              </div>
+            </th>
+            <th>
+              <div class="p-d-flex p-jc-between p-ai-center">
+                Evidencia
+              </div>
+            </th>
+            <th>
+              <div class="p-d-flex p-jc-between p-ai-center">
+                Contribución
+              </div>
+            </th>
+            <th>
+              <div class="p-d-flex p-jc-between p-ai-center">
+                Modificar
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-listaProductos>
+          <tr>
+            <td>
+              {{listaProductos.numeracion}}
+            </td>
+            <td>
+              <span class="image-text">{{listaProductos.idProducto}}</span>
+            </td>
+            <td>
+              <span class="image-text">{{listaProductos.peso}}</span>
+            </td>
+            <td>
+              <span class="image-text">{{listaProductos.formula}}</span>
+            </td>
+            <td>
+              <span class="image-text">{{listaProductos.idTipoDocumento}}</span>
+            </td>
+            <td>
+              <span class="image-text">{{listaProductos.contribucion}}</span>
+            </td>
+            <td style="text-align: center"><button pButton type="button" icon="pi pi-pencil" iconPos="left" style="width: 50%" class="p-button-raised p-button-danger" >&nbsp;</button></td>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="7">No se encontraron registros.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-fieldset>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton type="button" icon="pi pi-calendar-plus" iconPos="left" style="width: 20%" class="btnPlani">Guardar&nbsp;</button>
+    <button pButton type="button" icon="pi pi-times" iconPos="left" style="width: 20%" class="p-button-danger" (click)="cancelar()">Cancelar&nbsp;</button>
+  </ng-template>
+</p-dialog>
+
+
+

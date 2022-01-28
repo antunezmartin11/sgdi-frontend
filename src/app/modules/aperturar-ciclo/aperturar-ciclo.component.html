@@ -1,0 +1,132 @@
+<div class="grid">
+  <div class="col-2">
+    <app-body></app-body>
+  </div>
+  <div class="col-10">
+    <p-fieldset legend="Aperturar Ciclo de Desempeño Institucional">
+      <div class="grid">
+        <div class="col">
+          <label >Fecha de Inicio:  &nbsp;</label>
+          <p-calendar [(ngModel)]="fechaInicial" [showIcon]="true" ></p-calendar>
+          &nbsp;
+          <label >Fecha de Cierre &nbsp;</label>
+          <p-calendar [(ngModel)]="fechaFin" [showIcon]="true" ></p-calendar>
+        </div>
+      </div>
+      <br>
+      <div class="grid">
+        <div class="col">
+          <button pButton type="button" icon="pi pi-save" iconPos="right" style="width: 20%" class="p-button-info" (click)="agregarCiclo()">Guardar &nbsp;</button>
+          <!--<button pButton type="button" icon="pi pi-pencil" iconPos="right" style="width: 20%" class="p-button-danger">Modificar &nbsp;</button>-->
+        </div>
+      </div>
+      <!--
+      <div class="grid">
+        <div class="col">
+          <p-table [value]="datos"  responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>N°</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Cierre</th>
+                <th>Usuario Registra</th>
+                <th>Fecha de Registro</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-datos>
+              <tr>
+                <td>1</td>
+                <td>01/01/2022</td>
+                <td>31/12/2021</td>
+                <td>DEV</td>
+                <td>01/02/2021</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div> -->
+      <div class="grid">
+        <div class="col-1"></div>
+        <div class="col-12">
+          <p-table #dt1 [value]="listaC" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+                   [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-customers p-datatable-gridlines"
+                   [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
+                   [globalFilterFields]="['fecInicio','idCiclo','fecFin','usuarioReg']">
+            <ng-template pTemplate="caption">
+              <div class="p-d-flex">
+			<span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Buscar" style="height: 25px"/>
+            </span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    N°
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Fecha Inicio
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Fecha de Cierre
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Usuario de Registro
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Fecha de Registro
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Modificar
+                  </div>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-listaC>
+              <tr>
+                <td>
+                  {{listaC.numeracion}}
+                </td>
+                <td>
+                  <span class="image-text">{{listaC.fecInicio | date: 'dd/MM/yyyy'}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{listaC.fecFin | date: 'dd/MM/yyyy'}}</span>
+                </td>
+                <td>
+                  {{listaC.usuarioReg}}
+                </td>
+                <td>
+                  {{listaC.fecReg | date: 'dd/MM/yyyy'}}
+                </td>
+                <td style="text-align: center">
+                  <button pButton type="button" icon="pi pi-pencil" iconPos="left" style="width: 25%" class="p-button-danger">&nbsp;</button>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7">No se encontraron Registros.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+
+    </p-fieldset>
+
+  </div>
+</div>
+<p-toast key="mensaje"></p-toast>

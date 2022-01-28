@@ -1,0 +1,21 @@
+.inpLogin{
+  height: 40px;
+  width: 350px;
+  outline: none;
+  background-color: lightgray;
+  border: 0;
+
+}
+#logo{
+  height: 100%;
+  width: 80%;
+
+}
+.login{
+  margin-left: 10%;
+}
+button{
+  background-color: #047cfb;
+  color: white;
+  height: 25px;
+}

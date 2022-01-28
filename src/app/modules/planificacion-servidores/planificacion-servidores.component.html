@@ -1,0 +1,99 @@
+<div class="grid">
+  <div class="col-2">
+    <app-body></app-body>
+  </div>
+  <div class="col-10">
+    <p-fieldset legend="Planificación de Servidores">
+      <div class="grid">
+        <div class="col">
+
+          <button pButton type="button" icon="pi pi-plus" iconPos="right" style="width: 20%" class="btnPlani" (click)="abrilModal()">Asignación de Servidores &nbsp;</button>
+
+          &nbsp;<button pButton type="button" icon="pi pi-check-square" iconPos="left" style="width: 20%" class="btnPlani">Validar Asignación &nbsp;</button>
+
+          &nbsp;<button pButton type="button" icon="pi pi-calendar-plus" iconPos="left" style="width: 20%" class="btnPlani" (click)="abrilModalHito()">Establecer hito &nbsp;</button>
+        </div>
+      </div>
+      <br>
+      <div class="grid">
+        <div class="col">
+          <p-table #dt1 [value]="listaDatos" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+                   [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-datos p-datatable-gridlines"
+                   [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
+                   [globalFilterFields]="['usuario','fechaInicio','fechaFin','fechaReg']">
+            <ng-template pTemplate="caption">
+              <div class="p-d-flex">
+			<span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+            </span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    N°
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Servidor
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Actividad Operativa
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Acciones
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Actividad
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Modificar
+                  </div>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-datos>
+              <tr>
+                <td>
+                  {{datos.numeracion}}
+                </td>
+                <td>
+                  {{datos.nomActividad}}
+                </td>
+                <td>
+                  {{datos.secuencia}}
+                </td>
+
+                <td>
+                <td style="text-align: center"><button pButton type="button" icon="pi pi-eye" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" >&nbsp;</button>
+                </td>
+
+                <td><button pButton type="button" icon="pi pi-pencil" iconPos="left" style="width: 50%" class="p-button-danger">&nbsp;</button></td>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7">No se encontraron registros.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </p-fieldset>
+  </div>
+</div>
+
+<app-registrar-actividad [estadoMS]="modal"></app-registrar-actividad>
+<app-registrar-hito-servidores [estadoHitoS]="modalHito"></app-registrar-hito-servidores>

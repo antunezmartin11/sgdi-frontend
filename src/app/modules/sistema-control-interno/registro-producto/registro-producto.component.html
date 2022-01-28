@@ -1,0 +1,88 @@
+<div class="grid">
+  <div class="col-2">
+    <app-body></app-body>
+  </div>
+  <div class="col-10">
+    <p-fieldset legend="Registrar Producto">
+      <div class="grid">
+        <div class="col-2">
+          Producto Priorizado
+        </div>
+        <div class="col-3">
+          <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="nombreProducto">
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-2">
+          Riesgo Identificado
+        </div>
+        <div class="col-3">
+          <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="riesgoIdentificado">
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-2">Medidas de Control</div>
+        <div class="col-3">
+          <select id="states56" class="inputfield w-full" style="appearance: auto; height: 30px;"  [(ngModel)]="medidaControl">
+            <option value="0">Seleccionar</option>
+            <option value="{{doc.idTipoDocumento}}" *ngFor="let doc of listaTipoDocumento">{{doc.nombreDocumento}}</option>
+
+          </select>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-2">
+          Fecha de Inicio
+        </div>
+        <div class="col-3">
+          <p-calendar [(ngModel)]="fechaInicio" [showIcon]="true"  ></p-calendar>
+        </div>
+      </div>
+      <br>
+      <div class="grid">
+        <div class="col-2">Fecha de Fin</div>
+        &nbsp;&nbsp;<p-calendar [(ngModel)]="fechaFin" [showIcon]="true" ></p-calendar>
+      </div>
+      <br>
+      <div class="grid">
+        <div class="col-2">Medios de Verficación</div>
+        <div class="col-3">
+          <select id="states563" class="inputfield w-full" style="appearance: auto; height: 30px;"  [(ngModel)]="medioVerificacion">
+            <option value="0">Seleccionar</option>
+            <option value="{{medio.idTipoDocumento}}" *ngFor="let medio of listaMedio">{{medio.nombreDocumento}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-2">Organo / Unidad Resposable</div>
+        <div class="col-3">
+          <select id="states561" class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="organo" >
+            <option value="0">Seleccionar</option>
+            <option value="{{organo.id}}" *ngFor="let organo of listaOrgano">{{organo.nombre}}</option>
+
+          </select>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-2">Observaciones</div>
+        <div class="col-3">
+          <textarea [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize" [(ngModel)]="observacion"></textarea>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="col-4"></div>
+        <div class="col-4"></div>
+        <div class="col-4">
+          <div class="col-12">
+            <button pButton type="button" icon="pi pi-save" iconPos="left" style="width: 40%" class="btnPlani" (click)="agregaProducto()">Agregar &nbsp;</button>&nbsp;
+            <button pButton type="button" icon="pi pi-times" iconPos="left" style="width: 40%" class="p-button-danger" (click)="cancelar()" >Cancelar&nbsp;</button>
+
+          </div>
+        </div>
+      </div>
+    </p-fieldset>
+  </div>
+</div>
+
+<p-toast key="mensaje"></p-toast>
+

@@ -1,0 +1,21 @@
+#men{
+  background-color: #3e3e3e;
+  position: absolute;
+  display: flex;
+  height: 100%;
+
+}
+
+#imglogo{
+  height: 23%;
+  width: 73%;
+  border-radius: 100px;
+  display: block;
+  margin: auto;
+  margin-top: 20px;
+}
+.menulist{
+  margin-top: 100%;
+  background-color: red;
+  display: flex;
+}

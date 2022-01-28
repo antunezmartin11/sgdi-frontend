@@ -1,0 +1,89 @@
+<div class="grid">
+  <div class="col-2">
+    <app-body></app-body>
+  </div>
+  <div class="col-10">
+    <p-fieldset legend="Planificación de Directivos">
+      <div class="grid">
+        <div class="col">
+
+          <button pButton type="button" icon="pi pi-plus" iconPos="right" style="width: 20%" class="btnPlani" (click)="validar()" >Validación de Actividades &nbsp;</button>
+
+          &nbsp;<button pButton type="button" icon="pi pi-check-square" iconPos="left" style="width: 20%" class="btnPlani" (click)="generarFicha()">Ver ficha de desempeño &nbsp;</button>
+
+          &nbsp;<button pButton type="button" icon="pi pi-calendar-plus" iconPos="left" style="width: 20%" class="btnPlani" >Cargar Ficha Firmanda &nbsp;</button>
+        </div>
+      </div>
+      <br>
+      <div class="grid">
+        <div class="col">
+          <p-table #dt1 [value]="listaValidar" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+                   [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-datos p-datatable-gridlines"
+                   [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
+                   [globalFilterFields]="['numeracion','nomAccEst','indicador','fechaReg']">
+            <ng-template pTemplate="caption">
+              <div class="p-d-flex">
+			      <span class="input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Buscar" style="height: 25px" />
+            </span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    N°
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Accion Estrategica
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Indicador
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Objetivo
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Producto
+                  </div>
+                </th>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-listaAccionV>
+              <tr>
+                <td>
+                  {{listaAccionV.numeracion}}
+                </td>
+                <td>
+                  {{listaAccionV.nomAccEst}}
+                </td>
+                <td>{{listaAccionV.indicador}}</td>
+                <td>
+                  {{listaAccionV.idObjetivo}}
+                </td>
+                <td style="text-align: center"><button pButton type="button" icon="pi pi-eye" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="abrirModalProductos(listaAccionV.idAccionEstrategica)">&nbsp;</button></td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7">No se encontraron registros.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </p-fieldset>
+  </div>
+</div>
+<app-lista-productos [modalProductos]="modalProductos"></app-lista-productos>
+<p-confirmDialog header="Desea validar la información" icon="pi pi-exclamation-triangle"></p-confirmDialog>
