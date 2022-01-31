@@ -48,7 +48,7 @@ export class PlanificacionSubdirectivoComponent implements OnInit {
     })
   }
   cargarAOVinculada(){
-    this.api.getAOVinculada().subscribe(res=>{
+    this.api.getListarAOUnidad().subscribe(res=>{
       this.listaDatosVinculados=this.numeracion(res.content)
     });
   }

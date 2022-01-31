@@ -149,17 +149,20 @@ export class RegistroAOComponent implements OnInit {
             let idAO=0
             let nomAO
             let nomDir
+            let nomObjetivo
             if(res.estado){
               idAO=res.content.idActividadOperativa
               nomAO=this.listaAO.find(ao=>ao.id==this.idActividadOperativa)
               nomDir=this.listaUnidadDireccion.find(dir=>dir.id_responsable==this.idUnidad)
+              nomObjetivo=this.objetivos.find(oao=>oao.id==this.idObjetivoAO)
               let aoDatos={
                 "idUnidad": 2,
                 "nombreUnidad": nomDir.nombre,
                 "codUnidad": this.codigoAO,
                 "idObjetivo": this.idObjetivoAO,
-                "nomObjetivo": nomAO.descripcion,
-                "idActividadOperativa":idAO
+                "nomObjetivo": nomObjetivo.objetivo,
+                "idActividadOperativa":idAO,
+                "nomActividadOperativa":nomAO.descripcion
               }
               this.api.addAOUnidad(aoDatos).subscribe(res=>{
                 let idUltimoAOUnida=res.content.idAOUnidad

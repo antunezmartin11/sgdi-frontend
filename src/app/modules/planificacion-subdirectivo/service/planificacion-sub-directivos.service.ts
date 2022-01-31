@@ -51,4 +51,7 @@ export class PlanificacionSubDirectivosService {
   addAOUnidad(parametro: any){
     return this.apiSGDI.addUnidadActividadOperativa('actividadOperativa/agregarAOUnidad', parametro)
   }
+  getListarAOUnidad(){
+    return this.apiSGDI.getListaAOUnidad('actividadOperativa/listarAOUnidad')
+  }
 }

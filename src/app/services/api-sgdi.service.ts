@@ -134,4 +134,7 @@ export class ApiSGDIService {
   addUnidadActividadOperativa(ruta: string, parametro: actividadOperativaUnidad):Observable<any>{
     return this.http.post(environment.apiURL+ruta, parametro)
   }
+  getListaAOUnidad(ruta: string): Observable<any>{
+    return this.http.get(environment.apiURL+ruta)
+  }
 }

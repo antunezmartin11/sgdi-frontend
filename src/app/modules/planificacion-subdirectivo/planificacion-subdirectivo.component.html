@@ -36,6 +36,11 @@
                 </th>
                 <th>
                   <div class="p-d-flex p-jc-between p-ai-center">
+                    Acción Estrategica
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
                     Actividad Operativa
                   </div>
                 </th>
@@ -49,7 +54,6 @@
                     Detalle Unidad registrada
                   </div>
                 </th>
-
                 <th>
                   <div class="p-d-flex p-jc-between p-ai-center">
                     Modificar
@@ -64,7 +68,13 @@
                 </td>
 
                 <td>
-                  {{datos.idObjetivo}}
+                  {{datos.nomAccionEstrategica}}
+                </td>
+                <td>
+                  {{datos.nomActividadOperativa}}
+                </td>
+                <td>
+                  {{datos.nomObjetivo}}
                 </td>
                 <td style="text-align: center"><button pButton type="button" icon="pi pi-eye" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="abrilModalProductosAO(datos.idActividadOperativa)">&nbsp;</button></td>
 
