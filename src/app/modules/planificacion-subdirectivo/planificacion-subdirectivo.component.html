@@ -9,7 +9,7 @@
 
           <button pButton type="button" icon="pi pi-plus" iconPos="right" style="width: 20%" class="btnPlani" (click)="abrilModal()">Vincular Actividad Operativa &nbsp;</button>
 
-          &nbsp;<button pButton type="button" icon="pi pi-check-square" iconPos="left" style="width: 20%" class="btnPlani">Validar Actividad Operativa &nbsp;</button>
+          &nbsp;<button pButton type="button" icon="pi pi-check-square" iconPos="left" style="width: 20%" class="btnPlani" routerLink="../validarSubDirectivo">Validar Actividad Operativa &nbsp;</button>
         </div>
       </div>
       <br>
@@ -76,8 +76,7 @@
                 <td>
                   {{datos.nomObjetivo}}
                 </td>
-                <td style="text-align: center"><button pButton type="button" icon="pi pi-eye" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="abrilModalProductosAO(datos.idActividadOperativa)">&nbsp;</button></td>
-
+                <td style="text-align: center"><button pButton type="button" icon="pi pi-eye" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="abrilModalProductosAO(datos.idAOUnidad)">&nbsp;</button></td>
                 <td><button pButton type="button" icon="pi pi-pencil" iconPos="left" style="width: 50%" class="p-button-danger">&nbsp;</button></td>
               </tr>
             </ng-template>

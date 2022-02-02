@@ -34,7 +34,7 @@ export class RegistroAOComponent implements OnInit {
   idUnidad: number=0
   listaProducto: any
   listarTipoDocumento:any
-  idTipodocumento: number
+  tipodocumento: any=null
   datosAO: any=[]
   idProducto:number=0
   pesoProducto: number
@@ -172,12 +172,12 @@ export class RegistroAOComponent implements OnInit {
                   let datosProd={
                     "idProducto": this.datosProducto[i].idProducto,
                     "peso":this.datosProducto[i].peso,
-                    "idTipoDocumento":this.datosProducto[i].idDocumento,
                     "estandar":this.datosProducto[i].indicador,
                     "formula":this.datosProducto[i].formula,
                     "meta":this.datosProducto[i].meta,
                     "idAOUnidad":idUltimoAOUnida,
-                    "nomProducto": nomProducto.producto
+                    "nomProducto": nomProducto.producto,
+                    "tipoEvidencia": this.datosProducto[i].nombreDocumento
                   }
                   this.api.addProductoAO(datosProd).subscribe(res=>{
                     if(i==this.datosProducto.length-1){
@@ -234,15 +234,15 @@ export class RegistroAOComponent implements OnInit {
             if(this.indicador!=null){
               if(this.formula!=null){
                 if(this.estandar!=null){
-                  if(this.idTipodocumento>0){
+                  if(this.tipodocumento.length>0){
                     if(this.meta>0){
                       let valPro=this.listaProducto.find(p=>p.id==this.idProducto)
-                      let valDoc=this.listarTipoDocumento.find(tp=>tp.idTipoDocumento==this.idTipodocumento)
+                      let valDoc=this.tipodocumento
                       this.datosProducto.push({idProducto: this.idProducto, nombreProducto: valPro.producto,
 
                         peso: this.pesoProducto, indicador: this.indicador,
-                        formula: this.formula, nombreDocumento: valDoc.nombreDocumento,
-                      estandar: this.estandar, idDocumento: this.idTipodocumento,
+                        formula: this.formula, nombreDocumento: valDoc,
+                      estandar: this.estandar,
                         meta: this.meta})
                       this.limpiarProducto()
                     } else {
@@ -273,7 +273,7 @@ export class RegistroAOComponent implements OnInit {
     this.indicador=null
     this.formula=null
     this.estandar=null
-    this.idTipodocumento=0
+    this.tipodocumento=""
     this.meta=0
   }
   validarNumero(e: any){
@@ -324,17 +324,51 @@ export class RegistroAOComponent implements OnInit {
   }
   agregarUnidad(){
 
-
     if(this.idActividadOperativa!=0){
       if(this.idObjetivoAO!=0){
         if(this.idUnidad!=0){
-          let valAO=this.listaAO.find(ao=>ao.id==this.idActividadOperativa)
-          let valObjetivo=this.objetivos.find(objetivo=>objetivo.id==this.idObjetivoAO)
-          let valUnidad=this.listaUnidadDireccion.find(uni=>uni.id_responsable==this.idUnidad)
-          this.addUnidad.push({idAO: valAO.id,nombreAO: valAO.descripcion,
-          idObjetivoAO: valObjetivo.id, nombreObjetivoAO: valObjetivo.objetivo,
-          idUnidad: valUnidad.id_responsable, nombreUnidad: valUnidad.nombre, estado: false})
-          this.numeracion(this.addUnidad)
+          if(this.addUnidad.length>0){//si no hay un registor en el arreglo
+            let cantidad=false;
+            for(let i=0; i<this.addUnidad.length; i++){
+              if(this.addUnidad[i].idAO==this.idActividadOperativa){
+                 cantidad=true
+              }else{
+                cantidad=false
+              }
+            }
+            console.log(cantidad)
+            if(cantidad){
+              this.messageService.add({key: 'mensaje', severity:'error', summary: 'Registro de Productos', detail: 'Ya se agrego la actividad operativa'});
+            }else{
+              this.api.contarAO(this.idActividadOperativa).subscribe(res=>{
+                if(res>0){
+                  this.messageService.add({key: 'mensaje', severity:'error', summary: 'Registro de Productos', detail: 'Ya se agrego la actividad operativa'});
+                }else{
+                  let valAO=this.listaAO.find(ao=>ao.id==this.idActividadOperativa)
+                  let valObjetivo=this.objetivos.find(objetivo=>objetivo.id==this.idObjetivoAO)
+                  let valUnidad=this.listaUnidadDireccion.find(uni=>uni.id_responsable==this.idUnidad)
+                  this.addUnidad.push({idAO: valAO.id,nombreAO: valAO.descripcion,
+                    idObjetivoAO: valObjetivo.id, nombreObjetivoAO: valObjetivo.objetivo,
+                    idUnidad: valUnidad.id_responsable, nombreUnidad: valUnidad.nombre, estado: false})
+                  this.numeracion(this.addUnidad)
+                }
+              })
+            }
+          }else{//verifico en el servidor
+            this.api.contarAO(this.idActividadOperativa).subscribe(res=>{
+              if(res>0){
+                this.messageService.add({key: 'mensaje', severity:'error', summary: 'Registro de Productos', detail: 'Ya se agrego la actividad operativa'});
+              }else{
+                let valAO=this.listaAO.find(ao=>ao.id==this.idActividadOperativa)
+                let valObjetivo=this.objetivos.find(objetivo=>objetivo.id==this.idObjetivoAO)
+                let valUnidad=this.listaUnidadDireccion.find(uni=>uni.id_responsable==this.idUnidad)
+                this.addUnidad.push({idAO: valAO.id,nombreAO: valAO.descripcion,
+                  idObjetivoAO: valObjetivo.id, nombreObjetivoAO: valObjetivo.objetivo,
+                  idUnidad: valUnidad.id_responsable, nombreUnidad: valUnidad.nombre, estado: false})
+                this.numeracion(this.addUnidad)
+              }
+            })
+          }
         }else{
           this.messageService.add({key: 'mensaje', severity:'error', summary: 'Registro de Productos', detail: 'Tiene que seleccionar una unidad responsable'});
         }

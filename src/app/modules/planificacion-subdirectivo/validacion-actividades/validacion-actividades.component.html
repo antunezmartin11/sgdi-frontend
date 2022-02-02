@@ -3,19 +3,21 @@
     <app-body></app-body>
   </div>
   <div class="col-10">
-    <p-fieldset legend="Planificación de Servidores">
+    <p-fieldset legend="Planificación de Sub Directivos">
       <div class="grid">
         <div class="col">
 
-          <button pButton type="button" icon="pi pi-plus" iconPos="right" style="width: 20%" class="btnPlani" (click)="abrilModal()">Asignación de Servidores &nbsp;</button>
+          <button pButton type="button" icon="pi pi-plus" iconPos="right" style="width: 20%" class="btnPlani" (click)="abrilModal()">Validar Actividades Operativas &nbsp;</button>
 
-          &nbsp;<button pButton type="button" icon="pi pi-check-square" iconPos="left" style="width: 20%" class="btnPlani">Validar Asignación &nbsp;</button>
+          &nbsp;<button pButton type="button" icon="pi pi-check-square" iconPos="left" style="width: 20%" class="btnPlani">Generar Ficha &nbsp;</button>
+
+          &nbsp;<button pButton type="button" icon="pi pi-check-square" iconPos="left" style="width: 20%" class="btnPlani">Cargar Ficha &nbsp;</button>
         </div>
       </div>
       <br>
       <div class="grid">
         <div class="col">
-          <p-table #dt1 [value]="listaDatos" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+          <p-table #dt1 [value]="listaDatosVinculados" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
                    [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-datos p-datatable-gridlines"
                    [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
                    [globalFilterFields]="['usuario','fechaInicio','fechaFin','fechaReg']">
@@ -23,7 +25,7 @@
               <div class="p-d-flex">
 			<span class="p-input-icon-left p-ml-auto">
                 <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+                <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Buscar" />
             </span>
               </div>
             </ng-template>
@@ -36,27 +38,22 @@
                 </th>
                 <th>
                   <div class="p-d-flex p-jc-between p-ai-center">
-                    Servidor
+                    Acción Estrategica
                   </div>
                 </th>
                 <th>
                   <div class="p-d-flex p-jc-between p-ai-center">
-                    Codigo
+                    Actividad Operativa
                   </div>
                 </th>
                 <th>
                   <div class="p-d-flex p-jc-between p-ai-center">
-                    Cargo
+                    Objetivo
                   </div>
                 </th>
                 <th>
                   <div class="p-d-flex p-jc-between p-ai-center">
-                    Detalle
-                  </div>
-                </th>
-                <th>
-                  <div class="p-d-flex p-jc-between p-ai-center">
-                    Modificar
+                    Detalle Unidad registrada
                   </div>
                 </th>
               </tr>
@@ -66,21 +63,17 @@
                 <td>
                   {{datos.numeracion}}
                 </td>
+
                 <td>
-                  {{datos.nomServidor}}
+                  {{datos.nomAccionEstrategica}}
                 </td>
                 <td>
-                  {{datos.codigo}}
+                  {{datos.nomActividadOperativa}}
                 </td>
                 <td>
-                  {{datos.cargo}}
+                  {{datos.nomObjetivo}}
                 </td>
-
-                <td style="text-align: center"><button pButton type="button" icon="pi pi-eye" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="abrirModalProducto(datos)">&nbsp;</button>
-
-
-                <td><button pButton type="button" icon="pi pi-pencil" iconPos="left" style="width: 50%" class="p-button-danger">&nbsp;</button></td>
-
+                <td style="text-align: center"><button pButton type="button" icon="pi pi-eye" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="abrilModalProductosAO(datos.idAOUnidad)">&nbsp;</button></td>
               </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">
@@ -94,6 +87,6 @@
     </p-fieldset>
   </div>
 </div>
-
-<app-registrar-actividad [estadoMS]="cerrarModalRegistro"></app-registrar-actividad>
-<app-datalle-producto [modalProductos]="modalProducto"></app-datalle-producto>
+<app-registro-ao [estado]="modal"></app-registro-ao>
+<app-registro-hito-subdirectivo [estadoHitoSub]="estadoModalHito"></app-registro-hito-subdirectivo>
+<app-lista-productos-ao [modalProductosAO]="modalProductoAO"></app-lista-productos-ao>

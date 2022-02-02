@@ -2,7 +2,7 @@
   <ng-template pTemplate="Asignación de Actividad Operativa">
     <p-tabView [(activeIndex)]="index">
       <p-tabPanel header="Selección de Servidores" [selected]="tabServidor">
-        <p-table #dt1 [value]="servidores" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+        <p-table #dt1 [value]="personalUnidad" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
                  [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-customers p-datatable-gridlines"
                  [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
                  [globalFilterFields]="['usuario','fechaInicio','fechaFin','fechaReg']">
@@ -43,21 +43,21 @@
           <ng-template pTemplate="body" let-datos>
             <tr>
               <td>
-                {{datos.id}}
+                {{datos.numeracion}}
               </td>
               <td>
-                <span class="image-text">{{datos.nombre}}</span>
+                <span class="image-text">{{datos.cod_emp}}</span>
               </td>
               <td>
-                <span class="image-text">{{datos.cargo}}</span>
+                <span class="image-text">{{datos.a_paterno}} {{datos.a_materno}} {{datos.nom_emp}}</span>
               </td>
               <td>
-                <span class="image-text">{{datos.unidad}}</span>
+                <span class="image-text">{{datos.nombre_dependencia}}</span>
               </td>
               <td>
-                <span class="image-text">{{datos.cargo}}</span>
+                <span class="image-text">{{datos.nombre_crg_fisico}}</span>
               </td>
-              <td style="text-align: center"><p-checkbox name="groupname" label="" value="val1" [(ngModel)]="checkServidor" (click)="selecionarServidor()"></p-checkbox></td>
+              <td style="text-align: center"><p-checkbox name="groupname" label="" value="val1" [(ngModel)]="checkServidor" (click)="selecionarServidor(datos)"></p-checkbox></td>
             </tr>
           </ng-template>
           <ng-template pTemplate="emptymessage">
@@ -82,13 +82,13 @@
         </div>
         <div class="grid">
           <div class="col-4">
-            <p-listbox [options]="cities" [(ngModel)]="actividadOperativa" optionLabel="name" ></p-listbox>
+            <p-listbox [options]="AOUnidadList" [(ngModel)]="actividadOperativa" optionLabel="name" (click)="getObjetivoAO(actividadOperativa)" ></p-listbox>
           </div>
           <div class="col-4">
-            <p-listbox [options]="productos" [(ngModel)]="productoselect" optionLabel="name"></p-listbox>
+            <p-listbox [options]="listaObjetivoAO" [emptyMessage]="mensaje"  [(ngModel)]="objetivo" optionLabel="name" (click)="getProducto(objetivo)"></p-listbox>
           </div>
           <div class="col-4">
-            <p-listbox [options]="actividad" [(ngModel)]="actividadSelect" optionLabel="name"></p-listbox>
+            <p-listbox [options]="listaProductos" [emptyMessage]="mensaje" [(ngModel)]="actividadSelect"  optionLabel="nomProducto"></p-listbox>
           </div>
         </div>
         <div class="grid">
@@ -96,41 +96,29 @@
             Secuencia
           </div>
           <div class="col-1">
-            <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="secuencia" (keypress)="validarNumero($event)">
+            <input type="text" placeholder="Ejm: 1" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="secuencia" (keypress)="validarNumero($event)">
           </div>
           <div class="col-2">
             Estandar
           </div>
           <div class="col-2">
-            <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="estandar" (keypress)="validarLetrasNumero($event)">
+            <input type="text" class="inputfield" placeholder="Estandar del producto" style="height: 30px; width: 100%;" [(ngModel)]="estandar" (keypress)="validarLetrasNumero($event)">
           </div>
           <div class="col-3">
             Unidad de Medida
           </div>
           <div class="col-2">
-            <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="unidadMedida" (keypress)="validarLetras($event)">
+            <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="unidadMedida" placeholder="Unidad de medida para el producto" (keypress)="validarLetras($event)">
           </div>
         </div>
         <div class="grid">
           <div class="col-2">Medio de Verificación</div>
           <div class="col-6">
-            <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="medioVerificacion" (keypress)="validarLetras($event)">
+            <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="medioVerificacion" placeholder="Medio de verificación del producto " (keypress)="validarLetras($event)">
           </div>
           <div class="col-2">Peso</div>
           <div class="col-2">
-            <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="peso" (keypress)="validarNumero($event)">
-          </div>
-        </div>
-        <div class="grid">
-          <div class="col-2">
-            Contribucion
-          </div>
-          <div class="col-4">
-            <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="contribucion" (keypress)="validarNumero($event)">
-          </div>
-          <div class="col-1">Meta</div>
-          <div class="col-4">
-            <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="meta" (keypress)="validarNumero($event)">
+            <input type="text" placeholder="Ejm: 0.1" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="peso" (keypress)="validarNumero($event)">
           </div>
         </div>
         <div class="grid">
@@ -211,7 +199,112 @@
           </div>
         </div>
         <div class="grid">
-          <button pButton type="button" icon="pi pi-plus" iconPos="left" style="width: 20%" class="btnPlani" (click)="guardarPlanificacion()">Agregar Actividad&nbsp;</button>
+          <button pButton type="button" icon="pi pi-plus" iconPos="left" style="width: 20%" class="btnPlani" (click)="agregarDatosRegistro()">Agregar Actividad&nbsp;</button>
+        </div>
+        <div class="grid">
+          <div class="col-12">
+            <p-table #dt1 [value]="datosRegistro" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+                     [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-datos p-datatable-gridlines"
+                     [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
+                     [globalFilterFields]="['numeracion','organo','recomendacion']">
+              <ng-template pTemplate="caption">
+                <div class="p-d-flex">
+
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr style="font-size: 14px">
+                  <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      N°
+                    </div>
+                  </th>
+                  <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Actividad Operativa
+                    </div>
+                  </th>
+                  <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Objetivo
+                    </div>
+                  </th>
+                  <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Producto
+                    </div>
+                  </th>
+                  <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Secuencia
+                    </div>
+                  </th>
+                  <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Estandar
+                    </div>
+                  </th>
+                  <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Unidad de Medida
+                    </div>
+                  </th>
+                  <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Evidencia
+                    </div>
+                  </th>
+                  <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Peso
+                    </div>
+                  </th>
+                  <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Eliminar
+                    </div>
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-datos>
+                <tr style="font-size: 14px">
+                  <td>
+                    {{datos.numeracion}}
+                  </td>
+                  <td>
+                    <span class="image-text">{{datos.actividaOperativa}}</span>
+                  </td>
+                  <td>
+                    <span class="image-text">{{datos.objetivo}}</span>
+                  </td>
+                  <td>
+                    <span class="image-text">{{datos.producto}}</span>
+                  </td>
+                  <td>
+                    <span class="image-text">{{datos.secuencia}}</span>
+                  </td>
+                  <td>
+                    <span class="image-text">{{datos.estandar}}</span>
+                  </td>
+                  <td>
+                    <span class="image-text">{{datos.unidadMedida}}</span>
+                  </td>
+                  <td>
+                    <span class="image-text">{{datos.evidencia}}</span>
+                  </td>
+                  <td>
+                    <span class="image-text">{{datos.peso}}</span>
+                  </td>
+                  <td style="text-align: center"><button pButton type="button" icon="pi pi-trash" iconPos="left" style="width: 60%" class="p-button-raised p-button-danger" (click)="eliminarSubDireccion(datos.numeracion)">&nbsp;</button></td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="7">No se encontraron registros.</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
         </div>
       </p-tabPanel>
       <p-tabPanel header="Resumen de asignación" [selected]="tabResumen">
@@ -298,8 +391,8 @@
 
   </ng-template>
   <ng-template pTemplate="footer">
-    <button pButton type="button" icon="pi pi-save" iconPos="left" style="width: 20%" class="btnPlani" (click)="guardarPlanificacion()">Guardar&nbsp;</button>
-    <button pButton type="button" icon="pi pi-times" iconPos="left" style="width: 20%" class="p-button-danger">Cancelar&nbsp;</button>
+    <button pButton type="button" icon="pi pi-save" iconPos="left" style="width: 20%" class="btnPlani" (click)="guardarRegistro()">Guardar&nbsp;</button>
+    <button pButton type="button" icon="pi pi-times" iconPos="left" style="width: 20%" class="p-button-danger" (click)="cerrarModal()">Cancelar&nbsp;</button>
   </ng-template>
 </p-dialog>
 <p-toast key="mensaje"></p-toast>

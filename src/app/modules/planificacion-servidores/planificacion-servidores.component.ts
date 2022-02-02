@@ -15,7 +15,9 @@ export class PlanificacionServidoresComponent implements OnInit {
   @Output() estadoHito: EventEmitter<any> = new EventEmitter();
   @ViewChild('dt1') table : Table;
   modal: boolean=false;
+  cerrarModalRegistro: boolean=false
   modalHito: boolean=false
+  modalProducto: boolean=false
   listaDatos: any
   constructor(private api: PlanificacionServidorService) { }
 
@@ -28,7 +30,12 @@ export class PlanificacionServidoresComponent implements OnInit {
   }
 
   abrilModal(){
-    this.modal=true
+    this.cerrarModalRegistro=true
+    this.api.cerrarModalRegistro.subscribe(res=>{
+      if(res!=null){
+        this.cerrarModalRegistro=res
+      }
+    })
   }
   abrilModalHito(){
     this.modalHito=true
@@ -39,7 +46,7 @@ export class PlanificacionServidoresComponent implements OnInit {
     })
   }
   getServidorVinculacion(){
-    this.api.getListaVinculados().subscribe(res=>{
+    this.api.listarServidor().subscribe(res=>{
       this.listaDatos=this.numeracion(res.content)
     })
   }
@@ -48,5 +55,14 @@ export class PlanificacionServidoresComponent implements OnInit {
       data[i].numeracion = i + 1;
     }
     return data;
+  }
+  abrirModalProducto(datos){
+    this.modalProducto=true
+    this.api.datoProducto.emit(datos.idActividadServidor)
+    this.api.modalProducto.subscribe(re=>{
+      if(re!=undefined){
+        this.modalProducto=re
+      }
+    })
   }
 }

@@ -137,4 +137,25 @@ export class ApiSGDIService {
   getListaAOUnidad(ruta: string): Observable<any>{
     return this.http.get(environment.apiURL+ruta)
   }
+  getAOxUnidad(ruta: string): Observable<any>{
+    return this.http.get(environment.apiURL+ruta);
+  }
+  getProductoAOUnidad(ruta: string):Observable<any>{
+    return this.http.get(environment.apiURL+ruta)
+  }
+  addServidor(ruta: string, parametro: any):Observable<any>{
+    return this.http.post(environment.apiURL+ruta,parametro)
+  }
+  countServidor(ruta: string):Observable<any>{
+    return this.http.get(environment.apiURL+ruta)
+  }
+  listarServidor(ruta: string): Observable<any>{
+    return this.http.get(environment.apiURL+ruta);
+  }
+  listarProductoServidor(ruta: string): Observable<any>{
+    return this.http.get(environment.apiURL+ruta)
+  }
+  contarAO(ruta: string): Observable<any>{
+    return this.http.get(environment.apiURL+ruta)
+  }
 }

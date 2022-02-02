@@ -20,6 +20,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "lodash"
+            ],
             "outputPath": "dist/sgdi-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -43,8 +46,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "4mb",
+                  "maximumError": "4mb"
                 },
                 {
                   "type": "anyComponentStyle",

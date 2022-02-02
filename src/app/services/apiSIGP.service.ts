@@ -30,4 +30,7 @@ export class ApiSIGPService {
   getDirectivo(ruta: string):Observable<any>{
     return this.http.get<any>(environment.apiUrlSIGP+ruta)
   }
+  getPersonal(ruta: string): Observable<any>{
+    return this.http.get(environment.apiUrlSIGP+ruta)
+  }
 }

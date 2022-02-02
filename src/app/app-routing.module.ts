@@ -12,10 +12,10 @@ import {SistemaControlInternoComponent} from "./modules/sistema-control-interno/
 import {RegistroDocumentoComponent} from "./modules/informes-auditoria/modal/registro-documento/registro-documento.component";
 import {RegistroProductoComponent} from "./modules/sistema-control-interno/registro-producto/registro-producto.component";
 import {LoginComponent} from "./modules/login/login.component";
-import {AppComponent} from "./app.component";
 import {MenuComponent} from "./recursos/menu/menu.component";
 import {AccionIniciativaComponent} from "./modules/accion-iniciativa/accion-iniciativa.component";
 import {ValidacionComponent} from "./modules/planificacion-directivo/validacion/validacion.component";
+import {ValidacionActividadesComponent} from "./modules/planificacion-subdirectivo/validacion-actividades/validacion-actividades.component";
 
 const routes: Routes = [
   {
@@ -81,6 +81,10 @@ const routes: Routes = [
   {
     path: 'validarDirectivo',
     component: ValidacionComponent
+  },
+  {
+    path: 'validarSubDirectivo',
+    component: ValidacionActividadesComponent
   }
 ];
 

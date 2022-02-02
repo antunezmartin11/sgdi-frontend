@@ -54,4 +54,7 @@ export class PlanificacionSubDirectivosService {
   getListarAOUnidad(){
     return this.apiSGDI.getListaAOUnidad('actividadOperativa/listarAOUnidad')
   }
+  contarAO(id: number){
+    return this.apiSGDI.contarAO('actividadOperativa/countAO?id='+id)
+  }
 }

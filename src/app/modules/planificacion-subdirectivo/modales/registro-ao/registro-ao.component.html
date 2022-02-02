@@ -97,11 +97,7 @@
                     Sub Dirección
                   </div>
                 </th>
-                <th>
-                  <div class="p-d-flex p-jc-between p-ai-center">
-                    Seleccionar
-                  </div>
-                </th>
+
                 <th>
                   <div class="p-d-flex p-jc-between p-ai-center">
                     Eliminar
@@ -123,7 +119,6 @@
                 <td>
                   <span class="image-text">{{datos.nombreUnidad}}</span>
                 </td>
-                <td style="text-align: center;"><p-checkbox name="groupname" [(ngModel)]="datos.estado" [binary]="true" ></p-checkbox></td>
                 <td style="text-align: center"><button pButton type="button" icon="pi pi-trash" iconPos="left" style="width: 60%" class="p-button-raised p-button-danger" (click)="eliminarSubDireccion(datos.numeracion)">&nbsp;</button></td>
               </tr>
             </ng-template>
@@ -187,10 +182,7 @@
           Evidencia de Cumplimiento
         </div>
         <div class="col-3">
-          <select id="states56" class="inputfield w-full" style="appearance: auto; height: 30px;"  [(ngModel)]="idTipodocumento">
-            <option value="0">Seleccionar</option>
-            <option value="{{doc.idTipoDocumento}}" *ngFor="let doc of listarTipoDocumento ">{{doc.nombreDocumento}}</option>
-          </select>
+          <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="tipodocumento" (keypress)="validarLetrasNumero($event)">
         </div>
         <div class="col-3">
           Meta
@@ -249,6 +241,11 @@
                 </th>
                 <th>
                   <div class="p-d-flex p-jc-between p-ai-center">
+                    Evidencia
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
                     Eliminar
                   </div>
                 </th>
@@ -276,6 +273,9 @@
                 </td>
                 <td>
                   <span class="image-text">{{datos.meta}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{datos.nombreDocumento}}</span>
                 </td>
                 <td style="text-align: center"><button pButton type="button" icon="pi pi-trash" iconPos="left" style="width: 60%" class="p-button-raised p-button-danger" (click)="eliminarSubDireccion(datos.numeracion)">&nbsp;</button></td>
               </tr>

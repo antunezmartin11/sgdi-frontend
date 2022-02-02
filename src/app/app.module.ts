@@ -56,6 +56,9 @@ import { AgregarRegistroComponent } from './modules/accion-iniciativa/modales/ag
 import { ValidacionComponent } from './modules/planificacion-directivo/validacion/validacion.component';
 import { ListaDireccionComponent } from './modules/planificacion-directivo/modales/lista-direccion/lista-direccion.component';
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import { ValidacionActividadesComponent } from './modules/planificacion-subdirectivo/validacion-actividades/validacion-actividades.component';
+import { DatalleProductoComponent } from './modules/planificacion-servidores/modales/datalle-producto/datalle-producto.component';
+import { PlanificacionServidorComponent } from './modules/planificacion-servidor/planificacion-servidor.component';
 
 
 @NgModule({
@@ -92,6 +95,9 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
         AgregarRegistroComponent,
         ValidacionComponent,
         ListaDireccionComponent,
+        ValidacionActividadesComponent,
+        DatalleProductoComponent,
+        PlanificacionServidorComponent,
 
     ],
     imports: [

@@ -1,15 +1,16 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
-import {PlanificacionSubDirectivosService} from "./service/planificacion-sub-directivos.service";
-import {HomeComponent} from "../home/home.component";
+import {PlanificacionSubDirectivosService} from "../service/planificacion-sub-directivos.service";
+import {HomeComponent} from "../../home/home.component";
 
 @Component({
-  selector: 'app-planificacion-subdirectivo',
-  templateUrl: './planificacion-subdirectivo.component.html',
-  styleUrls: ['./planificacion-subdirectivo.component.css'],
+  selector: 'app-validacion-actividades',
+  templateUrl: './validacion-actividades.component.html',
+  styleUrls: ['./validacion-actividades.component.css'],
   providers: [HomeComponent]
 })
-export class PlanificacionSubdirectivoComponent implements OnInit {
+export class ValidacionActividadesComponent implements OnInit {
+
   datos:any[];
   loading: boolean = true;
   @Input() datosModal: any;//Para recibir
@@ -17,7 +18,7 @@ export class PlanificacionSubdirectivoComponent implements OnInit {
   @Output() estadoHito: EventEmitter<any> = new EventEmitter();
   @ViewChild('dt1') table : Table;
   modal: boolean=false;
-   estadoModalHito:boolean
+  estadoModalHito:boolean
   listaDatosVinculados: any
   modalProductoAO: boolean=false
   constructor( private api: PlanificacionSubDirectivosService, private app: HomeComponent) { }
@@ -65,5 +66,4 @@ export class PlanificacionSubdirectivoComponent implements OnInit {
       }
     })
   }
-
 }

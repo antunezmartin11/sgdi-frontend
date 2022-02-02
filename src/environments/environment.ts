@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  apiUrlSIGP:'http://sigp.senamhi.gob.pe:2020/wsigp3/api/',
+  production: true,
+  apiUrlSIGP: 'http://sigp.senamhi.gob.pe:2020/wsigp3/api/',
   apiMAPRO: 'http://00d4-2800-200-f1a0-6c-a921-567e-f351-51d0.ngrok.io',
   apiURL:"http://localhost:8080/api/"
 };
