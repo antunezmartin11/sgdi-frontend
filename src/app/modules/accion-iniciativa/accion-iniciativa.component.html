@@ -86,17 +86,17 @@
                   {{datos.numeracion}}
                 </td>
                 <td>
-                  {{datos.accionIniciativa}}
+                  {{datos.descripcion}}
                 </td>
                 <td>{{datos.nomUnidad}}</td>
                 <td>
-                  {{datos.tipoProceso}}
+                  {{datos.medioVerificacion}}
                 </td>
+                <td> {{datos.tipoProceso}}</td>
                 <td> {{datos.tipoPrioritario}}</td>
-                <td> {{datos.idObjetivo}}</td>
-                <td> {{datos.idObjetivo}}</td>
-                <td> {{datos.idObjetivo}}</td>
-                <td style="text-align: center"><button pButton type="button" icon="pi pi-book" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="abrilModalCompletarRegistro(datos)" >&nbsp;</button></td>
+                <td> {{datos.fecInicio}}</td>
+                <td> {{datos.fecFin}}</td>
+                <td style="text-align: center" ><button pButton *ngIf="datos.medioVerificacion==null" type="button" icon="pi pi-book" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="abrilModalCompletarRegistro(datos)" >&nbsp;</button></td>
 
                 <td style="text-align: center"><button pButton type="button" icon="pi pi-users" iconPos="left" style="width: 50%" class="p-button-raised p-button-text"  (click)="abrirModalEquipos()">&nbsp;</button></td>
 

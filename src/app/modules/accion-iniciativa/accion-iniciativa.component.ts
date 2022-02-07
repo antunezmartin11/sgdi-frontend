@@ -47,7 +47,9 @@ export class AccionIniciativaComponent implements OnInit {
   }
   getAccionIniciativa(){
     this.api.getAccionIniciativa().subscribe(res=>{
+      console.log(res)
       this.listaAccion=this.numeracion(res.content)
+
       console.log(this.listaAccion)
     })
   }

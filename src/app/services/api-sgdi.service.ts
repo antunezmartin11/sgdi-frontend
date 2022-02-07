@@ -158,4 +158,7 @@ export class ApiSGDIService {
   contarAO(ruta: string): Observable<any>{
     return this.http.get(environment.apiURL+ruta)
   }
+  getListaAsignaciones(ruta: string):Observable<any>{
+    return this.http.get(environment.apiURL+ruta)
+  }
 }

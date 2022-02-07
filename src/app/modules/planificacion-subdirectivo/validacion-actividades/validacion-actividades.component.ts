@@ -2,12 +2,13 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {Table} from "primeng/table";
 import {PlanificacionSubDirectivosService} from "../service/planificacion-sub-directivos.service";
 import {HomeComponent} from "../../home/home.component";
+import {ConfirmationService} from "primeng/api";
 
 @Component({
   selector: 'app-validacion-actividades',
   templateUrl: './validacion-actividades.component.html',
   styleUrls: ['./validacion-actividades.component.css'],
-  providers: [HomeComponent]
+  providers: [HomeComponent, ConfirmationService]
 })
 export class ValidacionActividadesComponent implements OnInit {
 
@@ -21,7 +22,9 @@ export class ValidacionActividadesComponent implements OnInit {
   estadoModalHito:boolean
   listaDatosVinculados: any
   modalProductoAO: boolean=false
-  constructor( private api: PlanificacionSubDirectivosService, private app: HomeComponent) { }
+  constructor( private api: PlanificacionSubDirectivosService,
+               private app: HomeComponent,
+               private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.app.getUsuario()
@@ -65,5 +68,13 @@ export class ValidacionActividadesComponent implements OnInit {
         this.modalProductoAO=res
       }
     })
+  }
+  validar(){
+    this.confirmationService.confirm({
+      message: '¿Esta seguro que desea validar la programación realizada?',
+      accept: () => {
+        //Actual logic to perform a confirmation
+      }
+    });
   }
 }

@@ -4,12 +4,13 @@ import {InformeAuditoriaService} from "../../services/informe-auditoria.service"
 import {MessageService} from "primeng/api";
 import {Respuesta} from "../../../../modelos/respuesta";
 import {Router} from "@angular/router";
+import {AccionIniciativaService} from "../../../accion-iniciativa/services/accion-iniciativa.service";
 
 @Component({
   selector: 'app-registro-documento',
   templateUrl: './registro-documento.component.html',
   styleUrls: ['./registro-documento.component.css'],
-  providers: [MessageService]
+  providers: [MessageService, AccionIniciativaService]
 })
 export class RegistroDocumentoComponent implements OnInit {
   @Input() modalRegistro: boolean;
@@ -24,7 +25,7 @@ export class RegistroDocumentoComponent implements OnInit {
   modal: boolean=false;
   modalHito: boolean=false
   listaOrgano:any
-  organo: string
+  organo: number = 0
   listaTipoDocumento: Respuesta<any>;
   tipoDocumento:any;
   recomendacion:string=''
@@ -35,7 +36,8 @@ export class RegistroDocumentoComponent implements OnInit {
   respuestaRegistro:any;
   constructor(private apiService: InformeAuditoriaService,
               private messageService: MessageService,
-              public router: Router) { }
+              public router: Router,
+              private apiAI: AccionIniciativaService) { }
 
   ngOnInit(): void {
     this.getOrgano()
@@ -56,11 +58,14 @@ export class RegistroDocumentoComponent implements OnInit {
 
       this.messageService.add({key: 'mensaje', severity:'error', summary: 'Recomendación', detail: 'Tiene que ingresar una recomendación.'});
     }else{
-      if(this.organo==null || this.organo==undefined){
+      if(this.organo==0){
         this.messageService.add({key: 'mensaje', severity:'error', summary: 'Organo/Unidad', detail: 'Tiene que seleccionar un organo responsable.'});
       }else{
-        this.listaRecomendacion.push({organo:this.organo, recomendacion:this.recomendacion})
+        let o=this.listaOrgano.find(o=>o.id ==this.organo)
+        this.listaRecomendacion.push({organo:this.organo, nomOrgano: o.nombre, recomendacion:this.recomendacion})
         this.numeracion(this.listaRecomendacion)
+        this.organo=0
+        this.recomendacion=null
       }
     }
   }
@@ -102,10 +107,26 @@ export class RegistroDocumentoComponent implements OnInit {
                           idUnidad:this.listaRecomendacion[i].organo,
                           idTipoDocumento: "",
                           recomendacion: this.listaRecomendacion[i].recomendacion,
-                          idInformeAuditoria:this.idInformeAuditoria
+                          idInformeAuditoria:this.idInformeAuditoria,
+                          nomUnidad:this.listaRecomendacion[i].nomOrgano
                         }
                         this.apiService.addRecomendacion(dat).subscribe(res=>{
-                          console.log(res)
+                          let datoAI={
+                            "tipoProceso":"Iniciativa",
+                            "descripcion": dat.recomendacion,
+                            "idUnidad": dat.idUnidad,
+                            "idPeriodo":0,
+                            "medioVerificacion": null,
+                            "tipoPrioritario":null,
+                            "idInformeAuditoria":res.content.idInformeAuditoria,
+                            "idProductoPriorizado":null,
+                            "accionIniciativa":"",
+                            "nomUnidad": dat.nomUnidad
+                          }
+                          this.apiAI.addAccionIniciativa(datoAI).subscribe(re=>{
+                            console.log(re)
+                          })
+
                         })
                       }
                     })

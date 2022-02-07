@@ -3,7 +3,7 @@
     <app-body></app-body>
   </div>
   <div class="col-10">
-    <p-fieldset legend="Modulo de informes de auditoria">
+    <p-fieldset legend="Modulo de informes de Control">
       <div class="grid">
         <div class="col-4">
           <button pButton type="button" icon="pi pi-file" iconPos="left" style="width: 40%" class="btnPlani" routerLink="../registroInforme">Agregar Documento&nbsp;&nbsp;</button>&nbsp;
@@ -101,9 +101,9 @@
                   {{datos.nomInforme}}
                 </td>
                 <td>
-                  {{datos.fechaFin | date: 'MM/dd/yyyy'}}
+                  {{datos.fecRecepcion | date: 'MM/dd/yyyy'}}
                 </td>
-                <td></td>
+                <td>{{datos.tipoControl}}</td>
                 <td></td>
                 <td></td>
                 <td style="text-align: center"><button pButton type="button" icon="pi pi-eye" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="getRecomendaciones(datos.idInformeAuditoria)">&nbsp;</button></td>

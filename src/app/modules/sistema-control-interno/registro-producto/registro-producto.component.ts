@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {MessageService} from "primeng/api";
 import {ControlInternoService} from "../service/control-interno.service";
+import {AccionIniciativaService} from "../../accion-iniciativa/services/accion-iniciativa.service";
 
 @Component({
   selector: 'app-registro-producto',
@@ -23,7 +24,8 @@ export class RegistroProductoComponent implements OnInit {
   respuesta: Object
   constructor(private route: Router,
               private messageService: MessageService,
-              private apiService: ControlInternoService) { }
+              private apiService: ControlInternoService,
+              private apiAI: AccionIniciativaService) { }
   fechaInicio: Date;
   fechaFin: Date;
   ngOnInit(): void {
@@ -73,6 +75,20 @@ export class RegistroProductoComponent implements OnInit {
                         if (this.respuesta){
                           this.messageService.add({key: 'mensaje', severity:'success', summary: 'Registro de Producto Priorizado', detail: 'Registro agregado correctamente'});
                           this.route.navigate(['controlInterno'])
+                          let datoAI={
+                            "tipoProceso":"Iniciativa",
+                            "descripcion": this.riesgoIdentificado,
+                            "idUnidad": this.organo,
+                            "idPeriodo":0,
+                            "medioVerificacion": null,
+                            "tipoPrioritario":null,
+                            "idProductoPriorizado":res.content.idProductoPriorizado,
+                            "accionIniciativa":"",
+                            "nomUnidad": null
+                          }
+                          this.apiAI.addAccionIniciativa(datoAI).subscribe(re=>{
+                            console.log(re)
+                          })
                         }else{
                           this.messageService.add({key: 'mensaje', severity:'error', summary: 'Registro de Producto Priorizado', detail: 'Ocurrio un error en el registro'});
                         }

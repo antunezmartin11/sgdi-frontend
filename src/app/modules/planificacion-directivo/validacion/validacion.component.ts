@@ -61,7 +61,6 @@ export class ValidacionComponent implements OnInit {
             text: 'Ficha de Desempeño Insitucional',
             alignment: 'center',
             fontSize:30,
-            font: "Arial",
             color: '#2596be'
           }
         ]

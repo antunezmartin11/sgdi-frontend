@@ -59,6 +59,7 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
 import { ValidacionActividadesComponent } from './modules/planificacion-subdirectivo/validacion-actividades/validacion-actividades.component';
 import { DatalleProductoComponent } from './modules/planificacion-servidores/modales/datalle-producto/datalle-producto.component';
 import { PlanificacionServidorComponent } from './modules/planificacion-servidor/planificacion-servidor.component';
+import { CompletarRegistroComponent } from './modules/planificacion-servidor/modal/completar-registro/completar-registro.component';
 
 
 @NgModule({
@@ -98,6 +99,7 @@ import { PlanificacionServidorComponent } from './modules/planificacion-servidor
         ValidacionActividadesComponent,
         DatalleProductoComponent,
         PlanificacionServidorComponent,
+        CompletarRegistroComponent,
 
     ],
     imports: [

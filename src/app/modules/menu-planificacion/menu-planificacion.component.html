@@ -7,7 +7,7 @@
       <p-fieldset legend="Modulo de Planificación" >
 
         <div class="grid" >
-          <div class="col-3">
+          <div class="col-3" >
             <a href="#" routerLink="../planificacionDirectivo" class="btnHome">
               <div class="bg-blue-300 hover:bg-blue-400 text-white font-bold m-2 flex align-items-center justify-content-center"  style="min-width: 200px; min-height: 100px">
                 Planificación de Directivos &nbsp;<i class="pi pi-sitemap" style="font-size: 3rem"></i>
@@ -16,35 +16,35 @@
 
 
           </div>
-          <div class="col-3">
+          <div class="col-3" >
             <a href="#" routerLink="../planificacionSubDirectivo" class="btnHome">
               <div class="bg-blue-300 hover:bg-blue-400 text-white font-bold m-2 flex align-items-center justify-content-center" style="min-width: 200px; min-height: 100px">
                 Planificacion de Sub Directivos &nbsp;<i class="pi pi-sitemap" style="font-size: 3rem"></i>
               </div>
             </a>
           </div>
-          <div class="col-3">
+          <div class="col-3" >
             <a href="#" routerLink="../planificacionServidores" class="btnHome">
               <div class="bg-blue-300 hover:bg-blue-400 text-white font-bold m-2 flex align-items-center justify-content-center" style="min-width: 200px; min-height: 100px">
                 Planificacion de Servidores &nbsp;<i class="pi pi-sitemap" style="font-size: 3rem"></i>
               </div>
             </a>
           </div>
-          <div class="col-3">
-            <a href="#" routerLink="../planificacionServidores" class="btnHome">
+          <div class="col-3" *ngIf="rol=='SERVIDOR'">
+            <a href="#" routerLink="../planificacionServidor" class="btnHome">
               <div class="bg-blue-300 hover:bg-blue-400 text-white font-bold m-2 flex align-items-center justify-content-center" style="min-width: 200px; min-height: 100px">
                 Planificacion de Servidor &nbsp;<i class="pi pi-sitemap" style="font-size: 3rem"></i>
               </div>
             </a>
           </div>
-          <div class="col-3">
+          <div class="col-3" *ngIf="rol=='DIRECCION' && nombreUnidad=='OFICINA DE RECURSOS HUMANOS'">
             <a href="#" routerLink="../aperturarCiclo" class="btnHome">
               <div class="bg-blue-300 hover:bg-blue-400 text-white font-bold m-2 flex align-items-center justify-content-center" style="min-width: 200px; min-height: 100px">
                 Aperturar Ciclo &nbsp;<i class="pi pi-unlock " style="font-size: 3rem"></i>
               </div>
             </a>
           </div>
-          <div class="col-3">
+          <div class="col-3" *ngIf="rol=='DIRECCION' && nombreUnidad=='OFICINA DE RECURSOS HUMANOS'">
             <div class="bg-blue-300 hover:bg-blue-400 text-white font-bold m-2 flex align-items-center justify-content-center" style="min-width: 200px; min-height: 100px">
               Reporte de Metas &nbsp;<i class="pi pi-file" style="font-size: 3rem"></i>
             </div>

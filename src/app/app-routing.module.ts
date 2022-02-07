@@ -16,6 +16,7 @@ import {MenuComponent} from "./recursos/menu/menu.component";
 import {AccionIniciativaComponent} from "./modules/accion-iniciativa/accion-iniciativa.component";
 import {ValidacionComponent} from "./modules/planificacion-directivo/validacion/validacion.component";
 import {ValidacionActividadesComponent} from "./modules/planificacion-subdirectivo/validacion-actividades/validacion-actividades.component";
+import {PlanificacionServidorComponent} from "./modules/planificacion-servidor/planificacion-servidor.component";
 
 const routes: Routes = [
   {
@@ -85,6 +86,10 @@ const routes: Routes = [
   {
     path: 'validarSubDirectivo',
     component: ValidacionActividadesComponent
+  },
+  {
+    path: 'planificacionServidor',
+    component: PlanificacionServidorComponent
   }
 ];
 

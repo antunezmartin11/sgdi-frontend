@@ -14,7 +14,7 @@ export class AgregarRegistroComponent implements OnInit {
   accionIniciativa: string
   descripcion: string
   idOrgano: number = 0
-  medioVerificacion: number = 0
+  medioVerificacion: any
   tipo: number = 0
   fechaInicio: Date
   fechaFin: Date
@@ -50,7 +50,7 @@ export class AgregarRegistroComponent implements OnInit {
     if(this.accionIniciativa!=null){
       if(this.descripcion!=null){
         if(this.idOrgano!=0){
-          if(this.medioVerificacion!=0){
+          if(this.medioVerificacion!=null){
             if(this.tipo!=0){
               if(this.fechaInicio!=null){
                 if(this.fechaFin!=null){
@@ -61,11 +61,14 @@ export class AgregarRegistroComponent implements OnInit {
                       "descripcion": this.descripcion,
                       "idUnidad": this.idOrgano,
                       "idPeriodo":0,
+                      "medioVerificacion": this.medioVerificacion,
                       "tipoPrioritario":2,
                       "idInformeAuditoria":null,
                       "idProductoPriorizado":null,
                       "accionIniciativa":this.accionIniciativa,
-                      "nomUnidad": this.nombreUnidad.nombre
+                      "nomUnidad": this.nombreUnidad.nombre,
+                      "fecInico":this.fechaInicio,
+                      "fecFin":this.fechaFin
                     }
                     this.api.addAccionIniciativa(datos).subscribe(res=>{
                       if(res.estado){

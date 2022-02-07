@@ -1,1 +1,149 @@
-<p>planificacion-servidor works!</p>
+<script src="modal/completar-registro/completar-registro.component.ts"></script>
+<div class="grid">
+  <div class="col-2">
+    <app-body></app-body>
+  </div>
+  <div class="col-10">
+    <p-fieldset legend="Planificación de Servidores">
+      <div class="grid">
+        <div class="col">
+          &nbsp;<button pButton type="button" icon="pi pi-check-square" iconPos="left" style="width: 20%" class="btnPlani" (click)="validar()">Validar Asignación &nbsp;</button>
+        </div>
+      </div>
+      <br>
+      <div class="grid">
+        <div class="col-2">Servidor:</div>
+        <div class="col-6">
+          <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="nombreServidor" [disabled]="true">
+        </div>
+        <div class="col-4"></div>
+        <div class="col-2">
+          Cargo:
+        </div>
+        <div class="col-6">
+          <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="cargoServidor" [disabled]="true">
+        </div>
+      </div>
+      <br>
+      <div class="grid">
+        <div class="col">
+          <p-table #dt1 [value]="listaDatos" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+                   [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-datos p-datatable-gridlines"
+                   [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
+                   [globalFilterFields]="['usuario','fechaInicio','fechaFin','fechaReg']">
+            <ng-template pTemplate="caption">
+              <div class="p-d-flex">
+			<span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Buscar" />
+            </span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    N°
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Actividad
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Objetivo
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Producto
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Secuencia
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Estandar
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Evidencia
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    unidad de Medida
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Peso
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Contribución
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Completar Registro
+                  </div>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-datos>
+              <tr>
+                <td>
+                  {{datos.numeracion}}
+                </td>
+                <td>
+                  {{datos.nomActividad}}
+                </td>
+                <td>
+                  {{datos.nomObjetivo}}
+                </td>
+                <td>
+                  {{datos.nomProducto}}
+                </td>
+                <td>
+                  {{datos.secuencia}}
+                </td>
+                <td>
+                  {{datos.estandar}}
+                </td>
+                <td>
+                  {{datos.evidencia}}
+                </td>
+                <td>
+                  {{datos.unidadMedida}}
+                </td>
+                <td>
+                  {{datos.peso}}
+                </td>
+                <td>
+                  {{datos.contribucion}}
+                </td>
+                <td style="text-align: center"><button pButton type="button" icon="pi pi-check-square" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="abrilModal(datos)">&nbsp;</button>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7">No se encontraron registros.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </p-fieldset>
+  </div>
+</div>
+<app-completar-registro [completarRegistroModal]="completarRegistroModal"></app-completar-registro>
+<p-confirmDialog acceptLabel="Si" header="Desea validar la información" icon="pi pi-exclamation-triangle"></p-confirmDialog>

@@ -31,10 +31,7 @@
             <label  class="col"  style="height: 30px; width:100%" >Medio de Verificación</label>
           </div>
           <div class="col-6" style="margin-top: 10px">
-            <select class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="medioVerificacion">
-              <option value="0">Seleccionar</option>
-              <option value="{{doc.idTipoDocumento}}" *ngFor="let doc of listDocumento">{{doc.nombreDocumento}}</option>
-            </select>
+            <input  type="text" class="inputfield" style="height: 30px; width:100%; margin-top: 10px" [(ngModel)]="medioVerificacion">
           </div>
           <div class="col-2"></div>
           <div class="col-4" style="margin-top: 10px;">

@@ -1,11 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
 import {PlanificacionServidorService} from "./service/planificacion-servidor.service";
+import {ConfirmationService} from "primeng/api";
 
 @Component({
   selector: 'app-planificacion-servidores',
   templateUrl: './planificacion-servidores.component.html',
-  styleUrls: ['./planificacion-servidores.component.css']
+  styleUrls: ['./planificacion-servidores.component.css'],
+  providers: [ConfirmationService]
 })
 export class PlanificacionServidoresComponent implements OnInit {
   datos:any[];
@@ -19,7 +21,8 @@ export class PlanificacionServidoresComponent implements OnInit {
   modalHito: boolean=false
   modalProducto: boolean=false
   listaDatos: any
-  constructor(private api: PlanificacionServidorService) { }
+  constructor(private api: PlanificacionServidorService,
+              private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.datos=[
@@ -64,5 +67,13 @@ export class PlanificacionServidoresComponent implements OnInit {
         this.modalProducto=re
       }
     })
+  }
+  validar(){
+    this.confirmationService.confirm({
+      message: '¿Esta seguro que desea validar la programación realizada?',
+      accept: () => {
+
+      }
+    });
   }
 }

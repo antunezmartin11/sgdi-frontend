@@ -82,7 +82,7 @@
         </div>
         <div class="grid">
           <div class="col-4">
-            <p-listbox [options]="AOUnidadList" [(ngModel)]="actividadOperativa" optionLabel="name" (click)="getObjetivoAO(actividadOperativa)" ></p-listbox>
+            <p-listbox [options]="AOUnidadList" [emptyMessage]="mensaje" [(ngModel)]="actividadOperativa" optionLabel="name" (click)="getObjetivoAO(actividadOperativa)" ></p-listbox>
           </div>
           <div class="col-4">
             <p-listbox [options]="listaObjetivoAO" [emptyMessage]="mensaje"  [(ngModel)]="objetivo" optionLabel="name" (click)="getProducto(objetivo)"></p-listbox>
@@ -91,113 +91,45 @@
             <p-listbox [options]="listaProductos" [emptyMessage]="mensaje" [(ngModel)]="actividadSelect"  optionLabel="nomProducto"></p-listbox>
           </div>
         </div>
-        <div class="grid">
-          <div class="col-2">
-            Secuencia
+        <p-fieldset legend="Información Complementaria">
+          <div class="grid">
+            <div class="col-2">
+              Secuencia
+            </div>
+            <div class="col-1">
+              <input type="text" placeholder="Ejm: 1" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="secuencia" (keypress)="validarNumero($event)">
+            </div>
+            <div class="col-2">
+              Estandar
+            </div>
+            <div class="col-2">
+              <input type="text" class="inputfield" placeholder="Estandar del producto" style="height: 30px; width: 100%;" [(ngModel)]="estandar" (keypress)="validarLetrasNumero($event)">
+            </div>
+            <div class="col-3">
+              Unidad de Medida
+            </div>
+            <div class="col-2">
+              <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="unidadMedida" placeholder="Unidad de medida para el producto" (keypress)="validarLetras($event)">
+            </div>
           </div>
-          <div class="col-1">
-            <input type="text" placeholder="Ejm: 1" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="secuencia" (keypress)="validarNumero($event)">
+          <div class="grid">
+            <div class="col-2">Medio de Verificación</div>
+            <div class="col-6">
+              <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="medioVerificacion" placeholder="Medio de verificación del producto " (keypress)="validarLetras($event)">
+            </div>
+            <div class="col-2">Peso</div>
+            <div class="col-2">
+              <input type="text" placeholder="Ejm: 0.1" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="peso" (keypress)="validarNumero($event)">
+            </div>
           </div>
-          <div class="col-2">
-            Estandar
+          <div class="grid">
+            <div class="col-2">Contribución</div>
+            <div class="col-4">
+              <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="contribucion" placeholder="Contribución a la actividad" (keypress)="validarLetras($event)">
+            </div>
           </div>
-          <div class="col-2">
-            <input type="text" class="inputfield" placeholder="Estandar del producto" style="height: 30px; width: 100%;" [(ngModel)]="estandar" (keypress)="validarLetrasNumero($event)">
-          </div>
-          <div class="col-3">
-            Unidad de Medida
-          </div>
-          <div class="col-2">
-            <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="unidadMedida" placeholder="Unidad de medida para el producto" (keypress)="validarLetras($event)">
-          </div>
-        </div>
-        <div class="grid">
-          <div class="col-2">Medio de Verificación</div>
-          <div class="col-6">
-            <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="medioVerificacion" placeholder="Medio de verificación del producto " (keypress)="validarLetras($event)">
-          </div>
-          <div class="col-2">Peso</div>
-          <div class="col-2">
-            <input type="text" placeholder="Ejm: 0.1" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="peso" (keypress)="validarNumero($event)">
-          </div>
-        </div>
-        <div class="grid">
-          <div class="col-1">
-
-            <p-checkbox name="groupname"  label="Ene" value="val1" [(ngModel)]="chkEne" (onChange)="cambiarEstado(1)"></p-checkbox>
-          </div>
-          <div class="col-1">
-            <p-checkbox name="groupname" label="Feb" value="val1" [(ngModel)]="chkFeb" (onChange)="cambiarEstado(2)"></p-checkbox>
-          </div>
-          <div class="col-1">
-            <p-checkbox name="groupname"  label="Mar" value="val1" [(ngModel)]="chkMar" (onChange)="cambiarEstado(3)"></p-checkbox>
-          </div>
-          <div class="col-1">
-            <p-checkbox name="groupname"  label="Abr" value="val1" [(ngModel)]="chkAbr" (onChange)="cambiarEstado(4)"></p-checkbox>
-          </div>
-          <div class="col-1">
-            <p-checkbox name="groupname" label="May" value="val1" [(ngModel)]="chkMay" (onChange)="cambiarEstado(5)"></p-checkbox>
-          </div>
-          <div class="col-1">
-            <p-checkbox name="groupname"  label="Jun" value="val1" [(ngModel)]="chkJun" (onChange)="cambiarEstado(6)"></p-checkbox>
-          </div>
-          <div class="col-1">
-            <p-checkbox name="groupname"  label="Jul" value="val1" [(ngModel)]="chkJul" (onChange)="cambiarEstado(7)"></p-checkbox>
-          </div>
-          <div class="col-1">
-            <p-checkbox name="groupname"  label="Ago" value="val1" [(ngModel)]="chkAgo" (onChange)="cambiarEstado(8)"></p-checkbox>
-          </div>
-          <div class="col-1">
-            <p-checkbox name="groupname" label="Set" value="val1" [(ngModel)]="chkSet" (onChange)="cambiarEstado(9)"></p-checkbox>
-          </div>
-          <div class="col-1">
-            <p-checkbox name="groupname"  label="Oct" value="val1" [(ngModel)]="chkOct" (onChange)="cambiarEstado(10)"></p-checkbox>
-          </div>
-          <div class="col-1">
-            <p-checkbox name="groupname" label="Nov" value="val1" [(ngModel)]="chkNov" (onChange)="cambiarEstado(11)"></p-checkbox>
-          </div>
-          <div class="col-1">
-            <p-checkbox name="groupname" label="Dic" value="val1" [(ngModel)]="chkDic" (onChange)="cambiarEstado(12)"></p-checkbox>
-          </div>
-        </div>
-        <div class="field grid">
-          <div class="col-1">
-            <input type="text" class="inputfield" style="height: 30px; width: 50px;" [disabled]="txtEne" [(ngModel)]="valEne" (keypress)="validarNumero($event)">
-          </div>
-          <div class="col-1">
-            <input type="text" class="inputfield" style="height: 30px; width: 50px;"  [disabled]="txtFeb" [(ngModel)]="valFeb" (keypress)="validarNumero($event)">
-          </div>
-          <div class="col-1">
-            <input type="text" class="inputfield" style="height: 30px; width: 50px;" [disabled]="txtMar" [(ngModel)]="valMar" (keypress)="validarNumero($event)">
-          </div>
-          <div class="col-1">
-            <input type="text" class="inputfield" style="height: 30px; width: 50px;" [disabled]="txtAbr" [(ngModel)]="valAbr" (keypress)="validarNumero($event)">
-          </div>
-          <div class="col-1">
-            <input type="text" class="inputfield" style="height: 30px; width: 50px;" [disabled]="txtMay" [(ngModel)]="valMay" (keypress)="validarNumero($event)">
-          </div>
-          <div class="col-1">
-            <input type="text" class="inputfield" style="height: 30px; width: 50px;" [disabled]="txtJun" [(ngModel)]="valJun" (keypress)="validarNumero($event)">
-          </div>
-          <div class="col-1">
-            <input type="text" class="inputfield" style="height: 30px; width: 50px;" [disabled]="txtJul" [(ngModel)]="valJul" (keypress)="validarNumero($event)">
-          </div>
-          <div class="col-1">
-            <input type="text" class="inputfield" style="height: 30px; width: 50px;" [disabled]="txtAgo" [(ngModel)]="valAgo" (keypress)="validarNumero($event)">
-          </div>
-          <div class="col-1">
-            <input type="text" class="inputfield" style="height: 30px; width: 50px;" [disabled]="txtSet" [(ngModel)]="valSet" (keypress)="validarNumero($event)">
-          </div>
-          <div class="col-1">
-            <input type="text" class="inputfield" style="height: 30px; width: 50px;" [disabled]="txtOct" [(ngModel)]="valOct" (keypress)="validarNumero($event)">
-          </div>
-          <div class="col-1">
-            <input type="text" class="inputfield" style="height: 30px; width: 50px;" [disabled]="txtNov" [(ngModel)]="valNov" (keypress)="validarNumero($event)">
-          </div>
-          <div class="col-1">
-            <input type="text" class="inputfield" style="height: 30px; width: 50px;" [disabled]="txtDic"  [(ngModel)]="valDic" (keypress)="validarNumero($event)">
-          </div>
-        </div>
+        </p-fieldset>
+        <br>
         <div class="grid">
           <button pButton type="button" icon="pi pi-plus" iconPos="left" style="width: 20%" class="btnPlani" (click)="agregarDatosRegistro()">Agregar Actividad&nbsp;</button>
         </div>

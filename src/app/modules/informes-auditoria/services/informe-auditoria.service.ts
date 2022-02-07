@@ -15,6 +15,7 @@ export class InformeAuditoriaService {
 
   getOrgano(){
     return this.api.getOrgano('organo/lista?id_organo=0');
+
   }
   getTipoDoc(){
     return this.apiSGDI.getTipoDocumento('tipoDocumento/listar');

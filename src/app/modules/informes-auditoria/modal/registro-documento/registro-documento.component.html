@@ -51,7 +51,7 @@
               </div>
               <div class="col-5">
                 <select  class="inputfield w-full" style="appearance: auto; height: 30px;"  [(ngModel)]="organo" >
-                  <option selected>Seleccionar</option>
+                  <option value="0">Seleccionar</option>
                   <option value="{{organo.id}}" *ngFor="let organo of listaOrgano">{{organo.nombre}}</option>
                 </select>
               </div>
@@ -98,7 +98,7 @@
                     {{listaRecomendacion.numeracion}}
                   </td>
                   <td>
-                    <span class="image-text">{{listaRecomendacion.organo}}</span>
+                    <span class="image-text">{{listaRecomendacion.nomOrgano}}</span>
                   </td>
                   <td>
                     <span class="image-text">{{listaRecomendacion.recomendacion}}</span>

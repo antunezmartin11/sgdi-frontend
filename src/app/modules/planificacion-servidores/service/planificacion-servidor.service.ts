@@ -20,7 +20,7 @@ export class PlanificacionServidorService {
     return this.api.getServidorAsignacion('productoServidor/listar')
   }
   addProgramacionServidor(parametro: any){
-    return this.api.addProgramacionServidor('periodoAO/agregar',parametro);
+    return this.api.addProgramacionServidor('periodoActividad/agregar',parametro);
   }
   getPersonal(){
     return this.apiSIGP.getPersonal('PersonalActivo/listar');
