@@ -37,8 +37,9 @@ export class AccionIniciativaComponent implements OnInit {
       }
     })
   }
-  abrirModalEquipos(){
+  abrirModalEquipos(datos){
     this.modalConformacionEquipo=true
+    this.api.datos.emit(datos)
     this.api.cerrarModal.subscribe(res=>{
       if(res!=undefined){
         this.modalConformacionEquipo=res

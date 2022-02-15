@@ -472,7 +472,7 @@ export class RegistroAEComponent implements OnInit {
     if(this.idObjetivo==0){
       if(this.peso>0){
         if(this.formula.length>0){
-          if(this.evidencia!=0){
+          if(this.evidencia!=null){
             if(this.contribucionProducto>0){
               this.listaProductos.push({objetivo:'',idProducto: this.idProducto,nombreProducto:'', peso: this.peso, formula: this.formula, evidencia: this.evidencia, contribucionProducto: this.contribucionProducto})
               this.listaProductos=this.numeracion(this.listaProductos)
@@ -615,7 +615,7 @@ export class RegistroAEComponent implements OnInit {
                 "idProducto":this.listaProductos[i].idProducto,
                 "peso":this.listaProductos[i].peso,
                 "formula":this.listaProductos[i].formula,
-                "idTipoDocumento":this.listaProductos[i].evidencia,
+                "medioVerificacion":this.listaProductos[i].evidencia,
                 "idAEDireccion":res.content.idAEDireccion,
                 "contribucion":this.listaProductos[i].contribucionProducto
               }

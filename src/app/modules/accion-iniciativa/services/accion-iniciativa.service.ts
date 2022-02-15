@@ -24,4 +24,16 @@ export class AccionIniciativaService {
   addAccionIniciativa(parametro: any){
     return this.api.addAccionIniciativa('accionIniciativa/agregar',parametro)
   }
+  getRol(){
+    return this.api.getRol('accionIniciativa/listarRol')
+  }
+  getPersonal(){
+    return this.apiSIGP.getPersonal('PersonalActivo/listar');
+  }
+  addEquipo(parametro: any){
+    return this.api.addEquipo('equipo/agregar',parametro)
+  }
+  completarRegistro(parametro: any, id: number){
+    return this.api.completarRegistro('accionIniciativa/updateAccionIniciativa/'+id, parametro)
+  }
 }

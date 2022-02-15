@@ -7,51 +7,78 @@
           <label  class="col"  style="height: 30px; width:100%" >Accion / Iniciativa</label>
         </div>
         <div class="col-6">
-          <input id="codigo2" type="text" class="inputfield" style="height: 30px; width:100%" [disabled]="true">
+          <input id="codigo2" type="text" class="inputfield" style="height: 30px; width:100%" [disabled]="true" [(ngModel)]="accionIniciativa">
         </div>
-        <div class="col-2"></div>
-        <div class="col-4" style="margin-top: 10px;">
-          <label  class="col"  style="height: 30px; width:100%" >Unidad</label>
-        </div>
-        <div class="col-6">
-          <input id="codigo1" type="text" class="inputfield" [disabled]="true" style="height: 30px; width:100%; margin-top: 10px">
-        </div>
-
         <div class="col-2"></div>
         <div class="col-4" style="margin-top: 10px;">
           <label class="col"  style="height: 30px; width:100%" >Organo</label>
         </div>
         <div class="col-6" style="margin-top: 10px">
-          <select  class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="idOrgano">
+          <select  class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="idOrgano" [disabled]="true">
             <option value="0">Seleccionar</option>
             <option value="{{lista.id}}" *ngFor="let lista of listaOrgano">{{lista.nombre}}</option>
           </select>
         </div>
+
+
         <div class="col-4" style="margin-top: 10px;">
           <label  class="col"  style="height: 30px; width:100%" >Medio de Verificación</label>
         </div>
         <div class="col-6" style="margin-top: 10px">
-          <select class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="medioVerificacion">
-            <option value="0">Seleccionar</option>
-            <option value="{{doc.idTipoDocumento}}" *ngFor="let doc of listDocumento">{{doc.nombreDocumento}}</option>
-          </select>
+          <input  type="text" class="inputfield" [disabled]="true" [(ngModel)]="medioVerificacion" style="height: 30px; width:100%; margin-top: 10px">
         </div>
         <div class="col-2"></div>
         <div class="col-4" style="margin-top: 10px;">
           <label  class="col"  style="height: 30px; width:100%" >Fecha Inicio</label>
         </div>
-        <div class="col-8" style="margin-top: 10px">
-          <p-calendar  [showIcon]="true" (keypress)="validarFecha($event)" ></p-calendar>
+        <div class="col-4" style="margin-top: 10px">
+          <input  type="text" class="inputfield" style="height: 30px; width:100%" [(ngModel)]="fechaInicio" [disabled]="true">
         </div>
+        <div class="col-4"></div>
         <div class="col-4" style="margin-top: 10px;">
           <label class="col"  style="height: 30px; width:100%" >Fecha Fin</label>
         </div>
-        <div class="col-8" style="margin-top: 10px">
-          <p-calendar  [showIcon]="true" (keypress)="validarFecha($event)" ></p-calendar>
+        <div class="col-4" style="margin-top: 10px">
+          <input  type="text" class="inputfield" style="height: 30px; width:100%" [(ngModel)]="fechaFin" [disabled]="true">
         </div>
+        <div class="col-4"></div>
+        <div class="col-4" style="margin-top: 10px;">
+          <label  class="col"  style="height: 30px; width:100%" >Servidor Responsable</label>
+        </div>
+        <div class="col-4" style="margin-top: 10px">
+          <select  class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="responsable" [disabled]="estado1">
+            <option value="0">Seleccionar</option>
+            <option value="{{responsable.cod_emp}}" *ngFor="let responsable of personalUnidad">{{responsable.a_paterno}} {{responsable.a_materno}} {{responsable.nom_emp}}</option>
+          </select>
+        </div>
+        <div class="col-1" style="margin-top: 10px;">
+          <label  class="col"  style="height: 30px; width:100%" >Rol</label>
+        </div>
+        <div class="col-3">
+          <div class="col-6" style="margin-top: 10px">
+            <select  class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="valorRol" [disabled]="estado1">
+              <option value="0">Seleccionar</option>
+              <option value="{{rol.idRol}}" *ngFor="let rol of rol">{{rol.descripcion}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-4" style="margin-top: 10px;">
+          <label  class="col"  style="height: 30px; width:100%" >Contribución</label>
+        </div>
+        <div class="col-4" style="margin-top: 10px">
+          <input  type="text" class="inputfield" style="height: 30px; width:100%" [(ngModel)]="contribucionLider" [disabled]="estado1">
+        </div>
+        <div class="col-4"></div>
+      </div>
+
+    </div>
+    <div class="grid">
+      <div class="col-4"></div>
+      <div class="col-4"></div>
+      <div class="col-4">
+        <button pButton type="button" icon="pi pi-check" iconPos="left" (click)="agregarLider()" style="width: 80%" class="btnPlani" >Confirmar Lider de Equipo&nbsp;</button>
       </div>
     </div>
-
       <p-fieldset legend="Conformación de Equipo">
         <div class="field grid">
           <div class="col-6">
@@ -60,9 +87,9 @@
                 <label class="col"  style="height: 30px; width:100%" >Organo</label>
               </div>
               <div class="col-6" style="margin-top: 10px">
-                <select  class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="idUnidadEquipo">
+                <select  class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="idUnidadEquipo" [disabled]="estado" (change)="servidoresUnidadC()">
                   <option value="0">Seleccionar</option>
-                  <option value="{{lista.id}}" *ngFor="let lista of listaOrgano">{{lista.nombre}}</option>
+                  <option value="{{lista.id}}" *ngFor="let lista of listaOrgano1">{{lista.nombre}}</option>
                 </select>
               </div>
               <div class="col-2"></div>
@@ -70,8 +97,9 @@
                 <label  class="col"  style="height: 30px; width:100%" >Servidor</label>
               </div>
               <div class="col-6" style="margin-top: 10px">
-                <select id="state8" class="inputfield w-full" style="appearance: auto; height: 30px;" >
+                <select id="state8" class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="responsable1" [disabled]="estado">
                   <option value="0">Seleccionar</option>
+                  <option value="{{responsable.cod_emp}}" *ngFor="let responsable of personalUnidad1">{{responsable.a_paterno}} {{responsable.a_materno}} {{responsable.nom_emp}}</option>
                 </select>
               </div>
               <div class="col-2"></div>
@@ -79,8 +107,9 @@
                 <label  class="col"  style="height: 30px; width:100%" >Rol</label>
               </div>
               <div class="col-6" style="margin-top: 10px">
-                <select id="state9" class="inputfield w-full" style="appearance: auto; height: 30px;" >
+                <select  class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="valorRol1" [disabled]="estado">
                   <option value="0">Seleccionar</option>
+                  <option value="{{rol.idRol}}" *ngFor="let rol of rol">{{rol.descripcion}}</option>
                 </select>
               </div>
               <div class="col-2"></div>
@@ -88,14 +117,20 @@
                 <label class="col"  style="height: 30px; width:100%" >Contribución</label>
               </div>
               <div class="col-6" style="margin-top: 10px">
-                <input id="codigo" type="text" class="inputfield" style="height: 30px; width:100%" [disabled]="true">
+                <input type="text" class="inputfield" style="height: 30px; width:100%" [(ngModel)]="contribucion" [disabled]="estado">
               </div>
               <div class="col-2"></div>
+            </div>
+            <br>
+            <div class="col-4"></div>
+            <div class="col-3"></div>
+            <div class="col-5">
+              <button pButton type="button" icon="pi pi-check" iconPos="left" (click)="agregarEquipo()" style="width: 100%" class="btnPlani" >Agregar Miembro&nbsp;</button>
             </div>
 
           </div>
           <div class="col-6">
-            <p-table #dt1 [value]="listaEquipo" dataKey="id" [rows]="5" [showCurrentPageReport]="true"
+            <p-table #dt1 [value]="equipo" dataKey="id" [rows]="5" [showCurrentPageReport]="true"
                      [rowsPerPageOptions]="[5,10,25,50]" [loading]="loading" styleClass="p-datatable-customers p-datatable-gridlines"
                      [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
                      [globalFilterFields]="['usuario','fechaInicio','fechaFin','fechaReg']">
@@ -143,16 +178,18 @@
               </ng-template>
               <ng-template pTemplate="body" let-datos>
                 <tr>
-                  <td style="font-size: 12px">{{datos.numeracion}}</td>
-                  <td style="font-size: 12px">
-                    {{datos.nombre_responsable}}
+                  <td style="font-size: 10px">{{datos.numeracion}}</td>
+                  <td  style="font-size: 10px">
+                    {{datos.nomUnidad}}
                   </td>
-                  <td style="font-size: 12px">
-                    {{datos.nombre}}
+                  <td  style="font-size: 10px">
+                    {{datos.nomServidor}}
                   </td>
-                  <td>
-                    <p-checkbox name="groupname" [(ngModel)]="datos.estado" [binary]="true" (click)="dato(datos.id_responsable)" ></p-checkbox>
+                  <td  style="font-size: 10px">
+                    {{datos.cargo}}
                   </td>
+                  <td  style="font-size: 10px">{{datos.rol}}</td>
+                  <td style="font-size: 10px">{{datos.contribucion}}</td>
                 </tr>
               </ng-template>
               <ng-template pTemplate="emptymessage">
@@ -167,7 +204,7 @@
 
   </ng-template>
   <ng-template pTemplate="footer">
-    <button pButton type="button" icon="pi pi-save" iconPos="left" style="width: 20%" class="btnPlani" >Guardar&nbsp;</button>
+    <button pButton type="button" icon="pi pi-save" iconPos="left" style="width: 20%" class="btnPlani" (click)="guardarEquipo()" >Guardar&nbsp;</button>
     <button pButton type="button" icon="pi pi-times" iconPos="left" style="width: 20%" class="p-button-danger" (click)="cancelar()">Cancelar&nbsp;</button>
   </ng-template>
 </p-dialog>

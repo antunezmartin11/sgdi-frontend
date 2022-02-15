@@ -17,6 +17,7 @@ import {AccionIniciativaComponent} from "./modules/accion-iniciativa/accion-inic
 import {ValidacionComponent} from "./modules/planificacion-directivo/validacion/validacion.component";
 import {ValidacionActividadesComponent} from "./modules/planificacion-subdirectivo/validacion-actividades/validacion-actividades.component";
 import {PlanificacionServidorComponent} from "./modules/planificacion-servidor/planificacion-servidor.component";
+import {AccioIniciativaValoracionComponent} from "./modules/accio-iniciativa-valoracion/accio-iniciativa-valoracion.component";
 
 const routes: Routes = [
   {
@@ -90,6 +91,10 @@ const routes: Routes = [
   {
     path: 'planificacionServidor',
     component: PlanificacionServidorComponent
+  },
+  {
+    path: 'accionIniciativaValoracion',
+    component: AccioIniciativaValoracionComponent
   }
 ];
 

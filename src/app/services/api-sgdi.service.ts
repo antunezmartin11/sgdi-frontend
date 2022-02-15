@@ -161,4 +161,19 @@ export class ApiSGDIService {
   getListaAsignaciones(ruta: string):Observable<any>{
     return this.http.get(environment.apiURL+ruta)
   }
+  addValoracion(ruta: string, parametro: any): Observable<any>{
+    return this.http.post(environment.apiURL+ruta,parametro);
+  }
+  updateAccion(ruta: string): Observable<any>{
+    return this.http.post(environment.apiURL+ruta,null)
+  }
+  getRol(ruta: string): Observable<any>{
+    return this.http.get(environment.apiURL+ruta)
+  }
+  addEquipo(ruta: string, parametro: any):Observable<any>{
+    return this.http.post(environment.apiURL+ruta,parametro)
+  }
+  completarRegistro(ruta: string, parametro: any){
+    return this.http.post(environment.apiURL+ruta, parametro)
+  }
 }

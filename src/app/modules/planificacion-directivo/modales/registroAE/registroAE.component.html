@@ -257,10 +257,7 @@
           Evidencia de Cumplimiento
         </div>
         <div class="col-3">
-          <select id="states56" class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="evidencia" >
-            <option selected value="0">Seleccionar</option>
-            <option value="{{doc.idTipoDocumento}}" *ngFor="let doc of listaDocumento">{{doc.nombreDocumento}}</option>
-          </select>
+          <input type="text" class="inputfield" placeholder="Formula para el producto seleccionado" style="height: 30px; width: 100%;" [(ngModel)]="evidencia">
         </div>
         <div class="col-3">
           Contribución

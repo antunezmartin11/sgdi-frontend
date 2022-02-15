@@ -49,7 +49,7 @@ import {RegistroHitoSubdirectivoComponent} from "./modules/planificacion-subdire
 import { ListaProductosAOComponent } from './modules/planificacion-subdirectivo/modales/lista-productos-ao/lista-productos-ao.component';
 import { DetalleHitoComponent } from './modules/planificacion-directivo/modales/detalle-hito/detalle-hito.component';
 import { AccionIniciativaComponent } from './modules/accion-iniciativa/accion-iniciativa.component';
-import { ValoracionComponent } from './modules/accion-iniciativa/modales/valoracion/valoracion.component';
+import { ValoracionComponent } from './modules/accio-iniciativa-valoracion/modal/valoracion/valoracion.component';
 import { ConformacionEquipoComponent } from './modules/accion-iniciativa/modales/conformacion-equipo/conformacion-equipo.component';
 import { ConpletarRegistroComponent } from './modules/accion-iniciativa/modales/completar-registro/conpletar-registro.component';
 import { AgregarRegistroComponent } from './modules/accion-iniciativa/modales/agregar-registro/agregar-registro.component';
@@ -60,6 +60,7 @@ import { ValidacionActividadesComponent } from './modules/planificacion-subdirec
 import { DatalleProductoComponent } from './modules/planificacion-servidores/modales/datalle-producto/datalle-producto.component';
 import { PlanificacionServidorComponent } from './modules/planificacion-servidor/planificacion-servidor.component';
 import { CompletarRegistroComponent } from './modules/planificacion-servidor/modal/completar-registro/completar-registro.component';
+import { AccioIniciativaValoracionComponent } from './modules/accio-iniciativa-valoracion/accio-iniciativa-valoracion.component';
 
 
 @NgModule({
@@ -100,6 +101,7 @@ import { CompletarRegistroComponent } from './modules/planificacion-servidor/mod
         DatalleProductoComponent,
         PlanificacionServidorComponent,
         CompletarRegistroComponent,
+        AccioIniciativaValoracionComponent,
 
     ],
     imports: [

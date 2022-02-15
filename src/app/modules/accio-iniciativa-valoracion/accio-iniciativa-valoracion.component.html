@@ -4,14 +4,7 @@
   </div>
   <div class="col-10">
     <p-fieldset legend="Planificación de Acciones e Iniciativas de mejora">
-      <div class="grid">
-        <div class="col">
 
-          <button pButton type="button" icon="pi pi-plus" iconPos="right" style="width: 20%" class="btnPlani" (click)="abrilModalRegistro()" >Agregar Registro &nbsp;</button>
-
-        </div>
-      </div>
-      <br>
       <div class="grid">
         <div class="col">
           <p-table #dt1 [value]="listaAccion" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
@@ -70,12 +63,7 @@
                 </th>
                 <th>
                   <div class="p-d-flex p-jc-between p-ai-center">
-                    Completar Registro
-                  </div>
-                </th>
-                <th>
-                  <div class="p-d-flex p-jc-between p-ai-center">
-                    Conformacion de Equipos
+                    Valorar
                   </div>
                 </th>
               </tr>
@@ -96,9 +84,7 @@
                 <td> {{datos.tipoPrioritario}}</td>
                 <td> {{datos.fecInicio}}</td>
                 <td> {{datos.fecFin}}</td>
-                <td style="text-align: center" ><button pButton *ngIf="datos.medioVerificacion==null" type="button" icon="pi pi-book" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="abrilModalCompletarRegistro(datos)" >&nbsp;</button></td>
-
-                <td style="text-align: center"><button pButton type="button" icon="pi pi-users" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" *ngIf="datos.flagEstado!=1" (click)="abrirModalEquipos(datos)">&nbsp;</button></td>
+                <td style="text-align: center"><button pButton type="button" *ngIf="datos.flagEstado!=1" icon="pi pi-check-circle" iconPos="left" style="width: 80%" class="p-button-raised p-button-text"  (click)="abrirModalValoracion(datos)">&nbsp;</button></td>
 
 
               </tr>
@@ -114,6 +100,4 @@
     </p-fieldset>
   </div>
 </div>
-<app-conpletar-registro [modalCompletarRegistro]="modalCompletarRegistro"></app-conpletar-registro>
-<app-agregar-registro [modalAgregar]="modalAgregar"></app-agregar-registro>
-<app-conformacion-equipo [modalConformacionEquipo]="modalConformacionEquipo"></app-conformacion-equipo>
+<app-valoracion [modalValoracion]="modalValoracion"></app-valoracion>

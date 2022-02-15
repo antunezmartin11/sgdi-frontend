@@ -22,6 +22,7 @@ export class RegistroProductoComponent implements OnInit {
   organo: any=0;
   observacion: string;
   respuesta: Object
+  nomUnidad: any
   constructor(private route: Router,
               private messageService: MessageService,
               private apiService: ControlInternoService,
@@ -48,6 +49,12 @@ export class RegistroProductoComponent implements OnInit {
       console.log(this.listaOrgano)
     })
   }
+  obtenerOrgano(){
+    if(this.organo!=null){
+      this.nomUnidad=this.listaOrgano.find(o=>o.id==this.organo)
+    }
+    console.log(this.nomUnidad)
+  }
   agregaProducto(){
     if(this.nombreProducto!=undefined){
       if(this.riesgoIdentificado!=undefined){
@@ -70,13 +77,14 @@ export class RegistroProductoComponent implements OnInit {
                         "observacion":this.observacion
                       }
                       this.apiService.addProducto(datos).subscribe(res=>{
-                        this.respuesta=res.content.estado
-                        console.log(res)
+                        this.respuesta=res.estado
+
+
                         if (this.respuesta){
                           this.messageService.add({key: 'mensaje', severity:'success', summary: 'Registro de Producto Priorizado', detail: 'Registro agregado correctamente'});
                           this.route.navigate(['controlInterno'])
                           let datoAI={
-                            "tipoProceso":"Iniciativa",
+                            "tipoProceso":"Acción",
                             "descripcion": this.riesgoIdentificado,
                             "idUnidad": this.organo,
                             "idPeriodo":0,
@@ -84,7 +92,7 @@ export class RegistroProductoComponent implements OnInit {
                             "tipoPrioritario":null,
                             "idProductoPriorizado":res.content.idProductoPriorizado,
                             "accionIniciativa":"",
-                            "nomUnidad": null
+                            "nomUnidad": this.nomUnidad.nombre
                           }
                           this.apiAI.addAccionIniciativa(datoAI).subscribe(re=>{
                             console.log(re)

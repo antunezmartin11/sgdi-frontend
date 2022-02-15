@@ -56,9 +56,9 @@
       <div class="grid">
         <div class="col-2">Organo / Unidad Resposable</div>
         <div class="col-3">
-          <select id="states561" class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="organo" >
+          <select id="states561" class="inputfield w-full" style="appearance: auto; height: 30px;" [(ngModel)]="organo" (change)="obtenerOrgano()">
             <option value="0">Seleccionar</option>
-            <option value="{{organo.id}}" *ngFor="let organo of listaOrgano">{{organo.nombre}}</option>
+            <option value="{{organo.id}}" *ngFor="let organo of listaOrgano" >{{organo.nombre}}</option>
 
           </select>
         </div>

@@ -1,0 +1,37 @@
+<p-dialog header="Completar Registro de accion/iniciativa" [(visible)]="modalValoracion" position="center" [closable]="false"  [breakpoints]="{'1800px': '75vw', '640px': '100vw'}" [style]="{width: '40vw'}">
+  <ng-template pTemplate="Vincular Acción Estrategica">
+        <div class="grid">
+          <div class="col-4">
+            <label  class="col"  style="height: 30px; width:100%" >Impacto</label>
+          </div>
+          <div class="col-4">
+            <input [(ngModel)]="impacto" type="text" class="inputfield" style="height: 30px; width:100%" (ngModelChange)="calcular()">
+          </div>
+        </div>
+        <div class="grid">
+          <div class="col-4" style="margin-top: 10px;">
+            <label f class="col"  style="height: 30px; width:100%" >Complejidad</label>
+          </div>
+          <div class="col-4">
+            <input [(ngModel)]="complejidad" type="text" class="inputfield" style="height: 30px; width:100%" (ngModelChange)="calcular()" >
+          </div>
+        </div>
+        <div class="grid">
+          <div class="col-4" style="margin-top: 10px;">
+            <label  class="col"  style="height: 30px; width:100%" >Valoración</label>
+          </div>
+          <div class="col-4">
+            <input [(ngModel)]="val" type="text" class="inputfield" style="height: 30px; width:100%" [disabled]="true">
+          </div>
+        </div>
+
+
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton type="button" icon="pi pi-save" iconPos="left" style="width: 20%" class="btnPlani" (click)="guardarValoracion()">Guardar&nbsp;</button>
+    <button pButton type="button" icon="pi pi-times" iconPos="left" style="width: 20%" class="p-button-danger" (click)="cancelar()">Cancelar&nbsp;</button>
+  </ng-template>
+</p-dialog>
+
+<p-toast key="mensaje"></p-toast>
+
