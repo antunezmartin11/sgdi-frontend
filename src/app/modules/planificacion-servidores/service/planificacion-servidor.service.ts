@@ -43,4 +43,7 @@ export class PlanificacionServidorService {
   listarProductoServidor(id: number){
     return this.api.listarProductoServidor('productoServidor/listarProductos?id='+id)
   }
+  listarServidorUnidad(nombre: string){
+    return this.api.listarServidor('productoServidor/listarServidorUnidad?nombreUnidad='+nombre);
+  }
 }

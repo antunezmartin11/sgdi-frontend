@@ -10,7 +10,7 @@ import {PlanificacionSubdirectivoComponent} from "../../planificacion-subdirecti
   selector: 'app-registro-ao',
   templateUrl: './registro-ao.component.html',
   styleUrls: ['./registro-ao.component.css'],
-  providers: [MessageService, PlanificacionSubdirectivoComponent]
+  providers: [MessageService]
 })
 export class RegistroAOComponent implements OnInit {
 
@@ -155,6 +155,7 @@ export class RegistroAOComponent implements OnInit {
               nomAO=this.listaAO.find(ao=>ao.id==this.idActividadOperativa)
               nomDir=this.listaUnidadDireccion.find(dir=>dir.id_responsable==this.idUnidad)
               nomObjetivo=this.objetivos.find(oao=>oao.id==this.idObjetivoAO)
+              let dato=JSON.parse(localStorage.getItem('usuario'))
               let aoDatos={
                 "idUnidad": 2,
                 "nombreUnidad": nomDir.nombre,
@@ -162,19 +163,21 @@ export class RegistroAOComponent implements OnInit {
                 "idObjetivo": this.idObjetivoAO,
                 "nomObjetivo": nomObjetivo.objetivo,
                 "idActividadOperativa":idAO,
-                "nomActividadOperativa":nomAO.descripcion
+                "nomActividadOperativa":nomAO.descripcion,
+                "nomDireccion":dato.dependencia
               }
               this.api.addAOUnidad(aoDatos).subscribe(res=>{
                 let idUltimoAOUnida=res.content.idAOUnidad
 
                 for(let i=0; i<this.datosProducto.length; i++){
                   let nomProducto=this.listaProducto.find(pro=>pro.id==this.datosProducto[i].idProducto)
+
                   let datosProd={
                     "idProducto": this.datosProducto[i].idProducto,
                     "peso":this.datosProducto[i].peso,
                     "estandar":this.datosProducto[i].indicador,
                     "formula":this.datosProducto[i].formula,
-                    "meta":this.datosProducto[i].meta,
+
                     "idAOUnidad":idUltimoAOUnida,
                     "nomProducto": nomProducto.producto,
                     "tipoEvidencia": this.datosProducto[i].nombreDocumento
@@ -182,7 +185,7 @@ export class RegistroAOComponent implements OnInit {
                   this.api.addProductoAO(datosProd).subscribe(res=>{
                     if(i==this.datosProducto.length-1){
                       this.cancelar()
-                      this.sub.cargarAOVinculada()
+                      this.actualizarRegistro()
                       this.messageService.add({key: 'mensaje', severity:'success', summary: 'Registro de Actividad Operativa', detail: 'Registro realizado correctamente'});
                     }
                   })
@@ -228,6 +231,10 @@ export class RegistroAOComponent implements OnInit {
 
     })
   }
+  actualizarRegistro():void{
+    this.sub.listaDatosVinculados=[]
+    this.sub.cargarAOVinculada()
+  }
   agregarProducto(){
     if(this.idProducto>0){
         if(this.pesoProducto>0){
@@ -235,19 +242,14 @@ export class RegistroAOComponent implements OnInit {
               if(this.formula!=null){
                 if(this.estandar!=null){
                   if(this.tipodocumento.length>0){
-                    if(this.meta>0){
                       let valPro=this.listaProducto.find(p=>p.id==this.idProducto)
                       let valDoc=this.tipodocumento
                       this.datosProducto.push({idProducto: this.idProducto, nombreProducto: valPro.producto,
 
                         peso: this.pesoProducto, indicador: this.indicador,
                         formula: this.formula, nombreDocumento: valDoc,
-                      estandar: this.estandar,
-                        meta: this.meta})
+                      estandar: this.estandar})
                       this.limpiarProducto()
-                    } else {
-                      this.messageService.add({key: 'mensaje', severity:'error', summary: 'Registro de productos', detail: 'Tiene que indicar una meta para el producto'});
-                    }
                   }else{
                     this.messageService.add({key: 'mensaje', severity:'error', summary: 'Registro de productos', detail: 'Tiene que seleccionar un tipo de evidencia'});
                   }
@@ -274,7 +276,7 @@ export class RegistroAOComponent implements OnInit {
     this.formula=null
     this.estandar=null
     this.tipodocumento=""
-    this.meta=0
+
   }
   validarNumero(e: any){
     let key = e.key;

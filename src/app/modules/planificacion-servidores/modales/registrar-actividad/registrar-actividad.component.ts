@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {MessageService} from "primeng/api";
 import {PlanificacionServidorService} from "../../service/planificacion-servidor.service";
 import {HomeComponent} from "../../../home/home.component";
@@ -8,7 +8,7 @@ import {PlanificacionServidoresComponent} from "../../planificacion-servidores.c
   selector: 'app-registrar-actividad',
   templateUrl: './registrar-actividad.component.html',
   styleUrls: ['./registrar-actividad.component.css'],
-  providers: [MessageService, HomeComponent, PlanificacionServidoresComponent]
+  providers: [MessageService, HomeComponent]
 })
 export class RegistrarActividadComponent implements OnInit {
   datos1: any[];
@@ -47,6 +47,9 @@ export class RegistrarActividadComponent implements OnInit {
   listaProductos: any=[]
   idServidor: any
   codigoServidor:any
+  direccionServidor: any
+  unidadServidor: any
+  servidorFinalUnidad:any= []
   mensaje: string="No hay datos"
   constructor(private messageService: MessageService,
               private api: PlanificacionServidorService, private home: HomeComponent,
@@ -59,12 +62,22 @@ export class RegistrarActividadComponent implements OnInit {
     this.getAOXunidad()
     this.loading=false
   }
+
   getServidores(){
     this.api.getPersonal().subscribe(res=>{
       this.listaPersonal=res
       this.servidoresUnidad()
     })
 
+  }
+  getServidor(){
+    let u=JSON.parse(localStorage.getItem('usuario'))
+    for(let i=0; i<this.personalUnidad.length; i++){
+      if(this.personalUnidad[i].nombre_unidad==u.unidad){
+        this.servidorFinalUnidad.push(this.personalUnidad[i])
+
+      }
+    }
   }
   servidoresUnidad(){
 
@@ -75,6 +88,7 @@ export class RegistrarActividadComponent implements OnInit {
       }
     }
     this.personalUnidad=this.numeracion(this.personalUnidad)
+    this.getServidor()
   }
   numeracion(data: any) {
     for (let i = 0; i < data.length; i++) {
@@ -87,16 +101,29 @@ export class RegistrarActividadComponent implements OnInit {
       this.tabPlan=true
       this.tabServidor=false
       this.index=1
-      console.log(datos)
       this.codigoServidor=datos.cod_emp
       this.nombreservidor=datos.a_paterno+" "+datos.a_materno+" "+datos.nom_emp
       this.cargoServidor=datos.nombre_crg_fisico
+      this.direccionServidor=datos.nombre_dependencia
+      this.unidadServidor=datos.nombre_unidad
     }
+  }
+  limpiarServidor(){
+    this.tabServidor=true
+    this.tabPlan=false
+    this.index=0
+    this.codigoServidor=null
+    this.nombreservidor=null
+    this.cargoServidor=null
+    this.direccionServidor=null
+    this.unidadServidor=null
+    this.checkServidor=false
   }
   getAOXunidad(){
     let uni=JSON.parse(localStorage.getItem('usuario'))
-    this.api.getAOXunidad(uni.dependencia).subscribe(res=>{
+    this.api.getAOXunidad(uni.unidad).subscribe(res=>{
       this.listaAOUnidad=res.content
+      console.log(this.listaAOUnidad)
       for(let i=0; i<this.listaAOUnidad.length; i++){
         this.AOUnidadList.push({id:this.listaAOUnidad[i].idAOUnidad, name:this.listaAOUnidad[i].nomActividadOperativa})
       }
@@ -121,14 +148,13 @@ export class RegistrarActividadComponent implements OnInit {
                   if(this.unidadMedida!=null){
                     if(this.medioVerificacion!=null){
                       if(this.peso!=null){
-                        if(this.contribucion!=null){
+
                           let datos={
                             "idActividad":this.actividadOperativa.id,
                             "secuencia":this.secuencia,
                             "estandar": this.estandar,
                             "objetivo": this.objetivo.name,
                             "idObjetivo":this.objetivo.id,
-                            "contribucion":this.contribucion,
                             "producto":this.actividadSelect.nomProducto,
                             "idProducto":this.actividadSelect.idProductoAO,
                             "actividaOperativa":this.actividadOperativa.name,
@@ -140,9 +166,7 @@ export class RegistrarActividadComponent implements OnInit {
                           this.datosRegistro.push(datos)
                           this.datosRegistro=this.numeracion(this.datosRegistro)
                           this.limpiarProducto()
-                        }else{
-                          this.messageService.add({key: 'mensaje', severity:'error', summary: 'Asignación de actividades', detail: 'Tiene que ingresar una contribución'});
-                        }
+
                       }else{
                         this.messageService.add({key: 'mensaje', severity:'error', summary: 'Asignación de actividades', detail: 'Tiene que ingresar el peso'});
                       }
@@ -190,12 +214,10 @@ export class RegistrarActividadComponent implements OnInit {
     return (!!key.match(/^[0-9,.,-,a-z,A-Z, ,ñ, Ñ]/));
   }
 
-
-
   getProducto(dato){
     this.api.getProductoAOUnidad(dato.idAOUnidad).subscribe(res=>{
       this.listaProductos=res.content
-      console.log(this.listaProductos)
+
     })
   }
   limpiarProducto(){
@@ -211,8 +233,13 @@ export class RegistrarActividadComponent implements OnInit {
    cerrarModal(){
     this.estadoMS=false
      this.api.cerrarModalRegistro.emit(false)
+
    }
 
+   actualizarRegistro():void{
+     this.planificacion.listaDatos=[]
+     this.planificacion.getServidorVinculacion();
+   }
   guardarRegistro(){
     this.api.countServidor(this.codigoServidor).subscribe(res=>{
       if (res.content==0){
@@ -220,7 +247,9 @@ export class RegistrarActividadComponent implements OnInit {
           let servidor={
             "nomServidor":this.nombreservidor,
             "codigo":this.codigoServidor,
-            "cargo":this.cargoServidor
+            "cargo":this.cargoServidor,
+            "nomDireccion":this.direccionServidor,
+            "nomUnidad":this.unidadServidor
           }
           this.api.addServidor(servidor).subscribe(res=>{
             let idServidor=res.content.idActividadServidor
@@ -241,13 +270,18 @@ export class RegistrarActividadComponent implements OnInit {
                 "idProducto":this.datosRegistro[i].idProducto,
                 "nomProducto":this.datosRegistro[i].producto
               }
-              console.log(dato)
+
               this.api.addVinculoServidor(dato).subscribe(r=>{
-                this.planificacion.getServidorVinculacion()
                 if(i==this.datosRegistro.length-1){
                   this.messageService.add({key: 'mensaje', severity:'success', summary: 'Asignación de actividades', detail: 'Registrado correctamente'});
                 }
+                this.limpiarServidor()
+                this.actividadOperativa=null
+                this.objetivo=null
+                this.actividadSelect=null
+                this.datosRegistro=[]
                 this.cerrarModal()
+                this.actualizarRegistro()
               })
             }
 
@@ -259,6 +293,5 @@ export class RegistrarActividadComponent implements OnInit {
         this.messageService.add({key: 'mensaje', severity:'error', summary: 'Asignación de actividades', detail: 'El servidor ya se encuentra registrado'});
       }
     })
-
   }
 }

@@ -20,43 +20,46 @@ export class MenuPlanificacionComponent implements OnInit {
   ngOnInit(): void {
     this.app.getUsuario()
     this.cargarDireccion()
-    this.cargarUGP()
-    console.log(this.rol)
-  }
-  comparUSuario() {
-    let us = JSON.parse(localStorage.getItem('usuario'))
-    let idResponsable = us.codigo
-    this.usuarioDireccion = this.listaDireccion.find(d => d.id_responsable == idResponsable)
 
-    if(this.usuarioDireccion!=undefined){
-      this.rol='DIRECCION'
-      console.log(this.rol)
+  }
+
+  obtenerRol(){
+    let us = JSON.parse(localStorage.getItem('usuario'))
+    let idResponsables = us.codigo
+    let directivo=this.listaDireccion.find(d=>d.id_responsable===idResponsables)
+    if(directivo==undefined){
+      let d=this.listaUGP.find(u=>u.id_responsable==idResponsables)
+      if(d==undefined){
+        this.rol='SERVIDOR'
+      }else {
+        this.rol="SUBDIRECTIVO"
+      }
+    }else{
+        console.log(this.nombreUnidad)
+        if(this.nombreUnidad=='GERENCIA GENERAL' || this.nombreUnidad=='PRESIDENCIA EJECUTIVA'){
+          this.rol='ALTA DIRECCION'
+        }else{
+          this.rol='DIRECTIVO'
+        }
+
     }
+    console.log(this.rol)
   }
   cargarDireccion(){
     this.api.getDireccion().subscribe(res=>{
       this.listaDireccion=res
       let dato=JSON.parse(localStorage.getItem('usuario'))
       this.nombreUnidad=dato.dependencia
-      this.comparUSuario()
-      console.log(this.listaDireccion)
+
+      this.cargarUGP()
+
     })
 
   }
   cargarUGP(){
-    let us = JSON.parse(localStorage.getItem('usuario'))
-    let idResponsable = us.codigo
-    console.log('responsable '+idResponsable)
     this.api.getUGP().subscribe(res=>{
       this.listaUGP=res
-      this.usuarioUnidad=this.listaUGP.find(u=>u.id_responsable==idResponsable)
-      console.log(this.usuarioUnidad)
-      if(this.usuarioUnidad!=undefined){
-        this.rol="UNIDAD"
-        console.log(this.rol)
-      }else{
-        this.rol="SERVIDOR"
-      }
+      this.obtenerRol()
     })
   }
 

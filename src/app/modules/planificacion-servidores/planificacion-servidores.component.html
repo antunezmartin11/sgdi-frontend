@@ -18,12 +18,12 @@
           <p-table #dt1 [value]="listaDatos" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
                    [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-datos p-datatable-gridlines"
                    [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
-                   [globalFilterFields]="['usuario','fechaInicio','fechaFin','fechaReg']">
+                   [globalFilterFields]="['numeracion','nomAccEst','indicador','fechaReg']">
             <ng-template pTemplate="caption">
               <div class="p-d-flex">
-			<span class="p-input-icon-left p-ml-auto">
+			      <span class="input-icon-left">
                 <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+                <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Buscar" style="height: 25px" />
             </span>
               </div>
             </ng-template>

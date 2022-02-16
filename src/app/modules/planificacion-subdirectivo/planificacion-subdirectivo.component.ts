@@ -37,6 +37,7 @@ export class PlanificacionSubdirectivoComponent implements OnInit {
       }
     })
   }
+
   abrilModalHito(){
     this.estadoModalHito=true
     this.api.cerrarModal.subscribe(res=>{
@@ -46,7 +47,8 @@ export class PlanificacionSubdirectivoComponent implements OnInit {
     })
   }
   cargarAOVinculada(){
-    this.api.getListarAOUnidad().subscribe(res=>{
+    let datos=JSON.parse(localStorage.getItem('usuario'))
+    this.api.getListarAOUnidadDireccion(datos.dependencia).subscribe(res=>{
       this.listaDatosVinculados=this.numeracion(res.content)
     });
   }

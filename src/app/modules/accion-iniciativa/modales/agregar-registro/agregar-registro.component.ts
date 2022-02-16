@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AccionIniciativaService} from "../../services/accion-iniciativa.service";
 import {MessageService} from "primeng/api";
+import {AccionIniciativaComponent} from "../../accion-iniciativa.component";
 
 @Component({
   selector: 'app-agregar-registro',
@@ -21,7 +22,9 @@ export class AgregarRegistroComponent implements OnInit {
   listaOrgano: any
   listDocumento: any
   nombreUnidad: any
-  constructor(private api: AccionIniciativaService, private messageService: MessageService) { }
+  constructor(private api: AccionIniciativaService,
+              private messageService: MessageService,
+              private accion: AccionIniciativaComponent) { }
 
   ngOnInit(): void {
     this.getOrgano()
@@ -45,6 +48,10 @@ export class AgregarRegistroComponent implements OnInit {
   validarFecha(e: any){
     let key = e.key;
     return (key.match(/^[0-9,-,/]+$/)? true:false);
+  }
+  actualizarRegisrtro():void{
+    this.accion.listaAccion=[]
+    this.accion.getAccionIniciativa()
   }
   guardar(){
     if(this.accionIniciativa!=null){
@@ -74,6 +81,8 @@ export class AgregarRegistroComponent implements OnInit {
                       if(res.estado){
                         this.messageService.add({key: 'mensaje', severity:'success', summary: 'Agregar Registro', detail: 'Registro agregado correctamente'});
                         this.limpiarDatos()
+                        this.cancelar()
+                        this.actualizarRegisrtro()
                       }else{
                         this.messageService.add({key: 'mensaje', severity:'error', summary: 'Agregar Registro', detail: 'Ocurrio un error en el registro'});
                       }

@@ -42,7 +42,6 @@ export class PlanificacionDirectivoComponent implements OnInit, OnChanges {
   getAccionVinculada(){
     this.api.getAccionVinculada().subscribe(res=>{
       this.listaAccionV=this.numeracion(res.content)
-
     })
   }
 

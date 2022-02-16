@@ -184,12 +184,6 @@
         <div class="col-3">
           <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="tipodocumento" (keypress)="validarLetrasNumero($event)">
         </div>
-        <div class="col-3">
-          Meta
-        </div>
-        <div class="col-3">
-          <input type="text" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="meta" (keypress)="validarNumero($event)">
-        </div>
       </div>
       <div class="grid">
         <div class="col-12">
@@ -236,11 +230,6 @@
                 </th>
                 <th>
                   <div class="p-d-flex p-jc-between p-ai-center">
-                    Meta
-                  </div>
-                </th>
-                <th>
-                  <div class="p-d-flex p-jc-between p-ai-center">
                     Evidencia
                   </div>
                 </th>
@@ -270,9 +259,6 @@
                 </td>
                 <td>
                   <span class="image-text">{{datos.estandar}}</span>
-                </td>
-                <td>
-                  <span class="image-text">{{datos.meta}}</span>
                 </td>
                 <td>
                   <span class="image-text">{{datos.nombreDocumento}}</span>

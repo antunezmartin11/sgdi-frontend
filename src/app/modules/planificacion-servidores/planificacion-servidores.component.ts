@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
 import {PlanificacionServidorService} from "./service/planificacion-servidor.service";
 import {ConfirmationService} from "primeng/api";
@@ -9,7 +9,7 @@ import {ConfirmationService} from "primeng/api";
   styleUrls: ['./planificacion-servidores.component.css'],
   providers: [ConfirmationService]
 })
-export class PlanificacionServidoresComponent implements OnInit {
+export class PlanificacionServidoresComponent implements OnInit, OnChanges {
   datos:any[];
   loading: boolean = true;
   @Input() datosModal: any;//Para recibir
@@ -20,7 +20,7 @@ export class PlanificacionServidoresComponent implements OnInit {
   cerrarModalRegistro: boolean=false
   modalHito: boolean=false
   modalProducto: boolean=false
-  listaDatos: any
+  public listaDatos:any[]
   constructor(private api: PlanificacionServidorService,
               private confirmationService: ConfirmationService) { }
 
@@ -31,7 +31,9 @@ export class PlanificacionServidoresComponent implements OnInit {
     this.loading=false
   this.getServidorVinculacion()
   }
+  ngOnChanges(changes: SimpleChanges) {
 
+  }
   abrilModal(){
     this.cerrarModalRegistro=true
     this.api.cerrarModalRegistro.subscribe(res=>{
@@ -49,7 +51,9 @@ export class PlanificacionServidoresComponent implements OnInit {
     })
   }
   getServidorVinculacion(){
-    this.api.listarServidor().subscribe(res=>{
+    this.listaDatos=[]
+    let da=JSON.parse(localStorage.getItem('usuario'))
+    this.api.listarServidorUnidad(da.unidad).subscribe(res=>{
       this.listaDatos=this.numeracion(res.content)
     })
   }

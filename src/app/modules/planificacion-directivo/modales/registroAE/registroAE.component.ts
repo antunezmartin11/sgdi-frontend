@@ -24,7 +24,7 @@ export class RegistroAEComponent implements OnInit {
   idObjetivo:number=0;
   peso: any
   formula: string =''
-  evidencia: any=0
+  evidencia: any
   datoProducto: any
   @Input() estado: boolean=false;
   nombreAccionEstrategica: string;
@@ -88,12 +88,25 @@ export class RegistroAEComponent implements OnInit {
   valorDireccion: boolean=false
   totalContribucion: number = 0
   idAEDreiccion: number
+  productoPrueba:any[]
   constructor(private api: PlanificacionDirectivoService,
               private messageService: MessageService,
               private planificacion: PlanificacionDirectivoComponent) { }
 
   ngOnInit(): void {
     this.loading=false
+    this.productoPrueba=[
+      {id: 1,
+      nombre: 'Producto de prueba 1'},
+      {
+        id: 2,
+        nombre: 'Producto de prueba 2'
+      },
+      {
+        id: 3,
+        nombre: 'Producto de prueba 3'
+      }
+    ]
     this.datoPrueba=[
       {
         "id": 23,
@@ -469,12 +482,13 @@ export class RegistroAEComponent implements OnInit {
     }
   }
   agregarProductos(){
-    if(this.idObjetivo==0){
+    if(this.idProducto!=0){
+      let producto=this.productoPrueba.find(i=>i.id==this.idProducto)
       if(this.peso>0){
         if(this.formula.length>0){
           if(this.evidencia!=null){
             if(this.contribucionProducto>0){
-              this.listaProductos.push({objetivo:'',idProducto: this.idProducto,nombreProducto:'', peso: this.peso, formula: this.formula, evidencia: this.evidencia, contribucionProducto: this.contribucionProducto})
+              this.listaProductos.push({idProducto: this.idProducto,nombreProducto:producto.nombre, peso: this.peso, formula: this.formula, evidencia: this.evidencia, contribucionProducto: this.contribucionProducto})
               this.listaProductos=this.numeracion(this.listaProductos)
               this.limpiarProductos()
               //console.log(this.listaProductos)
@@ -500,7 +514,7 @@ export class RegistroAEComponent implements OnInit {
     this.idProducto=0
     this.peso=null
     this.formula=''
-    this.evidencia=0
+    this.evidencia=null
     this.contribucionProducto=null
   }
 
@@ -548,7 +562,8 @@ export class RegistroAEComponent implements OnInit {
           }else{
             let existe= this.addDireccion.find(a=>a.id ==this.direccion)
             if(existe==undefined){
-              this.addDireccion.push({id: this.direccion, nombre: this.nombreDireccion, responsable:this.nomResponsable,contribucion: parseFloat(this.contribucionObjetivo), idObjetivo: this.idObjetivo, nomObjetivo: this.nombreObjetivo, estado: false})
+              let lobjetivo= this.listaObjetivo.find(d=>d.id==this.idObjetivo)
+              this.addDireccion.push({id: this.direccion, nombre: this.nombreDireccion, responsable:this.nomResponsable,contribucion: parseFloat(this.contribucionObjetivo), idObjetivo: this.idObjetivo, nomObjetivo: lobjetivo.descripcion, estado: false})
               //console.log(this.addDireccion)
               this.addDireccion=this.numeracion(this.addDireccion)
               this.sumarContribucion()
@@ -617,7 +632,8 @@ export class RegistroAEComponent implements OnInit {
                 "formula":this.listaProductos[i].formula,
                 "medioVerificacion":this.listaProductos[i].evidencia,
                 "idAEDireccion":res.content.idAEDireccion,
-                "contribucion":this.listaProductos[i].contribucionProducto
+                "contribucion":this.listaProductos[i].contribucionProducto,
+                "nomProducto":this.listaProductos[i].nombreProducto
               }
 
             this.api.addProductoAE(datosPro).subscribe(res=>{
