@@ -15,4 +15,16 @@ export class PlanificacionServidoresService {
   getListarAsignado(codigo: string){
     return this.api.getListaAsignaciones('productoServidor/listarProductosCodigo?codigo='+codigo);
   }
+  getPeriodo(id: number){
+    return this.api.getPeriodoServidor('periodoActividad/listarId/'+id)
+  }
+  updatePeriodoServidor(id: number,parametro: any){
+    return this.api.updatePeriodoServidor('periodoActividad/updatePeriodoActividad/'+id,parametro)
+  }
+  updateEstadoServidor(id: number, ){
+    return this.api.updateEstadoServidor('productoServidor/updateEstadoServidor/'+id)
+  }
+  getServidor(codigo: string){
+    return this.api.getServidor('productoServidor/listarServidorId/'+codigo)
+  }
 }

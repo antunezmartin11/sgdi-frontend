@@ -173,7 +173,22 @@ export class ApiSGDIService {
   addEquipo(ruta: string, parametro: any):Observable<any>{
     return this.http.post(environment.apiURL+ruta,parametro)
   }
-  completarRegistro(ruta: string, parametro: any){
+  completarRegistro(ruta: string, parametro: any): Observable<any>{
     return this.http.post(environment.apiURL+ruta, parametro)
+  }
+  getPeriodoServidor(ruta: string): Observable<any>{
+    return this.http.get(environment.apiURL+ruta)
+  }
+  updatePeriodoServidor(ruta: string, parametro: any): Observable<any>{
+    return this.http.post(environment.apiURL+ruta, parametro)
+  }
+  updateEstado(ruta: string, parametro:any): Observable<any>{
+    return this.http.post(environment.apiURL+ruta, parametro)
+  }
+  updateEstadoServidor(ruta:string): Observable<any>{
+    return this.http.post(environment.apiURL+ruta,null)
+  }
+  getServidor(ruta: string): Observable<any>{
+    return this.http.get(environment.apiURL+ruta)
   }
 }

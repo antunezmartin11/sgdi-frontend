@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MessageService} from "primeng/api";
 import {AccionIniciativaService} from "../../services/accion-iniciativa.service";
+import {AccionIniciativaComponent} from "../../accion-iniciativa.component";
 
 @Component({
   selector: 'app-conformacion-equipo',
@@ -42,7 +43,8 @@ export class ConformacionEquipoComponent implements OnInit {
   estado: boolean=true
   estado1: boolean=false
   constructor(private messageService: MessageService,
-              private api: AccionIniciativaService) { }
+              private api: AccionIniciativaService,
+              private accion: AccionIniciativaComponent) { }
 
   ngOnInit(): void {
     this.getDatos()
@@ -69,17 +71,22 @@ export class ConformacionEquipoComponent implements OnInit {
   }
 
   agregarLider(){
+    console.log(this.listaPersonal)
+    console.log(this.responsable)
     this.equipo=this.equipo
     if(this.responsable!=0){
       if(this.valorRol!=0){
+
         if(this.contribucionLider>0){
           let nombre=this.listaPersonal.find(p=>p.cod_emp==this.responsable)
+
           let unidad=this.listaOrgano.find(o=>o.id==this.idOrgano)
           let cargo= nombre.nombre_crg_fisico
+          let vRol=this.rol.find(r=>r.idRol===this.valorRol)
           this.equipo.push({idPlaza:this.responsable,nomServidor: nombre.a_paterno+' '+nombre.a_materno+' '+nombre.nom_emp,
             idAccionIniciativa:this.idAccionIniciativa, idUnidad: this.idOrgano,
             nomUnidad: unidad.nombre, contribucion: this.contribucionLider,
-            idRol: this.valorRol, cargo: cargo })
+            idRol: this.valorRol, rol: vRol.descripcion, cargo: cargo })
             this.equipo=this.numeracion(this.equipo)
             this.estado=false
             this.estado1=true
@@ -175,11 +182,12 @@ export class ConformacionEquipoComponent implements OnInit {
             let nombre=this.listaPersonal1.find(p=>p.cod_emp==this.responsable1)
             let unidad=this.listaOrgano1.find(o=>o.id==this.idUnidadEquipo)
             let cargo= nombre.nombre_crg_fisico
+            let vrol= this.rol.find(r=>r.idRol==this.valorRol1)
             this.equipo.push({idPlaza:this.responsable1,
               nomServidor: nombre.a_paterno+' '+nombre.a_materno+' '+nombre.nom_emp,
               idAccionIniciativa:this.idAccionIniciativa, idUnidad: this.idUnidadEquipo,
               nomUnidad: unidad.nombre, contribucion: this.contribucion,
-              idRol: this.valorRol, cargo: cargo })
+              idRol: this.valorRol1, rol:vrol.descripcion, cargo: cargo })
             this.equipo=this.numeracion(this.equipo)
             this.idUnidadEquipo=0
             this.responsable1=0
@@ -198,13 +206,21 @@ export class ConformacionEquipoComponent implements OnInit {
       this.messageService.add({key: 'mensaje', severity:'error', summary: 'Conformación de Equipo', detail: 'Tiene que seleccionar una Dirección'});
     }
   }
+  actualizarDatos(): void{
+    this.accion.getAccionIniciativa()
+  }
   guardarEquipo(){
+    console.log(this.equipo)
     if(this.equipo.length>0){
         for (let i=0; i<this.equipo.length; i++){
           this.api.addEquipo(this.equipo[i]).subscribe(res=>{
-            console.log(res)
+            if(i==this.equipo.length-1){
+              this.messageService.add({key: 'mensaje', severity:'success', summary: 'Conformación de Equipo', detail: 'Equipo Registrado'});
+            }
           })
         }
+      this.actualizarDatos()
+      this.cancelar()
     }else{
       this.messageService.add({key: 'mensaje', severity:'error', summary: 'Conformación de Equipo', detail: 'Tiene que agregar minimo un intregante'});
     }

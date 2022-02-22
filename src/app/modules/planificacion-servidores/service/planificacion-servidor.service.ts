@@ -46,4 +46,7 @@ export class PlanificacionServidorService {
   listarServidorUnidad(nombre: string){
     return this.api.listarServidor('productoServidor/listarServidorUnidad?nombreUnidad='+nombre);
   }
+  updateEstado(parametro: any, id: number){
+    return this.api.updateEstado('productoServidor/updateEstado/'+id,parametro)
+  }
 }
