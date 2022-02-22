@@ -36,4 +36,7 @@ export class AccionIniciativaService {
   completarRegistro(parametro: any, id: number){
     return this.api.completarRegistro('accionIniciativa/updateAccionIniciativa/'+id, parametro)
   }
+  listarInformes(){
+    return this.api.getInformeAuditoria('informeAuditoria/listaCompleta')
+  }
 }

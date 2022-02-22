@@ -61,6 +61,8 @@ import { DatalleProductoComponent } from './modules/planificacion-servidores/mod
 import { PlanificacionServidorComponent } from './modules/planificacion-servidor/planificacion-servidor.component';
 import { CompletarRegistroComponent } from './modules/planificacion-servidor/modal/completar-registro/completar-registro.component';
 import { AccioIniciativaValoracionComponent } from './modules/accio-iniciativa-valoracion/accio-iniciativa-valoracion.component';
+import { InventarioComponent } from './modules/accion-iniciativa/reporte/inventario/inventario.component';
+import { FichaComponent } from './modules/planificacion-servidor/modal/ficha/ficha.component';
 
 
 @NgModule({
@@ -102,6 +104,8 @@ import { AccioIniciativaValoracionComponent } from './modules/accio-iniciativa-v
         PlanificacionServidorComponent,
         CompletarRegistroComponent,
         AccioIniciativaValoracionComponent,
+        InventarioComponent,
+        FichaComponent,
 
     ],
     imports: [

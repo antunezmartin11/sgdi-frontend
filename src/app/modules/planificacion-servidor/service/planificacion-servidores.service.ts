@@ -9,7 +9,8 @@ export class PlanificacionServidoresService {
 
   @Output() modalRegistro: EventEmitter<any> = new EventEmitter();
   @Output() datosCompletar: EventEmitter<any> = new EventEmitter();
-
+  @Output() modalFicha: EventEmitter<any> = new EventEmitter();
+  @Output() datosFicha: EventEmitter<any> = new EventEmitter();
   constructor(private api: ApiSGDIService, private apiSIGP: ApiSIGPService) { }
 
   getListarAsignado(codigo: string){
@@ -26,5 +27,11 @@ export class PlanificacionServidoresService {
   }
   getServidor(codigo: string){
     return this.api.getServidor('productoServidor/listarServidorId/'+codigo)
+  }
+  getUGP(){
+    return this.apiSIGP.getUGP('ugp_organo/lista?id=0')
+  }
+  getPersonal(){
+    return this.apiSIGP.getPersonal('PersonalActivo/listar');
   }
 }

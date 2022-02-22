@@ -1,0 +1,170 @@
+<div class="grid">
+  <div class="col-2">
+    <app-body></app-body>
+  </div>
+  <div class="col-10">
+    <div class="grid">
+      <div class="col">
+        <button pButton type="button" icon="pi pi-list" iconPos="right" style="width: 20%" class="btnPlani" (click)="getPDF()" >Generar Inventario &nbsp;</button>
+      </div>
+
+    </div>
+    <div class="grid">
+      <div class="col">
+        <div id="htmlData">
+          <div class="titulo" >
+            <h3>Inventario de acciones e iniciativas de mejora</h3>
+          </div>
+          <table width="100%" style="border: 0px">
+            <thead style="height: 30px; background-color: #d6dde5;">
+              <tr style="background-color: #d6dde5; color: black; height: 100px;">
+                <th rowspan="4" colspan="2" width="20%">Origen</th>
+                <th rowspan="4" width="10%">Proceso Asociado del inventario de procesos</th>
+                <th colspan="2" width="10%">Naturaleza</th>
+                <th colspan="8">Inventario y Valoración</th>
+              </tr>
+              <tr style="background-color: #d6dde5; color: black;">
+
+                <th rowspan="3">Obligatorio</th>
+                <th rowspan="3">Voluntario</th>
+                <th colspan="4" width="25%">Acción de Mejora</th>
+                <th colspan="4" width="25%">Iniciativa de Mejora</th>
+
+              </tr>
+              <tr>
+                <th rowspan="2" width="5%">Denominación</th>
+                <th colspan="3">Valoración</th>
+                <th rowspan="2"width="5%">Denominación</th>
+                <th colspan="3">Valoración</th>
+              </tr>
+              <tr>
+                <th>Impacto</th>
+                <th>Complejidad</th>
+                <th>Total</th>
+                <th>Impacto</th>
+                <th>Complejidad</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr>
+             <td rowspan="5">1</td>
+              <td rowspan="5">Prioridad de política/Disposiciones normativas</td>
+              <td>1.1 Internacional</td>
+              <td></td>
+              <td>X</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>1.2 Multisectorial</td>
+              <td></td>
+              <td>X</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>1</td>
+            </tr>
+            <tr>
+
+              <td>1.3 Sectorial</td>
+              <td></td>
+              <td>X</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>1.4 Intergubernamental</td>
+              <td></td>
+              <td>X</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>1.5 Institucional</td>
+              <td></td>
+              <td>X</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>1</td>
+            </tr>
+            </tbody>
+            <tbody>
+              <tr *ngFor="let auditoria of listaAuditoria">
+                <td >2</td>
+                <td >Sistema de control Interno</td>
+                <td>{{auditoria.descripcion}}</td>
+                <td></td>
+                <td>X</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr *ngFor="let producto of listaProductosPriorizados">
+                <td >3</td>
+                <td >Organos del sistema de control interno</td>
+                <td>{{producto.descripcion}}</td>
+                <td>X</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="6" style="text-align: right">Total</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
