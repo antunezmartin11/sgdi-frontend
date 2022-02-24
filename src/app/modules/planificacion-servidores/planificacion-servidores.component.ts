@@ -1,13 +1,13 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {Table} from "primeng/table";
 import {PlanificacionServidorService} from "./service/planificacion-servidor.service";
-import {ConfirmationService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-planificacion-servidores',
   templateUrl: './planificacion-servidores.component.html',
   styleUrls: ['./planificacion-servidores.component.css'],
-  providers: [ConfirmationService]
+  providers: [ConfirmationService, MessageService]
 })
 export class PlanificacionServidoresComponent implements OnInit, OnChanges {
   datos:any[];
@@ -20,19 +20,31 @@ export class PlanificacionServidoresComponent implements OnInit, OnChanges {
   cerrarModalRegistro: boolean=false
   modalHito: boolean=false
   modalProducto: boolean=false
+  estadoValidar: boolean
+  validarFicha: boolean = false
+  listaActividades: any[]
+  abrirFicha: boolean=false
   public listaDatos:any[]
   constructor(private api: PlanificacionServidorService,
-              private confirmationService: ConfirmationService) { }
+              private confirmationService: ConfirmationService,
+              private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.datos=[
 
-    ]
     this.loading=false
+    this.getListaValidar()
   this.getServidorVinculacion()
   }
   ngOnChanges(changes: SimpleChanges) {
 
+  }
+  abrirModalFicha(){
+    this.abrirFicha=true
+    this.api.modalFichaSubdirectivo.subscribe(res=>{
+      if(res!=null){
+        this.abrirFicha=res
+      }
+    })
   }
   abrilModal(){
     this.cerrarModalRegistro=true
@@ -42,19 +54,17 @@ export class PlanificacionServidoresComponent implements OnInit, OnChanges {
       }
     })
   }
-  abrilModalHito(){
-    this.modalHito=true
-    this.api.cerrarModal.subscribe(res=>{
-      if(res!=null){
-        this.modalHito=res
-      }
-    })
-  }
+
   getServidorVinculacion(){
     this.listaDatos=[]
     let da=JSON.parse(localStorage.getItem('usuario'))
     this.api.listarServidorUnidad(da.unidad).subscribe(res=>{
       this.listaDatos=this.numeracion(res.content)
+      console.log(this.listaDatos)
+      for(let i=0; i<this.listaDatos.length; i++){
+        this.estadoValidar = this.listaDatos[i].flag != null;
+
+      }
     })
   }
   numeracion(data: any) {
@@ -72,12 +82,41 @@ export class PlanificacionServidoresComponent implements OnInit, OnChanges {
       }
     })
   }
-  validar(){
-    this.confirmationService.confirm({
-      message: '¿Esta seguro que desea validar la programación realizada?',
-      accept: () => {
-
+  getListaValidar(){
+    let da=JSON.parse(localStorage.getItem('usuario'))
+    this.api.getListaActividadValidar(da.unidad).subscribe(res=>{
+      this.listaActividades=res.content
+      for(let i=0; i<this.listaActividades.length; i++){
+        this.validarFicha = this.listaActividades[i].estado != null;
       }
-    });
+    })
+  }
+  validar(){
+
+    if(this.estado){
+      this.confirmationService.confirm({
+        message: '¿Esta seguro que desea validar la programación realizada?',
+        accept: () => {
+          for(let i=0; i<this.listaActividades.length; i++){
+              this.api.updateEstadoSubDirectivo(this.listaActividades[i].idActividadOperativa).subscribe(resp=>{
+              this.api.updateEstadoAOUnidad(this.listaActividades[i].idAOUnidad).subscribe(res=>{
+                if(i==this.listaActividades.length-1){
+                  this.messageService.add({key: 'mensaje', severity:'success', summary: 'Validación de actividades', detail: 'Validación Confirmada'});
+                  this.getListaValidar()
+                }
+              })
+
+            })
+          }
+
+          /*this.api.updateEstadoServidor(this.idServidor).subscribe(res=>{
+            this.messageService.add({key: 'mensaje', severity:'success', summary: 'Validación de actividades', detail: 'Validación Confirmada'});
+            this.cargarDatosServidor()
+          });*/
+        }
+      });
+    }else{
+      this.messageService.add({key: 'mensaje', severity:'error', summary: 'Validación de actividades', detail: 'Tiene que programar todas las actividades asignadas'});
+    }
   }
 }

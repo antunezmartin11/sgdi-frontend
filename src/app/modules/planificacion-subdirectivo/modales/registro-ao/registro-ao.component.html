@@ -58,7 +58,7 @@
           <label for="lastname3" class="col-fixed" style="width:100px">Sub Dirección</label>
         </div>
         <div class="col-3">
-          <select id="states8" class="inputfield w-full" style="appearance: auto; height: 30px;"  [(ngModel)]="idUnidad">
+          <select id="states8" class="inputfield w-full" style="appearance: auto; height: 30px;"  [(ngModel)]="idUnidad" (change)="getDatosSubDirectivo()">
             <option value="0">Seleccionar</option>
             <option value="{{uni.id_responsable}}" *ngFor="let uni of listaUnidadDireccion">{{uni.nombre}}</option>
           </select>

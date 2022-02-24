@@ -12,6 +12,9 @@ export class PlanificacionServidorService {
   @Output() cerrarModalRegistro: EventEmitter<any> = new EventEmitter();
   @Output() datoProducto: EventEmitter<any> = new EventEmitter();
   @Output() modalProducto: EventEmitter<any> = new EventEmitter();
+  @Output() modalFichaSubdirectivo: EventEmitter<any> = new EventEmitter();
+  @Output() modalDatosSubdirectivo: EventEmitter<any> = new EventEmitter();
+
 
   addVinculoServidor(parametro: any){
      return this.api.addVincularServidor('productoServidor/agregar',parametro)
@@ -48,5 +51,20 @@ export class PlanificacionServidorService {
   }
   updateEstado(parametro: any, id: number){
     return this.api.updateEstado('productoServidor/updateEstado/'+id,parametro)
+  }
+  getListaActividadValidar(unidad: string){
+    return this.api.getAOxUnidad('actividadOperativa/getAOxUnidad?nombre='+unidad)
+  }
+  updateEstadoSubDirectivo(id: number){
+    return this.api.updateEstadoSubDirectivo('actividadOperativa/updateEstadoSubDirectivo/'+id)
+  }
+  updateEstadoAOUnidad(id: number){
+    return this.api.updateEstadoAOunidad('actividadOperativa/updateEstadoAOUnidad/'+id)
+  }
+  getUGP(){
+    return this.apiSIGP.getUGP('ugp_organo/lista?id=0')
+  }
+  getDireccion(){
+    return this.apiSIGP.getDirectivo('organo/lista?id_organo=0')
   }
 }

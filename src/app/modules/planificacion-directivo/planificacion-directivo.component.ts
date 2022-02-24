@@ -24,6 +24,7 @@ export class PlanificacionDirectivoComponent implements OnInit, OnChanges {
   public listaAccionV:any[]
   modalDireccion: boolean
   estadoLogin: boolean
+  estadoValidado: boolean
   constructor(private api:PlanificacionDirectivoService, private app: HomeComponent) { }
 
   ngOnInit(): void {
@@ -42,6 +43,14 @@ export class PlanificacionDirectivoComponent implements OnInit, OnChanges {
   getAccionVinculada(){
     this.api.getAccionVinculada().subscribe(res=>{
       this.listaAccionV=this.numeracion(res.content)
+      for(let i=0; i<this.listaAccionV.length; i++){
+        if(this.listaAccionV[i].estado==null){
+          this.estadoValidado=false
+          break
+        }else{
+          this.estadoValidado=true
+        }
+      }
     })
   }
 

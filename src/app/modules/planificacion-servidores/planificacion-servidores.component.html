@@ -9,7 +9,9 @@
 
           <button pButton type="button" icon="pi pi-plus" iconPos="right" style="width: 20%" class="btnPlani" (click)="abrilModal()">Asignación de Servidores &nbsp;</button>
 
-          &nbsp;<button pButton type="button" icon="pi pi-check-square" iconPos="left" style="width: 20%" class="btnPlani">Validar Asignación &nbsp;</button>
+          &nbsp;<button pButton type="button" icon="pi pi-check-square" iconPos="left" style="width: 20%" class="btnPlani" *ngIf="estadoValidar && validarFicha==false" (click)="validar()">Validar Asignación &nbsp;</button>
+
+          &nbsp;<button pButton type="button" icon="pi pi-check-square" iconPos="left" style="width: 20%" class="btnPlani" *ngIf="estadoValidar && validarFicha==true" (click)="abrirModalFicha()" >Generar Ficha &nbsp;</button>
         </div>
       </div>
       <br>
@@ -62,7 +64,7 @@
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-datos>
-              <tr>
+              <tr [ngStyle]="{'background-color':datos.flag==1 ? 'mediumseagreen':'white','color':datos.flag==1 ? 'white':'black'}">
                 <td>
                   {{datos.numeracion}}
                 </td>
@@ -76,7 +78,7 @@
                   {{datos.cargo}}
                 </td>
 
-                <td style="text-align: center"><button pButton type="button" icon="pi pi-eye" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="abrirModalProducto(datos)">&nbsp;</button>
+                <td style="text-align: center;"><button pButton [style]="{ 'background-color': 'white'}" type="button" icon="pi pi-eye" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="abrirModalProducto(datos)" >&nbsp;</button>
 
 
                 <td><button pButton type="button" icon="pi pi-pencil" iconPos="left" style="width: 50%" class="p-button-danger">&nbsp;</button></td>
@@ -97,4 +99,6 @@
 
 <app-registrar-actividad [estadoMS]="cerrarModalRegistro"></app-registrar-actividad>
 <app-datalle-producto [modalProductos]="modalProducto"></app-datalle-producto>
-<p-confirmDialog header="Desea validar la información" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-confirmDialog acceptLabel="Si" header="Desea validar la información" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<app-ficha-sub-directivo [abrirFicha]="abrirFicha"></app-ficha-sub-directivo>
+<p-toast key="mensaje"></p-toast>

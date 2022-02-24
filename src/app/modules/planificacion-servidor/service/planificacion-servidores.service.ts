@@ -34,4 +34,7 @@ export class PlanificacionServidoresService {
   getPersonal(){
     return this.apiSIGP.getPersonal('PersonalActivo/listar');
   }
+  getDireccion(){
+    return this.apiSIGP.getDirectivo('organo/lista?id_organo=0')
+  }
 }

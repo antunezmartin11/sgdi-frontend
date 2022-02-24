@@ -1,15 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {PlanificacionServidorService} from "../../../planificacion-servidores/service/planificacion-servidor.service";
-import {PlanificacionServidoresService} from "../../service/planificacion-servidores.service";
+import {PlanificacionServidoresService} from "../../../planificacion-servidor/service/planificacion-servidores.service";
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import {PlanificacionServidorService} from "../../service/planificacion-servidor.service";
 @Component({
-  selector: 'app-ficha',
-  templateUrl: './ficha.component.html',
-  styleUrls: ['./ficha.component.css']
+  selector: 'app-ficha-sub-directivo',
+  templateUrl: './ficha-sub-directivo.component.html',
+  styleUrls: ['./ficha-sub-directivo.component.css']
 })
-export class FichaComponent implements OnInit {
+export class FichaSubDirectivoComponent implements OnInit {
 
   @Input() abrirFicha: boolean = false
   datosServidor: any
@@ -36,19 +36,27 @@ export class FichaComponent implements OnInit {
   valorAccion: number
   valorIniciativa: number
   valorMeta: number
-  constructor(private api: PlanificacionServidoresService) { }
+  listaDireccion: any
+  dependenciaEvaluador: any=[]
+  idresponsable: any
+  listaActividad: any []
+  idAO:number
+  listaProducto:any
+  constructor(private api: PlanificacionServidorService) { }
 
   ngOnInit(): void {
 
     this.getDatosEvaluado()
     this.getPersonal()
     this.getPlanificacion()
+    this.cargarDireccion()
+    this.getActividadOperativa()
   }
 
 
   cancelar(){
     this.abrirFicha=false
-    this.api.modalFicha.emit(false)
+    this.api.modalFichaSubdirectivo.emit(false)
   }
   getDatosEvaluado(){
     this.datosServidor=JSON.parse(localStorage.getItem('usuario'))
@@ -56,8 +64,7 @@ export class FichaComponent implements OnInit {
     this.puesto=this.datosServidor.cargo
     this.unidad=this.datosServidor.unidad
 
-    console.log(this.datosServidor)
-    console.log(this.nombreCompleto)
+
   }
   getDatosEvaluador(){
 
@@ -102,23 +109,19 @@ export class FichaComponent implements OnInit {
     });
   }
   getPersonal(){
+    let datoPersona=JSON.parse(localStorage.getItem('usuario'))
     this.api.getPersonal().subscribe(res=>{
       this.personal=res
-      this.api.getUGP().subscribe(res=>{
-        this.listaUGP=res
-
-        let encargado=this.listaUGP.find(u=>u.nombre==this.unidad)
-
-        let directivo=this.personal.find(p=>p.cod_emp===encargado.id_responsable)
-        this.dniEvaluador=directivo.dni
-        this.nombreEvaluador=encargado.nombre_responsable
-        this.puestoEvaluador=encargado.cargo
-        this.unidadEvaluador=directivo.nombre_crg_fisico
-      })
+      let datos=this.personal.find(p=>p.cod_emp==this.idresponsable)
+      console.log(datos)
+      this.dniEvaluador=datos.dni
+      this.nombreEvaluador=datos.a_paterno+' '+datos.a_materno+' '+datos.nom_emp
+      this.puestoEvaluador=datos.nombre_crg_fisico
+      this.unidadEvaluador=datos.nombre_dependencia
     })
   }
   getPlanificacion(){
-    this.api.datosFicha.subscribe(res=>{
+    this.api.modalDatosSubdirectivo.subscribe(res=>{
       this.listaPlanificada=res
       this.actividad=this.listaPlanificada[0].nomActividad
       console.log(this.listaPlanificada)
@@ -128,27 +131,47 @@ export class FichaComponent implements OnInit {
         this.peso=this.peso+this.listaPlanificada[i].peso
       }
 
-      this.getPeriodo()
-    })
-
-  }
-  getPeriodo(){
-    this.api.getPeriodo(this.idProductoA0).subscribe(res=>{
-        for(let i=0; i<res.content.length; i++){
-          this.meta=this.meta+res.content[i].peso
-         this.plazo=this.plazo+' '+res.content[i].mes
-        }
-      this.formula()
 
     })
 
   }
+
   formula(){
-    console.log(this.meta)
-    console.log(this.peso)
     this.peso=this.peso
     this.valorFormulaPEI=(this.meta*this.peso*0.7)
-    console.log(this.valorFormulaPEI)
+
+  }
+
+  cargarDireccion(){
+    this.api.getDireccion().subscribe(res=>{
+      this.listaDireccion=res
+      let dato=JSON.parse(localStorage.getItem('usuario'))
+      this.dependenciaEvaluador=this.listaDireccion.find(d=>d.nombre==dato.dependencia)
+      this.idresponsable=this.dependenciaEvaluador.id_responsable
+
+    })
+
+  }
+  getActividadOperativa(){
+    let dato=JSON.parse(localStorage.getItem('usuario'))
+
+    this.api.getAOXunidad(dato.unidad).subscribe(res=>{
+
+      this.listaActividad=res.content
+      console.log(this.listaActividad)
+      this.getProductoAO()
+    })
+
+  }
+  getProductoAO(){
+    for(let i=0; i<this.listaActividad.length; i++){
+      this.api.getProductoAOUnidad(this.listaActividad[i].idAOUnidad).subscribe(res=>{
+        this.listaProducto=res.content
+
+      })
+    }
+
+
   }
 
 }

@@ -9,6 +9,8 @@ import {ApiSGDIService} from "../../../services/api-sgdi.service";
 export class PlanificacionSubDirectivosService {
   @Output() cerrarModal: EventEmitter<any> = new EventEmitter();//Para enviar
   @Output() datos: EventEmitter<any> = new EventEmitter();
+  @Output() datosFichaDirectivo: EventEmitter<any> = new EventEmitter();
+  @Output() modalFichaDirectivo: EventEmitter<any> = new EventEmitter();
   constructor(private api: ApiSIGPService, private apiMAPRO: ApiMAPROService,
               private apiSGDI: ApiSGDIService) { }
 
@@ -59,5 +61,11 @@ export class PlanificacionSubDirectivosService {
   }
   getListarAOUnidadDireccion(nombre: string){
     return this.apiSGDI.getListaAOUnidad('actividadOperativa/listarAODireccion?nombreUnidad='+nombre)
+  }
+  getPersonal(){
+    return this.api.getPersonal('PersonalActivo/listar');
+  }
+  updateEstadoDirectivo(id: number){
+    return this.apiSGDI.updateEstadoAE('accionEstrategica/updateEstadoAE/'+id);
   }
 }

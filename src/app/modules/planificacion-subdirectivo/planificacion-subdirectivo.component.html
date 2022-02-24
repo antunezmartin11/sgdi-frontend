@@ -9,7 +9,10 @@
 
           <button pButton type="button" icon="pi pi-plus" iconPos="right" style="width: 20%" class="btnPlani" (click)="abrilModal()">Vincular Actividad Operativa &nbsp;</button>
 
-          &nbsp;<button pButton type="button" icon="pi pi-check-square" iconPos="left" style="width: 20%" class="btnPlani" routerLink="../validarSubDirectivo">Validar Actividad Operativa &nbsp;</button>
+          &nbsp;<button pButton type="button" icon="pi pi-check-square" iconPos="left" style="width: 20%" class="btnPlani" *ngIf="estadoValidado && estadoFicha==false" (click)="validar()">Validar Actividad Operativa &nbsp;</button>
+
+
+          &nbsp;<button pButton type="button" icon="pi pi-check-square" iconPos="left" style="width: 20%" class="btnPlani" *ngIf="estadoValidado && estadoFicha" (click)="abrirModalFichaDirectivo()">Generar Ficha &nbsp;</button>
         </div>
       </div>
       <br>
@@ -67,7 +70,7 @@
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-datos>
-              <tr>
+              <tr [ngStyle]="{'background-color':datos.estado==1 ? 'mediumseagreen':'white','color':datos.estado==1 ? 'white':'black'}">
                 <td>
                   {{datos.numeracion}}
                 </td>
@@ -84,7 +87,7 @@
                 <td>
                   {{datos.nomUnidad}}
                 </td>
-                <td style="text-align: center"><button pButton type="button" icon="pi pi-eye" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="abrilModalProductosAO(datos.idAOUnidad)">&nbsp;</button></td>
+                <td style="text-align: center"><button pButton [style]="{ 'background-color': 'white'}" type="button" icon="pi pi-eye" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="abrilModalProductosAO(datos.idAOUnidad)">&nbsp;</button></td>
                 <td><button pButton type="button" icon="pi pi-pencil" iconPos="left" style="width: 50%" class="p-button-danger">&nbsp;</button></td>
               </tr>
             </ng-template>
@@ -102,3 +105,6 @@
 <app-registro-ao [estado]="modal"></app-registro-ao>
 <app-registro-hito-subdirectivo [estadoHitoSub]="estadoModalHito"></app-registro-hito-subdirectivo>
 <app-lista-productos-ao [modalProductosAO]="modalProductoAO"></app-lista-productos-ao>
+<p-confirmDialog acceptLabel="Si" header="Desea validar la información" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast key="mensaje"></p-toast>
+<app-ficha-directivo [abrirFichaDirectivo]="abrirModalFicha"></app-ficha-directivo>

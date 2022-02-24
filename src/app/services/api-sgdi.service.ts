@@ -191,4 +191,13 @@ export class ApiSGDIService {
   getServidor(ruta: string): Observable<any>{
     return this.http.get(environment.apiURL+ruta)
   }
+  updateEstadoSubDirectivo(ruta: string):Observable<any>{
+    return this.http.post(environment.apiURL+ruta, null)
+  }
+  updateEstadoAOunidad(ruta: string):Observable<any>{
+    return this.http.post(environment.apiURL+ruta, null)
+  }
+  updateEstadoAE(ruta: string):Observable<any>{
+    return this.http.post(environment.apiURL+ruta, null)
+  }
 }

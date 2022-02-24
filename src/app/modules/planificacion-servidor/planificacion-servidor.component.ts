@@ -22,6 +22,7 @@ export class PlanificacionServidorComponent implements OnInit {
   estadoServidor: boolean
   idServidor: number
   modalFicha: boolean
+
   constructor(private api: PlanificacionServidoresService,
               private confirmationService: ConfirmationService,
               private messageService: MessageService) { }
@@ -94,4 +95,5 @@ export class PlanificacionServidorComponent implements OnInit {
       }
     })
   }
+
 }

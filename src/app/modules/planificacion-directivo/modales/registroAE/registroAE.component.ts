@@ -332,7 +332,7 @@ export class RegistroAEComponent implements OnInit {
     let datos={
       "peso": peso,
       "idPeriodo":idPeriodo,
-      "idAccionEstrategica":idAE
+      "idAEDireccion":idAE
     }
     this.api.addProgramacionAE(datos).subscribe(res=>{
      // console.log(res)

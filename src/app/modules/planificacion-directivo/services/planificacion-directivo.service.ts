@@ -73,4 +73,7 @@ export class PlanificacionDirectivoService {
   getAEDireccion(id){
     return this.apiSGDI.getAEDireccion('accionEstrategica/listarDireccionAE?id='+id)
   }
+  getPersonal(){
+    return this.api.getPersonal('PersonalActivo/listar');
+  }
 }

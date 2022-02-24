@@ -1,0 +1,172 @@
+<p-dialog header="Ficha de Desempeño" [closable]="false" [(visible)]="abrirFicha" position="center"  [breakpoints]="{'1800px': '75vw', '640px': '100vw'}" [style]="{width: '80vw'}">
+  <ng-template pTemplate="Productos">
+    <p-fieldset id="fichaServidor">
+
+      <div class="grid">
+        <div class="col-3">
+          <img src="assets/img/logo-senamhi.png" alt="">
+        </div>
+        <div class="col-9" style="text-align: center">
+          <h3 style="color: #009bcf; font-weight: bold"> FORMATO FICHA DE DESEMPEÑO INSTITUCIONAL</h3>
+        </div>
+
+      </div>
+
+      <div class="grid">
+        <div class="col-6"></div>
+        <div class="col-6">
+          <table id="tbl1" width="100%">
+            <thead>
+            <tr>
+              <td width="50%" class="cabecera">DNI EVALUADOR/A</td>
+              <td width="50%" class="contenido">{{dniEvaluador}}</td>
+            </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+      <br>
+      <div class="grid">
+        <table width="100%">
+          <thead>
+          <tr>
+            <td class="cabecera" width="25%">Nombre de la entidad</td>
+            <td class="contenido" width="40%">SERVICIO NACIONAL DE METEOROLOGIA E HIDROLOGIA DEL PERU - SENAMHI</td>
+            <td class="cabecera" width="15%">Fecha de Definición de Metas</td>
+            <td class="contenido" width="20%"></td>
+          </tr>
+          </thead>
+        </table>
+      </div>
+      <br>
+      <div class="grid">
+        <table width="100%">
+          <thead>
+          <tr>
+            <th width="50%" class="cabecera" colspan="2">SERVIDOR/A EVALUADO/A</th>
+            <th width="50%" class="cabecera" colspan="2">SERVIDOR/A EVALUADOR/A</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td class="cabecera1" width="25%">APELLIDOS Y NOMBRES</td>
+            <td class="contenido" width="25%">{{nombreCompleto}}</td>
+            <td class="cabecera1" width="25%">APELLIDOS Y NOMBRES</td>
+            <td class="contenido" width="25%">{{nombreEvaluador}}</td>
+          </tr>
+          <tr>
+            <td class="cabecera1" width="25%">PUESTO</td>
+            <td class="contenido" width="25%">{{puesto}}</td>
+            <td class="cabecera1" width="25%">PUESTO</td>
+            <td class="contenido" width="25%">{{puestoEvaluador}}</td>
+          </tr>
+          <tr>
+            <td class="cabecera1" width="25%">SEGMENTO</td>
+            <td class="contenido" width="25%">Directivo</td>
+            <td class="cabecera1" width="25%">SEGMENTO</td>
+            <td class="contenido" width="25%">Alta Direccion</td>
+          </tr>
+          <tr>
+            <td class="cabecera1" width="25%">ÓRGANO O UNIDAD ORGÁNICA</td>
+            <td class="contenido" width="25%">{{unidad}}</td>
+            <td class="cabecera1" width="25%">ÓRGANO O UNIDAD ORGÁNICA</td>
+            <td class="contenido" width="25%">{{unidadEvaluador}}</td>
+          </tr>
+          <tr>
+            <td class="cabecera1" width="25%" style="height: 100px">FIRMA(a la definición de la meta)</td>
+            <td class="contenido" width="25%"></td>
+            <td class="cabecera1" width="25%">FIRMA(a la definición de la meta)</td>
+            <td class="contenido" width="25%"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <br>
+      <div class="grid">
+        <table width="100%">
+          <thead>
+          <tr>
+            <td class="cabecera" width="50%" colspan="7">ETAPA DE PLANIFICACIÓN</td>
+            <td class="cabecera" width="25%">ETAPA DE SEGUIMIENTO</td>
+            <td class="cabecera" width="25%" colspan="3">ETAPA DE EVALUACIÓN</td>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td colspan="2" rowspan="2" class="cabecera1">PRIORIDADES ANUALES DE GESTIÓN DEL ÓRGANO O UNIDAD ORGÁNICA </td>
+            <td colspan="5" class="cabecera1">META</td>
+            <td class="cabecera1">SEGUIMIENTO Y RETROALIMENTACIÓN</td>
+            <td rowspan="2" class="cabecera1">PUNTUACIÓN POR META</td>
+          </tr>
+          <tr>
+            <td class="cabecera1">INDICADOR / PRODUCTO</td>
+            <td class="cabecera1">VALOR META</td>
+            <td class="cabecera1">PESO</td>
+            <td class="cabecera1">EVIDENCIA</td>
+            <td class="cabecera1">PLAZOS</td>
+            <td class="cabecera1">COMENTARIOS</td>
+          </tr>
+          <tr>
+            <td class="contenido">1</td>
+            <td class="contenido">
+              <table>
+                <tbody>
+                <tr *ngFor="let lista of listaActividad" >
+                  <td style="border-bottom: 1px solid black">{{lista.nomActividadOperativa}}</td>
+                  <td></td>
+                </tr>
+                </tbody>
+              </table>
+            </td>
+            <td style="border: 1px black solid ">
+              <table>
+                <tbody>
+                <tr *ngFor="let listap of listaProducto" >
+                  <td style="border-bottom: 1px solid black">{{listap.nomProducto}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </td>
+            <td style="border: 1px black solid ">
+              <table width="100%">
+                <tbody>
+                <tr *ngFor="let lista of listaProducto" >
+                  <td >{{lista.peso}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </td>
+            <td style="border: 1px black solid ">
+              <table width="100%">
+                <tbody>
+                <tr *ngFor="let lista of listaProducto" >
+                  <td >{{lista.peso}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </td>
+            <td style="border: 1px black solid ">
+              <table width="100%">
+                <tbody>
+                <tr *ngFor="let lista of listaProducto" >
+                  <td >{{lista.tipoEvidencia}}</td>
+                </tr>
+
+                </tbody>
+              </table>
+            </td>
+            <td style="border: 1px black solid ">{{plazo}}</td>
+            <td style="border: 1px black solid "></td>
+            <td style="border: 1px black solid ">{{valorFormulaPEI | number :'2.1-2'}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </p-fieldset>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton type="button" icon="pi pi-calendar-plus" iconPos="left" style="width: 20%" class="btnPlani" (click)="getPDF()">Generar Ficha&nbsp;</button>
+    <button pButton type="button" icon="pi pi-times" iconPos="left" style="width: 20%" class="p-button-danger" (click)="cancelar()">Cancelar&nbsp;</button>
+  </ng-template>
+</p-dialog>

@@ -5,6 +5,7 @@ import {MessageService} from "primeng/api";
 import {ActividadOperativa} from "../../../../modelos/ActividadOperativa";
 import {PlanificacionDirectivoComponent} from "../../../planificacion-directivo/planificacion-directivo.component";
 import {PlanificacionSubdirectivoComponent} from "../../planificacion-subdirectivo.component";
+import {classNames} from "@angular/cdk/schematics";
 
 @Component({
   selector: 'app-registro-ao',
@@ -54,6 +55,11 @@ export class RegistroAOComponent implements OnInit {
   listaUnidadDireccion: any=[]
   addUnidad: any=[]
   loading: boolean
+  listaPersonal: any[]
+  dniResponsable: number
+  responsable: string
+  cargoResponsable: string
+  datoResponable: any=[]
   constructor(private api:PlanificacionSubDirectivosService,
               private messageService: MessageService,
               private sub: PlanificacionSubdirectivoComponent) { }
@@ -64,6 +70,7 @@ export class RegistroAOComponent implements OnInit {
     this.cargarAE()
     this.getUnidad()
     this.getTipoDocumento()
+    this.getPersonal()
     this.objetivos=[
       {id: 1,
       objetivo: 'Objetivo de prueba 1 nivel 1'},
@@ -101,6 +108,13 @@ export class RegistroAOComponent implements OnInit {
       }
     })
   }
+  getDatosSubDirectivo(){
+    console.log(this.idUnidad)
+    this.datoResponable=this.listaPersonal.find(p=>p.cod_emp==this.idUnidad)
+    this.responsable=this.datoResponable.a_paterno+' '+this.datoResponable.a_materno+' '+this.datoResponable.nom_emp
+    this.dniResponsable=this.datoResponable.dni
+    this.cargoResponsable=this.datoResponable.nombre_crg_fisico
+  }
   cancelar(){
     this.estado=false
     this.api.cerrarModal.emit(this.estado)
@@ -134,68 +148,72 @@ export class RegistroAOComponent implements OnInit {
     if(this.valorAE>0){
       if(this.addUnidad.length>0){
         if(this.datosProducto.length>0){
+
           let ae=this.addAEDireccion.find(ae=>ae.idaccionEstregica==this.valorAE)
-          let datos={
-            "idAccionEstrategica": this.valorAE,
-            "idActividadOp":this.idActividadOperativa,
-            "idCiclo":0,
-            "estado":0,
-            "ficha": null,
-            "nomAccEstra":ae.nomAccionEstrategica
-          }
-          console.log(datos)
-          this.api.addVinculaAO(datos).subscribe(res=>{
-            console.log(res)
-            let idAO=0
-            let nomAO
-            let nomDir
-            let nomObjetivo
-            if(res.estado){
-              idAO=res.content.idActividadOperativa
-              nomAO=this.listaAO.find(ao=>ao.id==this.idActividadOperativa)
-              nomDir=this.listaUnidadDireccion.find(dir=>dir.id_responsable==this.idUnidad)
-              nomObjetivo=this.objetivos.find(oao=>oao.id==this.idObjetivoAO)
-              let dato=JSON.parse(localStorage.getItem('usuario'))
-              let aoDatos={
-                "idUnidad": 2,
-                "nombreUnidad": nomDir.nombre,
-                "codUnidad": this.codigoAO,
-                "idObjetivo": this.idObjetivoAO,
-                "nomObjetivo": nomObjetivo.objetivo,
-                "idActividadOperativa":idAO,
-                "nomActividadOperativa":nomAO.descripcion,
-                "nomDireccion":dato.dependencia
-              }
-              this.api.addAOUnidad(aoDatos).subscribe(res=>{
-                let idUltimoAOUnida=res.content.idAOUnidad
-
-                for(let i=0; i<this.datosProducto.length; i++){
-                  let nomProducto=this.listaProducto.find(pro=>pro.id==this.datosProducto[i].idProducto)
-
-                  let datosProd={
-                    "idProducto": this.datosProducto[i].idProducto,
-                    "peso":this.datosProducto[i].peso,
-                    "estandar":this.datosProducto[i].indicador,
-                    "formula":this.datosProducto[i].formula,
-
-                    "idAOUnidad":idUltimoAOUnida,
-                    "nomProducto": nomProducto.producto,
-                    "tipoEvidencia": this.datosProducto[i].nombreDocumento
-                  }
-                  this.api.addProductoAO(datosProd).subscribe(res=>{
-                    if(i==this.datosProducto.length-1){
-                      this.cancelar()
-                      this.actualizarRegistro()
-                      this.messageService.add({key: 'mensaje', severity:'success', summary: 'Registro de Actividad Operativa', detail: 'Registro realizado correctamente'});
-                    }
-                  })
-                }
-              })
-            }else{
-
-              this.messageService.add({key: 'mensaje', severity:'error', summary: 'Registro de Actividad Operativa', detail: 'Ocurrio un error al realizar el registro'});
+          for(let j=0; j<this.addUnidad.length; j++){
+            let datos={
+              "idAccionEstrategica": this.valorAE,
+              "idActividadOp":this.addUnidad[j].idAO,
+              "nombreResponsable":this.addUnidad[j].nombreResponsable,
+              "dniReposable": this.addUnidad[j].dniResponsable,
+              "nomAccEstra":ae.nomAccionEstrategica,
+              "codigoPlaza": this.addUnidad[j].idUnidad
             }
-          })
+            console.log(datos)
+            this.api.addVinculaAO(datos).subscribe(res=>{
+              console.log(res)
+              let idAO=0
+              let nomAO
+              let nomDir
+              let nomObjetivo
+              if(res.estado){
+                idAO=res.content.idActividadOperativa
+                nomAO=this.listaAO.find(ao=>ao.id==this.idActividadOperativa)
+                nomDir=this.listaUnidadDireccion.find(dir=>dir.id_responsable==this.idUnidad)
+                nomObjetivo=this.objetivos.find(oao=>oao.id==this.idObjetivoAO)
+                let dato=JSON.parse(localStorage.getItem('usuario'))
+                let aoDatos={
+                  "idUnidad": 2,
+                  "nombreUnidad": nomDir.nombre,
+                  "codUnidad": this.codigoAO,
+                  "idObjetivo": this.idObjetivoAO,
+                  "nomObjetivo": nomObjetivo.objetivo,
+                  "idActividadOperativa":idAO,
+                  "nomActividadOperativa":nomAO.descripcion,
+                  "nomDireccion":dato.dependencia
+                }
+                this.api.addAOUnidad(aoDatos).subscribe(res=>{
+                  let idUltimoAOUnida=res.content.idAOUnidad
+
+                  for(let i=0; i<this.datosProducto.length; i++){
+                    let nomProducto=this.listaProducto.find(pro=>pro.id==this.datosProducto[i].idProducto)
+
+                    let datosProd={
+                      "idProducto": this.datosProducto[i].idProducto,
+                      "peso":this.datosProducto[i].peso,
+                      "estandar":this.datosProducto[i].indicador,
+                      "formula":this.datosProducto[i].formula,
+
+                      "idAOUnidad":idUltimoAOUnida,
+                      "nomProducto": nomProducto.producto,
+                      "tipoEvidencia": this.datosProducto[i].nombreDocumento
+                    }
+                    this.api.addProductoAO(datosProd).subscribe(res=>{
+                      if(i==this.datosProducto.length-1){
+                        this.cancelar()
+                        this.actualizarRegistro()
+                        this.messageService.add({key: 'mensaje', severity:'success', summary: 'Registro de Actividad Operativa', detail: 'Registro realizado correctamente'});
+                      }
+                    })
+                  }
+                })
+              }else{
+
+                this.messageService.add({key: 'mensaje', severity:'error', summary: 'Registro de Actividad Operativa', detail: 'Ocurrio un error al realizar el registro'});
+              }
+            })
+          }
+
         }else {
           this.messageService.add({key: 'mensaje', severity:'error', summary: 'Registro de Actividad Operativa', detail: 'Tiene que agregar un producto de nivel 1'});
         }
@@ -219,6 +237,12 @@ export class RegistroAOComponent implements OnInit {
         this.listaUnidadDireccion.push(this.listaUnidad[i])
       }
     }
+  }
+  getPersonal(){
+
+    this.api.getPersonal().subscribe(res=>{
+      this.listaPersonal=res
+    })
   }
   getDatoSAO(){
     this.datosAO=this.actividadOperativa.find(ao=>ao.id===Number(this.idActividadOperativa))
@@ -338,7 +362,6 @@ export class RegistroAOComponent implements OnInit {
                 cantidad=false
               }
             }
-            console.log(cantidad)
             if(cantidad){
               this.messageService.add({key: 'mensaje', severity:'error', summary: 'Registro de Productos', detail: 'Ya se agrego la actividad operativa'});
             }else{
@@ -351,7 +374,9 @@ export class RegistroAOComponent implements OnInit {
                   let valUnidad=this.listaUnidadDireccion.find(uni=>uni.id_responsable==this.idUnidad)
                   this.addUnidad.push({idAO: valAO.id,nombreAO: valAO.descripcion,
                     idObjetivoAO: valObjetivo.id, nombreObjetivoAO: valObjetivo.objetivo,
-                    idUnidad: valUnidad.id_responsable, nombreUnidad: valUnidad.nombre, estado: false})
+                    idUnidad: valUnidad.id_responsable, nombreUnidad: valUnidad.nombre,
+                    nombreResponsable: this.responsable, cargoResponsable: this.cargoResponsable,
+                    dniResponsable: this.dniResponsable, estado: false})
                   this.numeracion(this.addUnidad)
                 }
               })
@@ -366,7 +391,9 @@ export class RegistroAOComponent implements OnInit {
                 let valUnidad=this.listaUnidadDireccion.find(uni=>uni.id_responsable==this.idUnidad)
                 this.addUnidad.push({idAO: valAO.id,nombreAO: valAO.descripcion,
                   idObjetivoAO: valObjetivo.id, nombreObjetivoAO: valObjetivo.objetivo,
-                  idUnidad: valUnidad.id_responsable, nombreUnidad: valUnidad.nombre, estado: false})
+                  idUnidad: valUnidad.id_responsable, nombreUnidad: valUnidad.nombre,
+                  nombreResponsable: this.responsable, cargoResponsable: this.cargoResponsable,
+                  dniResponsable: this.dniResponsable, estado: false})
                 this.numeracion(this.addUnidad)
               }
             })

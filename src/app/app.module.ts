@@ -63,6 +63,8 @@ import { CompletarRegistroComponent } from './modules/planificacion-servidor/mod
 import { AccioIniciativaValoracionComponent } from './modules/accio-iniciativa-valoracion/accio-iniciativa-valoracion.component';
 import { InventarioComponent } from './modules/accion-iniciativa/reporte/inventario/inventario.component';
 import { FichaComponent } from './modules/planificacion-servidor/modal/ficha/ficha.component';
+import { FichaSubDirectivoComponent } from './modules/planificacion-servidores/modales/ficha-sub-directivo/ficha-sub-directivo.component';
+import { FichaDirectivoComponent } from './modules/planificacion-subdirectivo/modales/ficha-directivo/ficha-directivo.component';
 
 
 @NgModule({
@@ -106,6 +108,8 @@ import { FichaComponent } from './modules/planificacion-servidor/modal/ficha/fic
         AccioIniciativaValoracionComponent,
         InventarioComponent,
         FichaComponent,
+        FichaSubDirectivoComponent,
+        FichaDirectivoComponent,
 
     ],
     imports: [
