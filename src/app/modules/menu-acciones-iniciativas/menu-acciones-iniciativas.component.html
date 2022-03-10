@@ -5,21 +5,21 @@
   <div class="col-10">
     <p-fieldset legend="Modulo de planificacion de acciones e iniciativas de mejora">
       <div class="grid">
-        <div class="col-4" *ngIf="rol=='SUBDIRECTIVO' || rol=='SERVIDOR' &&nombreUnidad=='UNIDAD DE MODERNIZACION Y GESTION DE LA CALIDAD'">
+        <div class="col-4" *ngIf="nombreUnidad=='UNIDAD DE MODERNIZACION Y GESTION DE LA CALIDAD' && rol=='SUBDIRECTIVO' || rol=='SERVIDOR'">
           <a href="#" routerLink="../informeAuditoria" class="btnHome" >
             <div class="bg-blue-300 hover:bg-blue-400 text-white font-bold m-2 flex align-items-center justify-content-center" style="min-width: 200px; min-height: 100px">
               Informes de Control &nbsp;<i class="pi pi-file " style="font-size: 3rem"></i>
             </div>
           </a>
         </div>
-        <div class="col-4" *ngIf="rol=='SUBDIRECTIVO' || rol=='SERVIDOR' &&nombreUnidad=='UNIDAD DE MODERNIZACION Y GESTION DE LA CALIDAD'">
+        <div class="col-4" *ngIf="nombreUnidad=='UNIDAD DE MODERNIZACION Y GESTION DE LA CALIDAD' && rol=='SUBDIRECTIVO' || rol=='SERVIDOR'">
           <a href="#" routerLink="../controlInterno" class="btnHome" >
             <div class="bg-blue-300 hover:bg-blue-400 text-white font-bold m-2 flex align-items-center justify-content-center" style="min-width: 200px; min-height: 100px">
               Implementación del Sistema de Control Interno &nbsp;<i class="pi pi-list " style="font-size: 3rem"></i>
             </div>
           </a>
         </div>
-        <div class="col-4" *ngIf="rol=='DIRECTIVO' || rol=='SUBDIRECTIVO' || rol=='SERVIDOR'" >
+        <div class="col-4" *ngIf="nombreUnidad=='UNIDAD DE MODERNIZACION Y GESTION DE LA CALIDAD' && rol=='DIRECTIVO' || rol=='SUBDIRECTIVO' || rol=='SERVIDOR'" >
           <a href="#" routerLink="../accionIniciativa" class="btnHome" >
             <div class="bg-blue-300 hover:bg-blue-400 text-white font-bold m-2 flex align-items-center justify-content-center" style="min-width: 200px; min-height: 100px">
               Planificación de Acciones e Iniciativas &nbsp;<i class="pi pi-copy " style="font-size: 3rem"></i>

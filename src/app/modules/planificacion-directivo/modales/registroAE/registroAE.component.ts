@@ -89,6 +89,7 @@ export class RegistroAEComponent implements OnInit {
   totalContribucion: number = 0
   idAEDreiccion: number
   productoPrueba:any[]
+  idOficinaResponsable:string
   constructor(private api: PlanificacionDirectivoService,
               private messageService: MessageService,
               private planificacion: PlanificacionDirectivoComponent) { }
@@ -195,6 +196,7 @@ export class RegistroAEComponent implements OnInit {
     this.cargarAccionE()
     this.getObjetivo()
     this.cargarTipoDocumento()
+
     this.api.accion.subscribe(res=>{
       this.accion=res
       if(res!=1){
@@ -220,10 +222,9 @@ export class RegistroAEComponent implements OnInit {
       for(let i=0; i<this.accionEstrategica.length; i++){
         this.descripcionAE.push({name:this.accionEstrategica[i].descripcion, code: this.accionEstrategica[i].id})
       }
-
-
     });
   }
+
   cargarTipoDocumento(){
     this.api.getDocumento().subscribe(res=>{
       this.listaDocumento=res.content
@@ -243,6 +244,7 @@ export class RegistroAEComponent implements OnInit {
       this.indicador=this.datosAE.nombre_indicador
       this.nombreAccionEstrategica=this.datosAE.descripcion
       this.idUnidad=this.datosAE.id_organo
+      this.direccion=this.datosAE.id_organo
     }
 
   }
@@ -285,7 +287,6 @@ export class RegistroAEComponent implements OnInit {
                   "codAccionEst":this.codigo,
                   "indicador":this.indicador,
                   "idCiclo":0,
-                  "estado":"0",
                   "nomAccEst":this.nombreAccionEstrategica
                 }
                 this.api.addVincularAE(dat).subscribe(res=>{
@@ -533,7 +534,7 @@ export class RegistroAEComponent implements OnInit {
   getDirectivo(){
     this.api.getDirectivo().subscribe(res=>{
       this.listaDirectivo=res
-      //console.log(this.listaDirectivo)
+      console.log(this.listaDirectivo)
     })
   }
   getNombreDireccion(){

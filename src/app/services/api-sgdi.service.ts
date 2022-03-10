@@ -185,8 +185,8 @@ export class ApiSGDIService {
   updateEstado(ruta: string, parametro:any): Observable<any>{
     return this.http.post(environment.apiURL+ruta, parametro)
   }
-  updateEstadoServidor(ruta:string): Observable<any>{
-    return this.http.post(environment.apiURL+ruta,null)
+  updateEstadoServidor(ruta:string, parametro: any): Observable<any>{
+    return this.http.post(environment.apiURL+ruta,parametro)
   }
   getServidor(ruta: string): Observable<any>{
     return this.http.get(environment.apiURL+ruta)
@@ -199,5 +199,18 @@ export class ApiSGDIService {
   }
   updateEstadoAE(ruta: string):Observable<any>{
     return this.http.post(environment.apiURL+ruta, null)
+  }
+  getProductosCodigo(ruta: string): Observable<any>{
+    return this.http.get(environment.apiURL+ruta)
+  }
+  post(ruta:string, parametro: any): Observable<any>{
+    return this.http.post(environment.apiURL+ruta, parametro)
+  }
+  get(ruta: string): Observable<any>{
+    return this.http.get(environment.apiURL+ruta)
+  }
+
+  delete(ruta: string): Observable<any>{
+    return this.http.delete(environment.apiURL+ruta);
   }
 }

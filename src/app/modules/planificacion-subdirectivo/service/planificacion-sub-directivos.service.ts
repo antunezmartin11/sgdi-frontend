@@ -11,6 +11,7 @@ export class PlanificacionSubDirectivosService {
   @Output() datos: EventEmitter<any> = new EventEmitter();
   @Output() datosFichaDirectivo: EventEmitter<any> = new EventEmitter();
   @Output() modalFichaDirectivo: EventEmitter<any> = new EventEmitter();
+  @Output() datosModificar: EventEmitter<any> = new EventEmitter();
   constructor(private api: ApiSIGPService, private apiMAPRO: ApiMAPROService,
               private apiSGDI: ApiSGDIService) { }
 
@@ -67,5 +68,8 @@ export class PlanificacionSubDirectivosService {
   }
   updateEstadoDirectivo(id: number){
     return this.apiSGDI.updateEstadoAE('accionEstrategica/updateEstadoAE/'+id);
+  }
+  getlistaProductosAO(parametro: any){
+    return this.apiSGDI.post('productoAO/listarProductosAO', parametro)
   }
 }

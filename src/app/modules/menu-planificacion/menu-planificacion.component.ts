@@ -50,7 +50,7 @@ export class MenuPlanificacionComponent implements OnInit {
       this.listaDireccion=res
       let dato=JSON.parse(localStorage.getItem('usuario'))
       this.nombreUnidad=dato.dependencia
-
+      console.log(this.nombreUnidad)
       this.cargarUGP()
 
     })

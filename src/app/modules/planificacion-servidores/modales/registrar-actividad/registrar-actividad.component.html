@@ -1,7 +1,7 @@
 <p-dialog header="Asignación de Actividad Operativa" [(visible)]="estadoMS" position="center"  [breakpoints]="{'1800px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
   <ng-template pTemplate="Asignación de Actividad Operativa">
     <p-tabView [(activeIndex)]="index">
-      <p-tabPanel header="Selección de Servidores" [selected]="tabServidor">
+      <p-tabPanel header="Selección de Servidores" [selected]="tabServidor" [disabled]="estadoTabServidor">
         <p-table #dt1 [value]="servidorFinalUnidad" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
                  [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-customers p-datatable-gridlines"
                  [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
@@ -123,15 +123,17 @@
               <input type="text" placeholder="Ejm: 0.1" class="inputfield" style="height: 30px; width: 100%;" [(ngModel)]="peso" (keypress)="validarNumero($event)">
             </div>
           </div>
-
+          <button pButton type="button" icon="pi pi-save" iconPos="center" style="width: 20%;" class="p-button-warning btnActu" (click)="guardarActualizacion()" *ngIf="modo==2 && btnActualizarEstado">Actualizar</button>&nbsp;
+          <button pButton type="button" icon="pi pi-save" iconPos="center" style="width: 20%;" class="p-button-danger btnActu" (click)="cancelarActualizacion()" *ngIf="modo==2 && btnActualizarEstado">Cancelar</button>
         </p-fieldset>
         <br>
         <div class="grid">
-          <button pButton type="button" icon="pi pi-plus" iconPos="left" style="width: 20%" class="btnPlani" (click)="agregarDatosRegistro()">Agregar Actividad&nbsp;</button>
+          <button pButton type="button" icon="pi pi-plus" iconPos="left" style="width: 20%" class="btnPlani" (click)="agregarDatosRegistro()">Agregar Actividad&nbsp;</button> &nbsp;
+
         </div>
         <div class="grid">
           <div class="col-12">
-            <p-table #dt1 [value]="datosRegistro" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+            <p-table #dt1  [value]="datosRegistro" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
                      [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-datos p-datatable-gridlines"
                      [paginator]="true" currentPageReportTemplate="Mostrando {first} de {last} Total {totalRecords} Registros encontrados"
                      [globalFilterFields]="['numeracion','organo','recomendacion']">
@@ -192,10 +194,13 @@
                       Eliminar
                     </div>
                   </th>
+                  <th class="p-d-flex p-jc-between p-ai-center">
+                    Modificar
+                  </th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-datos>
-                <tr style="font-size: 14px">
+                <tr style="font-size: 14px" >
                   <td>
                     {{datos.numeracion}}
                   </td>
@@ -203,7 +208,7 @@
                     <span class="image-text">{{datos.actividaOperativa}}</span>
                   </td>
                   <td>
-                    <span class="image-text">{{datos.objetivo}}</span>
+                    <span class="image-text">{{datos.nomActividad}}</span>
                   </td>
                   <td>
                     <span class="image-text">{{datos.producto}}</span>
@@ -223,7 +228,8 @@
                   <td>
                     <span class="image-text">{{datos.peso}}</span>
                   </td>
-                  <td style="text-align: center"><button pButton type="button" icon="pi pi-trash" iconPos="left" style="width: 60%" class="p-button-raised p-button-danger" (click)="eliminarSubDireccion(datos.numeracion)">&nbsp;</button></td>
+                  <td style="text-align: center"><button [disabled]="estadoBotones" pButton type="button" icon="pi pi-trash" iconPos="center" style="width: 60%" class="p-button-raised p-button-danger" (click)="eliminarProducto(datos)">&nbsp;</button></td>
+                  <td><button pButton type="button" [disabled]="estadoBotones" icon="pi pi-pencil" iconPos="center" *ngIf="datos.idProAIAct!=null"  style="width: 60%" class="p-button-raised p-button-danger" (click)="cargarActualizar(datos)"></button></td>
                 </tr>
               </ng-template>
               <ng-template pTemplate="emptymessage">
@@ -330,7 +336,7 @@
                   <td>
                     <span class="image-text">{{datos.peso}}</span>
                   </td>
-                  <td style="text-align: center"><button pButton type="button" icon="pi pi-trash" iconPos="left" style="width: 60%" class="p-button-raised p-button-danger" (click)="eliminarSubDireccion(datos.numeracion)">&nbsp;</button></td>
+                  <td style="text-align: center"><button pButton type="button" icon="pi pi-trash" iconPos="center" style="width: 60%" class="p-button-raised p-button-danger" (click)="eliminarProducto(datos.numeracion)">&nbsp;</button></td>
                 </tr>
               </ng-template>
               <ng-template pTemplate="emptymessage">
@@ -346,7 +352,8 @@
 
   </ng-template>
   <ng-template pTemplate="footer">
-    <button pButton type="button" icon="pi pi-save" iconPos="left" style="width: 20%" class="btnPlani" (click)="guardarRegistro()">Guardar&nbsp;</button>
+    <button pButton type="button" icon="pi pi-save" iconPos="left" style="width: 20%" class="btnPlani" (click)="guardarRegistro()" *ngIf="modo==1">Guardar&nbsp;</button>
+    <button pButton type="button" icon="pi pi-save" iconPos="left" style="width: 20%" class="btnPlani" (click)="actualizarProductos()" *ngIf="modo==2">Guardar&nbsp;</button>
     <button pButton type="button" icon="pi pi-times" iconPos="left" style="width: 20%" class="p-button-danger" (click)="cerrarModal()">Cancelar&nbsp;</button>
   </ng-template>
 </p-dialog>

@@ -34,6 +34,7 @@ export class PlanificacionServidorComponent implements OnInit {
   cargarDatosServidor(){
     this.api.getServidor(this.codigoServidor).subscribe(res=>{
       this.estadoServidor=res.content[0].flag
+
     })
   }
   cargarAsingacion(){
@@ -75,7 +76,7 @@ export class PlanificacionServidorComponent implements OnInit {
       this.confirmationService.confirm({
         message: '¿Esta seguro que desea validar la programación realizada?',
         accept: () => {
-          this.api.updateEstadoServidor(this.idServidor).subscribe(res=>{
+          this.api.updateEstadoServidor(this.idServidor, {flag: 1}).subscribe(res=>{
               this.messageService.add({key: 'mensaje', severity:'success', summary: 'Validación de actividades', detail: 'Validación Confirmada'});
               this.cargarDatosServidor()
           });

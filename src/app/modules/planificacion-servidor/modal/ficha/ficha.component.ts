@@ -4,6 +4,7 @@ import {PlanificacionServidoresService} from "../../service/planificacion-servid
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import {CONSTRUCTOR} from "@angular/compiler-cli/ngcc/src/host/esm2015_host";
 @Component({
   selector: 'app-ficha',
   templateUrl: './ficha.component.html',
@@ -14,6 +15,7 @@ export class FichaComponent implements OnInit {
   @Input() abrirFicha: boolean = false
   datosServidor: any
   nombreCompleto: string
+  codigoServidor: string
   puesto: string
   unidad: string
   listaUGP: any
@@ -36,6 +38,9 @@ export class FichaComponent implements OnInit {
   valorAccion: number
   valorIniciativa: number
   valorMeta: number
+  listaPeriodo: any[]
+  idServidorActividad: number
+  productosServidor: any[]=[]
   constructor(private api: PlanificacionServidoresService) { }
 
   ngOnInit(): void {
@@ -44,6 +49,7 @@ export class FichaComponent implements OnInit {
     this.getPersonal()
     this.getPlanificacion()
   }
+
 
 
   cancelar(){
@@ -55,9 +61,7 @@ export class FichaComponent implements OnInit {
     this.nombreCompleto=this.datosServidor.aPaterno+' '+this.datosServidor.aMaterno+' '+this.datosServidor.nombre
     this.puesto=this.datosServidor.cargo
     this.unidad=this.datosServidor.unidad
-
-    console.log(this.datosServidor)
-    console.log(this.nombreCompleto)
+    this.codigoServidor=this.datosServidor.codigo
   }
   getDatosEvaluador(){
 
@@ -91,7 +95,7 @@ export class FichaComponent implements OnInit {
 
       while (heightLeft >= 0) {
         position = heightLeft - imgHeight;
-        console.log(position)
+
         doc.addPage();
         doc.addImage(img, 'PNG', 15, -280, imgWidth, imgHeight);
         heightLeft -= pageHeight;
@@ -103,6 +107,7 @@ export class FichaComponent implements OnInit {
   }
   getPersonal(){
     this.api.getPersonal().subscribe(res=>{
+
       this.personal=res
       this.api.getUGP().subscribe(res=>{
         this.listaUGP=res
@@ -119,36 +124,48 @@ export class FichaComponent implements OnInit {
   }
   getPlanificacion(){
     this.api.datosFicha.subscribe(res=>{
+
       this.listaPlanificada=res
+
       this.actividad=this.listaPlanificada[0].nomActividad
-      console.log(this.listaPlanificada)
+
       this.idProductoA0=this.listaPlanificada[0].idProductoAOActividad
-      console.log(this.idProductoA0)
+
       for (let i=0; i<this.listaPlanificada.length; i++){
+        this.idServidorActividad=this.listaPlanificada[i].idActividadServidor
         this.peso=this.peso+this.listaPlanificada[i].peso
       }
+      this.api.getProductosPeriodo(this.idServidorActividad).subscribe(res=>{
+        this.productosServidor=res.content
 
-      this.getPeriodo()
+      })
     })
 
   }
-  getPeriodo(){
-    this.api.getPeriodo(this.idProductoA0).subscribe(res=>{
-        for(let i=0; i<res.content.length; i++){
-          this.meta=this.meta+res.content[i].peso
-         this.plazo=this.plazo+' '+res.content[i].mes
-        }
-      this.formula()
-
-    })
+  sumarPeriodo(id){
+    let total=0;
+    let d=this.productosServidor.find(a=>a.idProAIAct==id)
+    for(let i=0; i<d.listaPeriodo.length; i++){
+      total=total+d.listaPeriodo[i].peso
+    }
+    return total
+  }
+  obtenerPlazo(id){
+    let plazo=''
+    let d=this.productosServidor.find(a=>a.idProAIAct==id)
+    for(let i=0; i<d.listaPeriodo.length; i++){
+      plazo=d.listaPeriodo[0].mes+'-'+d.listaPeriodo[i].mes
+    }
+    return plazo
+  }
+  puntuacionMeta(){
 
   }
   formula(){
-    console.log(this.meta)
-    console.log(this.peso)
+
     this.peso=this.peso
     this.valorFormulaPEI=(this.meta*this.peso*0.7)
-    console.log(this.valorFormulaPEI)
+
   }
 
 }

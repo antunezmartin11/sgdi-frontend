@@ -46,13 +46,26 @@ export class PlanificacionServidoresComponent implements OnInit, OnChanges {
       }
     })
   }
-  abrilModal(){
-    this.cerrarModalRegistro=true
-    this.api.cerrarModalRegistro.subscribe(res=>{
-      if(res!=null){
-        this.cerrarModalRegistro=res
-      }
-    })
+  abrilModal(modo, datos?){
+    if(modo==1){//Agregar nuevo registro
+      this.cerrarModalRegistro=true
+      this.api.cerrarModalRegistro.subscribe(res=>{
+        if(res!=null){
+          this.cerrarModalRegistro=res
+        }
+      })
+      this.api.datosModificar.emit({modo})
+    }else if(modo==2){//modificar registro
+      this.cerrarModalRegistro=true
+      this.api.cerrarModalRegistro.subscribe(res=>{
+        if(res!=null){
+          this.cerrarModalRegistro=res
+        }
+      })
+      this.api.datosModificar.emit({datos, modo});
+
+    }
+
   }
 
   getServidorVinculacion(){
@@ -91,23 +104,26 @@ export class PlanificacionServidoresComponent implements OnInit, OnChanges {
       }
     })
   }
+  updateEstadoAO(estado: string){
+    for(let i=0; i<this.listaActividades.length; i++){
+      this.api.updateEstadoSubDirectivo(this.listaActividades[i].idActividadOperativa, {estado:estado}).subscribe(resp=>{
+        this.api.updateEstadoAOUnidad(this.listaActividades[i].idAOUnidad,{estado: estado}).subscribe(res=>{
+          if(i==this.listaActividades.length-1){
+            this.messageService.add({key: 'mensaje', severity:'success', summary: 'Validación de actividades', detail: 'Validación Confirmada'});
+            this.getListaValidar()
+          }
+        })
+
+      })
+    }
+  }
   validar(){
 
     if(this.estado){
       this.confirmationService.confirm({
         message: '¿Esta seguro que desea validar la programación realizada?',
         accept: () => {
-          for(let i=0; i<this.listaActividades.length; i++){
-              this.api.updateEstadoSubDirectivo(this.listaActividades[i].idActividadOperativa).subscribe(resp=>{
-              this.api.updateEstadoAOUnidad(this.listaActividades[i].idAOUnidad).subscribe(res=>{
-                if(i==this.listaActividades.length-1){
-                  this.messageService.add({key: 'mensaje', severity:'success', summary: 'Validación de actividades', detail: 'Validación Confirmada'});
-                  this.getListaValidar()
-                }
-              })
-
-            })
-          }
+         this.updateEstadoAO("1")
 
           /*this.api.updateEstadoServidor(this.idServidor).subscribe(res=>{
             this.messageService.add({key: 'mensaje', severity:'success', summary: 'Validación de actividades', detail: 'Validación Confirmada'});

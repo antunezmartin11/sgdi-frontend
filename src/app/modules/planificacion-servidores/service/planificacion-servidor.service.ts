@@ -9,6 +9,7 @@ export class PlanificacionServidorService {
 
   constructor(private api: ApiSGDIService, private apiSIGP: ApiSIGPService) { }
   @Output() cerrarModal: EventEmitter<any> = new EventEmitter();
+  @Output() datosModificar: EventEmitter<any> = new EventEmitter();
   @Output() cerrarModalRegistro: EventEmitter<any> = new EventEmitter();
   @Output() datoProducto: EventEmitter<any> = new EventEmitter();
   @Output() modalProducto: EventEmitter<any> = new EventEmitter();
@@ -55,16 +56,31 @@ export class PlanificacionServidorService {
   getListaActividadValidar(unidad: string){
     return this.api.getAOxUnidad('actividadOperativa/getAOxUnidad?nombre='+unidad)
   }
-  updateEstadoSubDirectivo(id: number){
-    return this.api.updateEstadoSubDirectivo('actividadOperativa/updateEstadoSubDirectivo/'+id)
+  updateEstadoSubDirectivo(id: number, parametro: any){
+    return this.api.post('actividadOperativa/updateEstadoSubDirectivo/'+id, parametro)
   }
-  updateEstadoAOUnidad(id: number){
-    return this.api.updateEstadoAOunidad('actividadOperativa/updateEstadoAOUnidad/'+id)
+  updateEstadoAOUnidad(id: number,parametro: any){
+    return this.api.post('actividadOperativa/updateEstadoAOUnidad/'+id,parametro)
   }
   getUGP(){
     return this.apiSIGP.getUGP('ugp_organo/lista?id=0')
   }
   getDireccion(){
     return this.apiSIGP.getDirectivo('organo/lista?id_organo=0')
+  }
+  updateProductoServidor(parametro: any, id: number){
+    return this.api.post('productoServidor/updateProducto/'+id,parametro)
+  }
+  deleteProducto(id: number){
+    return this.api.delete('productoServidor/eliminarProducto/'+id)
+  }
+  updateEstadoServidor(id: number, parametro:any){
+    return this.api.post('productoServidor/updateEstadoServidor/'+id, parametro)
+  }
+  getProductos(parametro: any){
+    return this.api.post('productoAO/listarProductosAO',parametro)
+  }
+  getCEPLAN(idOrgano: number, anio: number){
+    return this.apiSIGP.getSIGP('Reporte/ceplan2?id_organo='+idOrgano+'&anio='+anio+'&id_ciclo=141&id_etapa=1')
   }
 }

@@ -56,24 +56,10 @@
                     Tipo de Control
                   </div>
                 </th>
-                <th>
-                  <div class="p-d-flex p-jc-between p-ai-center">
-                    Informe OCI
-                  </div>
-                </th>
-                <th>
-                  <div class="p-d-flex p-jc-between p-ai-center">
-                    Fecha de envio OCI
-                  </div>
-                </th>
+
                 <th>
                   <div class="p-d-flex p-jc-between p-ai-center">
                     Detalle
-                  </div>
-                </th>
-                <th>
-                  <div class="p-d-flex p-jc-between p-ai-center">
-                    Visto Bueno
                   </div>
                 </th>
                 <th>
@@ -104,11 +90,11 @@
                   {{datos.fecRecepcion | date: 'MM/dd/yyyy'}}
                 </td>
                 <td>{{datos.tipoControl}}</td>
-                <td></td>
-                <td></td>
+
                 <td style="text-align: center"><button pButton type="button" icon="pi pi-eye" iconPos="left" style="width: 50%" class="p-button-raised p-button-text" (click)="getRecomendaciones(datos.idInformeAuditoria)">&nbsp;</button></td>
-                <td></td>
-                <td></td>
+
+                <td><button pButton type="button" icon="pi pi-pencil" iconPos="left" style="width: 50%" class="p-button-danger"></button>
+                </td>
               </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">

@@ -35,7 +35,7 @@
               </div>
             </a>
           </div>
-          <div class="col-3" *ngIf="rol=='DIRECCION' && nombreUnidad=='OFICINA DE RECURSOS HUMANOS'">
+          <div class="col-3" *ngIf="rol=='DIRECTIVO' || rol=='SUBDIRECTIVO' && nombreUnidad==='OFICINA DE RECURSOS HUMANOS'">
             <a href="#" routerLink="../aperturarCiclo" class="btnHome">
               <div class="bg-blue-300 hover:bg-blue-400 text-white font-bold m-2 flex align-items-center justify-content-center" style="min-width: 200px; min-height: 100px">
                 Aperturar Ciclo &nbsp;<i class="pi pi-unlock " style="font-size: 3rem"></i>

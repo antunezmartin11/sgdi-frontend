@@ -11,8 +11,11 @@ import {PlanificacionServidoresComponent} from "../../planificacion-servidores.c
   providers: [MessageService, HomeComponent]
 })
 export class RegistrarActividadComponent implements OnInit {
+  modo: number
   datos1: any[];
   accionE:any;
+  btnActualizarEstado:boolean=false
+  estadoBotones:boolean=false
   cities: any[];
   productos: any[];
   actividad: any[];
@@ -35,6 +38,7 @@ export class RegistrarActividadComponent implements OnInit {
   estandar: string
   unidadMedida: string
   medioVerificacion: string
+  idProducto: number
   peso: number
   contribucion: number
   meta: number
@@ -50,6 +54,8 @@ export class RegistrarActividadComponent implements OnInit {
   direccionServidor: any
   unidadServidor: any
   servidorFinalUnidad:any= []
+  idActividadServidor: number
+  estadoTabServidor: boolean=false
   mensaje: string="No hay datos"
   constructor(private messageService: MessageService,
               private api: PlanificacionServidorService, private home: HomeComponent,
@@ -57,12 +63,59 @@ export class RegistrarActividadComponent implements OnInit {
   servidores: any[]
   datosRegistro: any[]=[]
   ngOnInit(): void {
+    this.verificar()
     this.home.getUsuario()
     this.getServidores()
     this.getAOXunidad()
     this.loading=false
-  }
 
+  }
+  verificar(){
+
+    this.api.datosModificar.subscribe(res=>{
+      console.log(res)
+      if(res.modo==1){
+        this.modo=1
+        this.datosRegistro=[]
+        this.limpiarProducto()
+        this.limpiarServidor()
+        this.datosRegistro=null
+        this.estadoTabServidor=false
+        this.tabPlan=false
+        this.tabServidor=true
+      }else if(res.modo==2){
+        this.modo=2
+        if(res.datos!=undefined){
+
+          this.datosRegistro=[]
+          this.tabPlan=true
+          this.tabServidor=false
+          this.estadoTabServidor=true
+          this.nombreservidor=res.datos.nomServidor
+          this.cargoServidor=res.datos.cargo
+          this.idActividadServidor=res.datos.idActividadServidor
+          this.api.listarProductoServidor(res.datos.idActividadServidor).subscribe(res=>{
+            for(let i=0; i<res.content.length; i++){
+              this.datosRegistro.push({actividaOperativa: res.content[i].nomActividad,
+                nomActividad: res.content[i].nomObjetivo,
+                producto: res.content[i].nomProducto,
+                secuencia: res.content[i].secuencia,
+                estandar: res.content[i].estandar,
+                unidadMedida: res.content[i].unidadMedida,
+                evidencia: res.content[i].evidencia,
+                peso: res.content[i].peso,
+                idProAIAct: res.content[i].idProAIAct
+              })
+            }
+
+            this.datosRegistro=this.numeracion(this.datosRegistro)
+            console.log(res.content)
+            console.log(this.datosRegistro)
+          })
+        }
+      }
+    })
+  }
   getServidores(){
     this.api.getPersonal().subscribe(res=>{
       this.listaPersonal=res
@@ -131,6 +184,7 @@ export class RegistrarActividadComponent implements OnInit {
 
   }
   getObjetivoAO(dato) {
+    console.log(dato)
     this.listaObjetivoAO=[]
     let objetivo = this.listaAOUnidad.find(ao => ao.idAOUnidad == dato.id)
 
@@ -233,7 +287,11 @@ export class RegistrarActividadComponent implements OnInit {
    cerrarModal(){
     this.estadoMS=false
      this.api.cerrarModalRegistro.emit(false)
-
+     this.estadoBotones=false
+     this.btnActualizarEstado=false
+     this.limpiarProducto()
+     this.limpiarServidor()
+     this.datosRegistro=[]
    }
 
    actualizarRegistro():void{
@@ -293,5 +351,164 @@ export class RegistrarActividadComponent implements OnInit {
         this.messageService.add({key: 'mensaje', severity:'error', summary: 'Asignación de actividades', detail: 'El servidor ya se encuentra registrado'});
       }
     })
+  }
+  cargarActualizar(datos){
+    this.btnActualizarEstado=true
+    this.estadoBotones=true
+    this.secuencia=datos.secuencia
+    this.estandar=datos.estandar
+    this.peso=datos.peso
+    this.unidadMedida=datos.unidadMedida
+    this.medioVerificacion=datos.evidencia
+    this.idProducto=datos.idProAIAct
+  }
+  actualizarListaModificada(){
+    this.api.listarProductoServidor(this.idActividadServidor).subscribe(res=>{
+      this.datosRegistro=[]
+      for(let i=0; i<res.content.length; i++){
+        this.datosRegistro.push({actividaOperativa: res.content[i].nomActividad,
+          nomActividad: res.content[i].nomObjetivo,
+          producto: res.content[i].nomProducto,
+          secuencia: res.content[i].secuencia,
+          estandar: res.content[i].estandar,
+          unidadMedida: res.content[i].unidadMedida,
+          evidencia: res.content[i].evidencia,
+          peso: res.content[i].peso,
+          idProAIAct: res.content[i].idProAIAct
+        })
+      }
+
+      this.datosRegistro=this.numeracion(this.datosRegistro)
+
+    })
+  }
+  guardarActualizacion() {
+    if (this.secuencia > 0) {
+      if (this.estandar != null) {
+        if (this.unidadMedida != null) {
+          if (this.medioVerificacion != null) {
+            if (this.peso != null) {
+
+              let dato = {
+
+                "secuencia": this.secuencia,
+                "estandar": this.estandar,
+                "contribucion": this.contribucion,
+                "unidadMedida": this.unidadMedida,
+                "evidencia": this.medioVerificacion,
+                "peso": this.peso,
+                "idProAIAct": this.idProducto
+              }
+
+              this.api.updateProductoServidor(dato, this.idProducto).subscribe(res=>{
+
+                this.actualizarListaModificada()
+                this.estadoBotones=false
+                this.btnActualizarEstado=false
+                this.limpiarProducto()
+                this.actualizarEstado()
+              })
+            } else {
+              this.messageService.add({
+                key: 'mensaje',
+                severity: 'error',
+                summary: 'Asignación de actividades',
+                detail: 'Tiene que ingresar el peso'
+              });
+            }
+          } else {
+            this.messageService.add({
+              key: 'mensaje',
+              severity: 'error',
+              summary: 'Asignación de actividades',
+              detail: 'Tiene que ingresar el medio de verificación'
+            });
+          }
+        } else {
+          this.messageService.add({
+            key: 'mensaje',
+            severity: 'error',
+            summary: 'Asignación de actividades',
+            detail: 'Tiene que ingresar la unidad de medida'
+          });
+        }
+      } else {
+        this.messageService.add({
+          key: 'mensaje',
+          severity: 'error',
+          summary: 'Asignación de actividades',
+          detail: 'Tiene que ingresar el estandar para la actividad'
+        });
+      }
+    } else {
+      this.messageService.add({
+        key: 'mensaje',
+        severity: 'error',
+        summary: 'Asignación de actividades',
+        detail: 'Tiene que ingresar una secuencia de la actividad'
+      });
+    }
+  }
+
+  cancelarActualizacion(){
+    this.btnActualizarEstado=false
+    this.estadoBotones=false
+    this.limpiarProducto()
+  }
+  eliminarProducto(datos){
+    if(datos.idProAIAct!=undefined){
+      this.api.deleteProducto(datos.idProAIAct).subscribe(res=>{
+        this.actualizarListaModificada()
+        this.actualizarEstado()
+      })
+    }else{
+      let ind=this.datosRegistro.findIndex(d=>d.numeracion==datos.numeracion)
+      this.datosRegistro.splice(ind,1)
+    }
+  }
+  actualizarProductos(){
+    for(let i=0; i<this.datosRegistro.length; i++){
+      if(this.datosRegistro[i].idProAIAct==null){
+          let dato={
+            "nomActividad":this.datosRegistro[i].actividaOperativa,
+            "idActividad":this.datosRegistro[i].idActividad,
+            "secuencia":this.datosRegistro[i].secuencia,
+            "estandar":this.datosRegistro[i].estandar,
+            "contribucion":this.datosRegistro[i].contribucion,
+            "unidadMedida": this.datosRegistro[i].unidadMedida,
+            "evidencia": this.datosRegistro[i].evidencia,
+            "peso":this.datosRegistro[i].peso,
+            "idObjetivo":this.datosRegistro[i].idObjetivo,
+            "nomObjetivo":this.datosRegistro[i].objetivo,
+            "idActividadServidor": this.idActividadServidor,
+            "idProducto":this.datosRegistro[i].idProducto,
+            "nomProducto":this.datosRegistro[i].producto
+          }
+          this.api.addVinculoServidor(dato).subscribe(r=>{
+            if(i==this.datosRegistro.length-1){
+              this.messageService.add({key: 'mensaje', severity:'success', summary: 'Asignación de actividades', detail: 'Registrado correctamente'});
+            }
+
+          })
+        this.limpiarProducto()
+        this.limpiarServidor()
+        this.actividadOperativa=null
+        this.objetivo=null
+        this.actividadSelect=null
+        this.datosRegistro=[]
+        this.actualizarRegistro()
+        this.cerrarModal()
+      }
+    }
+  }
+  actualizarEstado(){
+
+    this.api.updateEstadoServidor(this.idActividadServidor, {flag: null}).subscribe(res=>{
+      console.log(res)
+      this.planificacion.updateEstadoAO(null)
+      this.messageService.add({key: 'mensaje', severity:'success', summary: 'Validación de actividades', detail: 'Validación Confirmada'});
+      this.actualizarRegistro()
+    });
+
   }
 }

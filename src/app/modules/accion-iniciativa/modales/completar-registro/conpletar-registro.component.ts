@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MessageService} from "primeng/api";
 import {AccionIniciativaService} from "../../services/accion-iniciativa.service";
+import {AccionIniciativaComponent} from "../../accion-iniciativa.component";
 
 @Component({
   selector: 'app-conpletar-registro',
@@ -10,7 +11,9 @@ import {AccionIniciativaService} from "../../services/accion-iniciativa.service"
 })
 export class ConpletarRegistroComponent implements OnInit {
 
-  constructor(private messageService: MessageService, private api: AccionIniciativaService) { }
+  constructor(private messageService: MessageService,
+              private api: AccionIniciativaService,
+              private appAccion: AccionIniciativaComponent) { }
   @Input() modalCompletarRegistro: boolean
   recepcionDatos: any
   accionIniciativa: any
@@ -31,6 +34,9 @@ export class ConpletarRegistroComponent implements OnInit {
     })
     this.getOrgano()
     this.getDocumento()
+  }
+  actualizarLitaPrincipal():void{
+    this.appAccion.getAccionIniciativa()
   }
   validarNumero(e: any){
     let key = e.key;
@@ -67,35 +73,33 @@ export class ConpletarRegistroComponent implements OnInit {
     if(this.medioVerificacion!=null){
       if(this.tipo!=0){
         if(this.proceso!=null){
-          if(this.idOrgano!=0){
-            if(this.fecInicio!=null){
-              if(this.fecFin!=null){
-                if(this.fecInicio<this.fecFin){
-                  let nom=this.listaOrgano.find(o=>o.id==this.idOrgano)
-                  let dato={
-                    idUnidad: this.idOrgano,
-                    medioVerificacion: this.medioVerificacion,
-                    tipoPrioritario: this.tipo,
-                    tipoProceso: this.proceso,
-                    fecInicio: this.fecInicio,
-                    fecFin: this.fecFin,
-                    nomUnidad: nom.nombre
-                  }
-                  this.api.completarRegistro(dato, this.idAccionIniciativa).subscribe(res=>{
-                    console.log(res)
-                  })
-                }else {
-                  this.messageService.add({key: 'mensaje', severity:'error', summary: 'Conformación de Equipo', detail: 'Tiene que seleccionar el rango de fechas adecuado'});
+          if(this.fecInicio!=null){
+            if(this.fecFin!=null){
+              if(this.fecInicio<this.fecFin){
+                let nom=this.listaOrgano.find(o=>o.id==this.idOrgano)
+                let dato={
+                  medioVerificacion: this.medioVerificacion,
+                  tipoPrioritario: this.tipo,
+                  tipoProceso: this.proceso,
+                  fecInicio: this.fecInicio,
+                  fecFin: this.fecFin,
+
                 }
+                this.api.completarRegistro(dato, this.idAccionIniciativa).subscribe(res=>{
+                    this.cancelar()
+                    this.actualizarLitaPrincipal()
+                  
+                })
               }else {
-                this.messageService.add({key: 'mensaje', severity:'error', summary: 'Conformación de Equipo', detail: 'Tiene que seleccionar una fecha de fin'});
+                this.messageService.add({key: 'mensaje', severity:'error', summary: 'Conformación de Equipo', detail: 'Tiene que seleccionar el rango de fechas adecuado'});
               }
             }else {
-              this.messageService.add({key: 'mensaje', severity:'error', summary: 'Conformación de Equipo', detail: 'Tiene que seleccionar una fecha de Inicio'});
+              this.messageService.add({key: 'mensaje', severity:'error', summary: 'Conformación de Equipo', detail: 'Tiene que seleccionar una fecha de fin'});
             }
-          }else{
-            this.messageService.add({key: 'mensaje', severity:'error', summary: 'Conformación de Equipo', detail: 'Tiene que seleccionar una Dirección responsable'});
+          }else {
+            this.messageService.add({key: 'mensaje', severity:'error', summary: 'Conformación de Equipo', detail: 'Tiene que seleccionar una fecha de Inicio'});
           }
+
         }else {
           this.messageService.add({key: 'mensaje', severity:'error', summary: 'Conformación de Equipo', detail: 'Tiene que ingrear el proceso'});
         }

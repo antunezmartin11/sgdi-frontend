@@ -56,14 +56,24 @@ export class PlanificacionSubdirectivoComponent implements OnInit {
     })
   }
 
-  abrilModal(){
-     console.log('hola')
-    this.modal=true
-    this.api.cerrarModal.subscribe(res=>{
-      if(res!=undefined){
-        this.modal=res
-      }
-    })
+  abrilModal(modo, datos?){
+     if(modo==1){
+       this.modal=true
+       this.api.cerrarModal.subscribe(res=>{
+         if(res!=undefined){
+           this.modal=res
+         }
+       })
+     }else{
+       this.modal=true
+       this.api.cerrarModal.subscribe(res=>{
+         if(res!=undefined){
+           this.modal=res
+         }
+       })
+       this.api.datosModificar.emit({datos, modo})
+     }
+
   }
 
   cargarAOVinculada(){

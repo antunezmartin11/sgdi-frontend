@@ -83,20 +83,19 @@
         </div>
         <br>
         <div class="grid">
-          <table width="100%">
+          <table width="80%">
             <thead>
             <tr>
-              <td class="cabecera" width="50%" colspan="7">ETAPA DE PLANIFICACIÓN</td>
+              <td class="cabecera" width="50%" colspan="6">ETAPA DE PLANIFICACIÓN</td>
               <td class="cabecera" width="25%">ETAPA DE SEGUIMIENTO</td>
-              <td class="cabecera" width="25%" colspan="3">ETAPA DE EVALUACIÓN</td>
+
             </tr>
             </thead>
             <tbody>
             <tr>
-              <td colspan="2" rowspan="2" class="cabecera1">PRIORIDADES ANUALES DE GESTIÓN DEL ÓRGANO O UNIDAD ORGÁNICA </td>
+              <td  rowspan="2" class="cabecera1">PRIORIDADES ANUALES DE GESTIÓN DEL ÓRGANO O UNIDAD ORGÁNICA </td>
               <td colspan="5" class="cabecera1">META</td>
               <td class="cabecera1">SEGUIMIENTO Y RETROALIMENTACIÓN</td>
-              <td rowspan="2" class="cabecera1">PUNTUACIÓN POR META</td>
             </tr>
             <tr>
               <td class="cabecera1">INDICADOR / PRODUCTO</td>
@@ -106,42 +105,38 @@
               <td class="cabecera1">PLAZOS</td>
               <td class="cabecera1">COMENTARIOS</td>
             </tr>
-            <tr>
-              <td class="contenido">1</td>
-              <td class="contenido">{{actividad}}</td>
-              <td style="border: 1px black solid ">
-                <table>
-                  <tbody>
-                    <tr *ngFor="let lista of listaPlanificada" >
-                      <td >{{lista.nomProducto}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </td>
-              <td style="border: 1px black solid ">{{meta}}</td>
-              <td style="border: 1px black solid ">
-                <table width="100%">
-                  <tbody>
-                  <tr *ngFor="let lista of listaPlanificada" >
-                    <td >{{lista.peso}}</td>
-                  </tr>
-                  </tbody>
-                </table>
-              </td>
-              <td style="border: 1px black solid ">
-                <table width="100%">
-                  <tbody>
-                  <tr *ngFor="let lista of listaPlanificada" >
-                    <td >{{lista.evidencia}}</td>
-                  </tr>
+            <tr *ngFor="let lista of productosServidor; index as i">
 
-                  </tbody>
-                </table>
+              <td class="contenido">{{lista.nomActividad}}</td>
+              <td style="border: 1px black solid ">
+                {{lista.nomProducto}}
               </td>
-              <td style="border: 1px black solid ">{{plazo}}</td>
+              <td style="border: 1px black solid ">{{sumarPeriodo(lista.idProAIAct)}}</td>
+              <td style="border: 1px black solid ">
+                {{lista.peso}}
+              </td>
+              <td style="border: 1px black solid ">
+                {{lista.evidencia}}
+              </td>
+              <td style="border: 1px black solid ">{{obtenerPlazo(lista.idProAIAct)}}</td>
               <td style="border: 1px black solid "></td>
-              <td style="border: 1px black solid ">{{valorFormulaPEI | number :'2.1-2'}}</td>
             </tr>
+            </tbody>
+          </table>
+          <table width="20%">
+            <thead>
+              <tr>
+                <th class="cabecera">ETAPA DE EVALUACIÓN</th>
+              </tr>
+
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cabecera1" height="37.5%">PUNTUACIÓN POR META</td>
+              </tr>
+              <tr>
+                <td>{{meta}}</td>
+              </tr>
             </tbody>
           </table>
         </div>

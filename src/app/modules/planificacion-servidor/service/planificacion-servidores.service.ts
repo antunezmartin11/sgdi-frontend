@@ -22,8 +22,8 @@ export class PlanificacionServidoresService {
   updatePeriodoServidor(id: number,parametro: any){
     return this.api.updatePeriodoServidor('periodoActividad/updatePeriodoActividad/'+id,parametro)
   }
-  updateEstadoServidor(id: number, ){
-    return this.api.updateEstadoServidor('productoServidor/updateEstadoServidor/'+id)
+  updateEstadoServidor(id: number, parametro: any){
+    return this.api.updateEstadoServidor('productoServidor/updateEstadoServidor/'+id, parametro)
   }
   getServidor(codigo: string){
     return this.api.getServidor('productoServidor/listarServidorId/'+codigo)
@@ -36,5 +36,11 @@ export class PlanificacionServidoresService {
   }
   getDireccion(){
     return this.apiSIGP.getDirectivo('organo/lista?id_organo=0')
+  }
+  getProductosCodigo(codigo: string){
+    return this.api.getProductosCodigo('productoServidor/listaProducto/'+codigo)
+  }
+  getProductosPeriodo(id: number){
+    return this.api.getProductosCodigo('productoServidor/listarProductoPeriodo/'+id)
   }
 }

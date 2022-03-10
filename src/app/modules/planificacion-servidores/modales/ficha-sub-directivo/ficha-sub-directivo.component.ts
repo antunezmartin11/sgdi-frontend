@@ -4,6 +4,7 @@ import {PlanificacionServidoresService} from "../../../planificacion-servidor/se
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import {PlanificacionServidorService} from "../../service/planificacion-servidor.service";
+import {CONSTRUCTOR} from "@angular/compiler-cli/ngcc/src/host/esm2015_host";
 @Component({
   selector: 'app-ficha-sub-directivo',
   templateUrl: './ficha-sub-directivo.component.html',
@@ -42,6 +43,13 @@ export class FichaSubDirectivoComponent implements OnInit {
   listaActividad: any []
   idAO:number
   listaProducto:any
+  listaGenerada: any
+  listaAE:any
+  listaFinal: any =[]
+  listaAESeleccionada:any
+  listaAO: any=[]
+  lista_ae: any=[]
+  listaPlazos: any=[]
   constructor(private api: PlanificacionServidorService) { }
 
   ngOnInit(): void {
@@ -51,8 +59,8 @@ export class FichaSubDirectivoComponent implements OnInit {
     this.getPlanificacion()
     this.cargarDireccion()
     this.getActividadOperativa()
+    this.getProductoSubDirectivo()
   }
-
 
   cancelar(){
     this.abrirFicha=false
@@ -63,7 +71,6 @@ export class FichaSubDirectivoComponent implements OnInit {
     this.nombreCompleto=this.datosServidor.aPaterno+' '+this.datosServidor.aMaterno+' '+this.datosServidor.nombre
     this.puesto=this.datosServidor.cargo
     this.unidad=this.datosServidor.unidad
-
 
   }
   getDatosEvaluador(){
@@ -98,14 +105,14 @@ export class FichaSubDirectivoComponent implements OnInit {
 
       while (heightLeft >= 0) {
         position = heightLeft - imgHeight;
-        console.log(position)
+
         doc.addPage();
         doc.addImage(img, 'PNG', 15, -280, imgWidth, imgHeight);
         heightLeft -= pageHeight;
       }
       return doc;
     }).then((docResult) => {
-      docResult.save(`fichaServidor.pdf`);
+      docResult.save(`ficha-SubDirectivo.pdf`);
     });
   }
   getPersonal(){
@@ -113,7 +120,7 @@ export class FichaSubDirectivoComponent implements OnInit {
     this.api.getPersonal().subscribe(res=>{
       this.personal=res
       let datos=this.personal.find(p=>p.cod_emp==this.idresponsable)
-      console.log(datos)
+
       this.dniEvaluador=datos.dni
       this.nombreEvaluador=datos.a_paterno+' '+datos.a_materno+' '+datos.nom_emp
       this.puestoEvaluador=datos.nombre_crg_fisico
@@ -124,9 +131,9 @@ export class FichaSubDirectivoComponent implements OnInit {
     this.api.modalDatosSubdirectivo.subscribe(res=>{
       this.listaPlanificada=res
       this.actividad=this.listaPlanificada[0].nomActividad
-      console.log(this.listaPlanificada)
+
       this.idProductoA0=this.listaPlanificada[0].idProductoAOActividad
-      console.log(this.idProductoA0)
+
       for (let i=0; i<this.listaPlanificada.length; i++){
         this.peso=this.peso+this.listaPlanificada[i].peso
       }
@@ -148,7 +155,8 @@ export class FichaSubDirectivoComponent implements OnInit {
       let dato=JSON.parse(localStorage.getItem('usuario'))
       this.dependenciaEvaluador=this.listaDireccion.find(d=>d.nombre==dato.dependencia)
       this.idresponsable=this.dependenciaEvaluador.id_responsable
-
+      let organoResponsable=this.listaDireccion.find(a=>a.nombre==dato.dependencia)
+      this.obtenerAO(organoResponsable)
     })
 
   }
@@ -158,7 +166,6 @@ export class FichaSubDirectivoComponent implements OnInit {
     this.api.getAOXunidad(dato.unidad).subscribe(res=>{
 
       this.listaActividad=res.content
-      console.log(this.listaActividad)
       this.getProductoAO()
     })
 
@@ -173,5 +180,80 @@ export class FichaSubDirectivoComponent implements OnInit {
 
 
   }
+  getProductoSubDirectivo(){
+    this.datosServidor=JSON.parse(localStorage.getItem('usuario'))
+    this.unidad=this.datosServidor.unidad
+    this.api.getProductos({nombreUnidad:this.unidad}).subscribe(res=>{
 
+      this.listaGenerada=res.content
+
+    })
+  }
+  obtenerAO(dato){
+
+    this.api.getCEPLAN(dato.id,2022).subscribe(res=>{
+      this.listaAE=res[0].lista_ae
+      console.log(this.listaAE)
+      console.log(this.listaGenerada)
+      for(let i=0; i<this.listaGenerada.length; i++){
+        this.lista_ae=this.listaAE.find(a=>a.nombre==this.listaGenerada[i].nombreAE)
+
+        if(this.lista_ae!=undefined){
+          this.listaAO=this.lista_ae.lista_ao
+          let ao=this.listaAO.find(a=>a.nombre=this.listaGenerada[i].nombreActividadOperativa)
+          this.listaPlazos=ao.lista_periodo
+          let mes=''
+          for(let j=0; j<this.listaPlazos.length; j++){
+            if(this.listaPlazos[i].meta_fisica>0){
+              switch (j){
+                case 0:
+                    mes+='ENERO'
+                  break;
+                case 1:
+                    mes+=' FEBRERO'
+                  break;
+                case 2:
+                    mes+=' MARZO'
+                  break;
+                case 3:
+                    mes+=' ABRIL'
+                  break;
+                case 4:
+                    mes+=' MAYO'
+                  break;
+                case 5:
+                    mes+=' JUNIO'
+                  break;
+                case 6:
+                    mes+=' JULIO'
+                  break;
+                case 7:
+                    mes+=' AGOSTO'
+                  break;
+                case 8:
+                    mes+=' SETIEMBRE'
+                  break;
+                case 9:
+                    mes+=' OCTUBRE'
+                  break;
+                case 10:
+                    mes+=' NOVIEMBRE'
+                  break;
+                case 11:
+                    mes+=' DICIEMBRE'
+                  break;
+              }
+            }
+          }
+          console.log(mes)
+          this.listaFinal.push({nombreAO: this.listaGenerada[i].nombreActividadOperativa,
+           nombreProducto: this.listaGenerada[i].nombreProducto, meta: ao.meta_fisica,
+             peso:this.listaGenerada[i].peso, evidencia: this.listaGenerada[i].evidencia, plazo: mes})
+        }
+
+      }
+      console.log(this.listaPlazos)
+      console.log(this.listaFinal)
+    })
+  }
 }

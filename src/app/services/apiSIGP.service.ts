@@ -36,5 +36,7 @@ export class ApiSIGPService {
   getUGP(ruta: string): Observable<any>{
     return this.http.get(environment.apiUrlSIGP+ruta)
   }
-
+  getSIGP(ruta: string): Observable<any>{
+    return this.http.get(environment.apiUrlSIGP+ruta);
+  }
 }

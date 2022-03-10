@@ -65,6 +65,7 @@ export class RegistroAOComponent implements OnInit {
               private sub: PlanificacionSubdirectivoComponent) { }
 
   ngOnInit(): void {
+    this.verificarTipo()
     this.loading=false
     this.getAEDireccion()
     this.cargarAE()
@@ -99,6 +100,25 @@ export class RegistroAOComponent implements OnInit {
     ]
     this.listaProducto=this.numeracion(this.listaProducto)
     this.getActividadOperativa()
+  }
+  verificarTipo(){
+    this.api.datosModificar.subscribe(res=>{
+      if(res!=undefined){
+        if(res.modo==2){
+          console.log(res.datos)
+         let d=this.addAEDireccion.find(a=>a.nomAccionEstrategica==res.datos.nomAccionEstrategica)
+          this.valorAE=d.idaccionEstregica
+          this.codigoAE=d.codAccionEstra
+          this.listarActividadOperativa()
+          let datosActividad=this.listaAO.find(ao=>ao.codigo==res.datos.codUnidad)
+          this.idActividadOperativa=datosActividad.id
+          this.codigoAO=res.datos.codUnidad
+          this.api.gerProductoAO(res.datos.idAOUnidad).subscribe(res=>{
+            //pendiente de modificacion con el mapro
+          })
+        }
+      }
+    })
   }
   cargarAE(){
     this.api.cargarAE().subscribe(res=>{
@@ -143,6 +163,7 @@ export class RegistroAOComponent implements OnInit {
 
       }
     }
+
   }
   guardarRegistro(){
     if(this.valorAE>0){
