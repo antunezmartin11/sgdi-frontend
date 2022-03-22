@@ -35,7 +35,7 @@ export class MenuPlanificacionComponent implements OnInit {
         this.rol="SUBDIRECTIVO"
       }
     }else{
-        console.log(this.nombreUnidad)
+
         if(this.nombreUnidad=='GERENCIA GENERAL' || this.nombreUnidad=='PRESIDENCIA EJECUTIVA'){
           this.rol='ALTA DIRECCION'
         }else{
@@ -43,14 +43,14 @@ export class MenuPlanificacionComponent implements OnInit {
         }
 
     }
-    console.log(this.rol)
+
   }
   cargarDireccion(){
     this.api.getDireccion().subscribe(res=>{
       this.listaDireccion=res
       let dato=JSON.parse(localStorage.getItem('usuario'))
       this.nombreUnidad=dato.dependencia
-      console.log(this.nombreUnidad)
+
       this.cargarUGP()
 
     })

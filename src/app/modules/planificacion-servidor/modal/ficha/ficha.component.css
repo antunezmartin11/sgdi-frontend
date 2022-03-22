@@ -16,6 +16,7 @@ table{
   font-size: 12px;
   background-color: white;
   border: 1px solid black;
+
 }
 .cabecera1{
   font-size: 12px;
@@ -23,6 +24,7 @@ table{
   background-color: #d9d8d9;
   color: black;
   font-weight: bold;
+  text-align: center;
 }
 img{
   height: 50px;

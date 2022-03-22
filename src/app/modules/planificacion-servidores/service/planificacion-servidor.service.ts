@@ -83,4 +83,7 @@ export class PlanificacionServidorService {
   getCEPLAN(idOrgano: number, anio: number){
     return this.apiSIGP.getSIGP('Reporte/ceplan2?id_organo='+idOrgano+'&anio='+anio+'&id_ciclo=141&id_etapa=1')
   }
+  getEquipoAI(parametro: any){
+    return this.api.post('equipo/listarAIEquipo',parametro)
+  }
 }

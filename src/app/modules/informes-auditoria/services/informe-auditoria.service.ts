@@ -9,6 +9,7 @@ export class InformeAuditoriaService {
 
   @Output() data: EventEmitter<any> = new EventEmitter();//Para enviar
   @Output() dataModal: EventEmitter<any> = new EventEmitter();//Para enviar
+  @Output() datosModificar: EventEmitter<any> = new EventEmitter();//Para enviar
   constructor(private api: ApiSIGPService,
               private apiSGDI: ApiSGDIService) { }
 
@@ -34,5 +35,8 @@ export class InformeAuditoriaService {
   }
   getRecomendacionId(id: number){
     return this.apiSGDI.listaRecomendacionId('recomendacion/getRecomendacion?id='+id);
+  }
+  updateInforme(parametro: any, id: number){
+    return this.apiSGDI.post('informeAuditoria/modificarInforme/'+id, parametro)
   }
 }

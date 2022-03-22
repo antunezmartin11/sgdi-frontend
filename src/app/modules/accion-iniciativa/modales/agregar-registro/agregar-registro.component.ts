@@ -38,7 +38,7 @@ export class AgregarRegistroComponent implements OnInit {
   getDocumento(){
     this.api.getDocumento().subscribe(res=>{
       this.listDocumento=res.content
-      console.log(this.listDocumento)
+
     })
   }
   cancelar(){
@@ -74,7 +74,7 @@ export class AgregarRegistroComponent implements OnInit {
                       "idProductoPriorizado":null,
                       "accionIniciativa":this.accionIniciativa,
                       "nomUnidad": this.nombreUnidad.nombre,
-                      "fecInico":this.fechaInicio,
+                      "fecInicio":this.fechaInicio,
                       "fecFin":this.fechaFin
                     }
                     this.api.addAccionIniciativa(datos).subscribe(res=>{

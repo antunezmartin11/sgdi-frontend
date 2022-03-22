@@ -21,7 +21,7 @@ export class ListaProductosAOComponent implements OnInit {
     this.api.datos.subscribe(res=>{
       this.api.gerProductoAO(res).subscribe(data=>{
         this.listaProductos=this.numeracion(data.content)
-        console.log(this.listaProductos)
+
       })
     })
   }

@@ -77,7 +77,7 @@
               <td>{{datos.nombreProducto}}</td>
               <td>{{datos.riesgoPriorizado}}</td>
               <td>{{datos.nombreMedidaControl}}</td>
-              <td></td>
+              <td>{{datos.nombreOrgano}}</td>
               <td>
                 <span class="image-text">{{datos.fecInicio | date: 'MM/dd/yyyy'}}</span>
               </td>
@@ -91,7 +91,7 @@
               <td>
                 {{datos.observacion}}
               </td>
-              <td style="text-align: center"><button pButton type="button" icon="pi pi-pencil" iconPos="left" style="width: 50%" class="p-button-danger">&nbsp;</button></td>
+              <td style="text-align: center"><button pButton type="button" icon="pi pi-pencil" iconPos="left" style="width: 50%" class="p-button-danger" (click)="modificar(datos)">&nbsp;</button></td>
             </tr>
           </ng-template>
           <ng-template pTemplate="emptymessage">

@@ -73,7 +73,7 @@ export class RegistrarActividadComponent implements OnInit {
   verificar(){
 
     this.api.datosModificar.subscribe(res=>{
-      console.log(res)
+
       if(res.modo==1){
         this.modo=1
         this.datosRegistro=[]
@@ -109,8 +109,7 @@ export class RegistrarActividadComponent implements OnInit {
             }
 
             this.datosRegistro=this.numeracion(this.datosRegistro)
-            console.log(res.content)
-            console.log(this.datosRegistro)
+
           })
         }
       }
@@ -176,7 +175,7 @@ export class RegistrarActividadComponent implements OnInit {
     let uni=JSON.parse(localStorage.getItem('usuario'))
     this.api.getAOXunidad(uni.unidad).subscribe(res=>{
       this.listaAOUnidad=res.content
-      console.log(this.listaAOUnidad)
+
       for(let i=0; i<this.listaAOUnidad.length; i++){
         this.AOUnidadList.push({id:this.listaAOUnidad[i].idAOUnidad, name:this.listaAOUnidad[i].nomActividadOperativa})
       }
@@ -184,7 +183,7 @@ export class RegistrarActividadComponent implements OnInit {
 
   }
   getObjetivoAO(dato) {
-    console.log(dato)
+
     this.listaObjetivoAO=[]
     let objetivo = this.listaAOUnidad.find(ao => ao.idAOUnidad == dato.id)
 
@@ -311,7 +310,7 @@ export class RegistrarActividadComponent implements OnInit {
           }
           this.api.addServidor(servidor).subscribe(res=>{
             let idServidor=res.content.idActividadServidor
-            console.log(this.datosRegistro)
+
             for(let i=0; i<this.datosRegistro.length; i++){
               let dato={
                 "nomActividad":this.datosRegistro[i].actividaOperativa,
@@ -504,7 +503,7 @@ export class RegistrarActividadComponent implements OnInit {
   actualizarEstado(){
 
     this.api.updateEstadoServidor(this.idActividadServidor, {flag: null}).subscribe(res=>{
-      console.log(res)
+
       this.planificacion.updateEstadoAO(null)
       this.messageService.add({key: 'mensaje', severity:'success', summary: 'Validación de actividades', detail: 'Validación Confirmada'});
       this.actualizarRegistro()

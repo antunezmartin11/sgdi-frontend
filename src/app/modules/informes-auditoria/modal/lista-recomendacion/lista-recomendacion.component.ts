@@ -21,7 +21,7 @@ export class ListaRecomendacionComponent implements OnInit {
   }
   gerRecomendacion(){
     this.api.data.subscribe(res=>{
-      console.log(res)
+
       this.api.getRecomendacionId(res).subscribe(data=>{
         this.listaRecomendacion=this.numeracion(data.content)
       })

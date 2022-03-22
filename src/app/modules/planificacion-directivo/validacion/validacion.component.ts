@@ -29,7 +29,7 @@ export class ValidacionComponent implements OnInit {
   getAccionVinculada(){
     this.api.getAccionVinculada().subscribe(res=>{
       this.listaValidar=this.numeracion(res.content)
-      console.log(this.listaAccionV)
+
     })
   }
   numeracion(data: any) {

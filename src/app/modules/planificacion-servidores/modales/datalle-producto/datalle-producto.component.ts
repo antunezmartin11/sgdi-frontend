@@ -22,7 +22,6 @@ export class DatalleProductoComponent implements OnInit {
     this.api.datoProducto.subscribe(res=>{
       this.api.listarProductoServidor(res).subscribe(data=>{
         this.listaProductos=this.numeracion(data.content)
-        console.log(this.listaProductos)
       })
     })
   }

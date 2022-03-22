@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {InformeAuditoriaService} from "../informes-auditoria/services/informe-auditoria.service";
 import {ControlInternoService} from "./service/control-interno.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-sistema-control-interno',
@@ -9,7 +10,8 @@ import {ControlInternoService} from "./service/control-interno.service";
 })
 export class SistemaControlInternoComponent implements OnInit {
   loading: boolean=false;
-  constructor(private api: ControlInternoService) { }
+  constructor(private api: ControlInternoService,
+              public router: Router) { }
   datos: any[];
   ngOnInit(): void {
     this.getProductoPriorizado()
@@ -27,5 +29,10 @@ export class SistemaControlInternoComponent implements OnInit {
         data[i].numeracion = i + 1;
       }
       return data;
+    }
+    modificar(data){
+      this.api.datosModificar.emit(data)
+      localStorage.setItem('datosSCI', JSON.stringify(data))
+      this.router.navigate(['../registroProducto']);
     }
   }

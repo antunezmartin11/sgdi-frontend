@@ -37,10 +37,12 @@ export class FichaComponent implements OnInit {
   valorFormulaPEI: number
   valorAccion: number
   valorIniciativa: number
-  valorMeta: number
+  valorMetaFinal: number
   listaPeriodo: any[]
   idServidorActividad: number
   productosServidor: any[]=[]
+  listaFinal: any[]=[]
+  listaEquipo: any
   constructor(private api: PlanificacionServidoresService) { }
 
   ngOnInit(): void {
@@ -55,6 +57,7 @@ export class FichaComponent implements OnInit {
   cancelar(){
     this.abrirFicha=false
     this.api.modalFicha.emit(false)
+
   }
   getDatosEvaluado(){
     this.datosServidor=JSON.parse(localStorage.getItem('usuario'))
@@ -115,14 +118,16 @@ export class FichaComponent implements OnInit {
         let encargado=this.listaUGP.find(u=>u.nombre==this.unidad)
 
         let directivo=this.personal.find(p=>p.cod_emp===encargado.id_responsable)
+
         this.dniEvaluador=directivo.dni
         this.nombreEvaluador=encargado.nombre_responsable
-        this.puestoEvaluador=encargado.cargo
-        this.unidadEvaluador=directivo.nombre_crg_fisico
+        this.puestoEvaluador=directivo.nombre_crg_fisico
+        this.unidadEvaluador=directivo.nombre_unidad
       })
     })
   }
   getPlanificacion(){
+
     this.api.datosFicha.subscribe(res=>{
 
       this.listaPlanificada=res
@@ -135,8 +140,21 @@ export class FichaComponent implements OnInit {
         this.idServidorActividad=this.listaPlanificada[i].idActividadServidor
         this.peso=this.peso+this.listaPlanificada[i].peso
       }
+      this.listaFinal=[]
       this.api.getProductosPeriodo(this.idServidorActividad).subscribe(res=>{
         this.productosServidor=res.content
+        for (let j = 0; j < this.productosServidor.length; j++) {
+          this.listaFinal.push({
+            actividad: this.productosServidor[j].nomActividad,
+            producto: this.productosServidor[j].nomProducto,
+            meta: this.sumarPeriodo(this.productosServidor[j].idProAIAct),
+            peso: this.productosServidor[j].peso,
+            evidencia: this.productosServidor[j].evidencia,
+            plazo: this.obtenerPlazo(this.productosServidor[j].idProAIAct),
+            tipo: 1
+          })
+        }
+        this.getEquipoAI()
 
       })
     })
@@ -158,13 +176,46 @@ export class FichaComponent implements OnInit {
     }
     return plazo
   }
-  puntuacionMeta(){
+
+  valorMeta(){
+
+    let v1=0
+    let v2=0
+    let v3=0
+
+    for (let i=0; i<this.listaFinal.length; i++){
+      if(this.listaFinal[i].tipo==1){
+        v1=this.listaFinal[i].peso*this.listaFinal[i].meta
+        v2+=v1
+      }
+      if(this.listaFinal[i].tipo==2){
+        v1=this.listaFinal[i].peso*this.listaFinal[i].meta
+        v3+=v1
+      }
+
+      this.valorMetaFinal=(v2+v3)*0.1
+
+    }
+
 
   }
-  formula(){
+  getEquipoAI(){
 
-    this.peso=this.peso
-    this.valorFormulaPEI=(this.meta*this.peso*0.7)
+    this.api.getEquipoAI({idPlaza: this.codigoServidor}).subscribe(res=>{
+      this.listaEquipo=res.content
+      for (let i=0; i<this.listaEquipo.length; i++){
+        this.listaFinal.push({
+          actividad: this.listaEquipo[i].descripcion,
+          producto: this.listaEquipo[i].priorizado,
+          meta: this.listaEquipo[i].valoracion,
+          peso: this.listaEquipo[i].contribucion,
+          evidencia: this.listaEquipo[i].medioVerificacion,
+          plazo: this.listaEquipo[i].fecInicio+' '+this.listaEquipo[i].fecFin,
+          tipo: 2
+        })
+      }
+      this.valorMeta()
+    })
 
   }
 

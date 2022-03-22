@@ -43,4 +43,7 @@ export class PlanificacionServidoresService {
   getProductosPeriodo(id: number){
     return this.api.getProductosCodigo('productoServidor/listarProductoPeriodo/'+id)
   }
+  getEquipoAI(parametro: any){
+    return this.api.post('equipo/listarAIEquipo',parametro)
+  }
 }

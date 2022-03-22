@@ -44,7 +44,7 @@ export class PlanificacionSubdirectivoComponent implements OnInit {
     this.datosAELocal=JSON.parse(this.local)
     this.api.getAccionEstrategicaDireccion(this.datosAELocal.dependencia).subscribe(res=>{
       this.listaAE=res.content
-      console.log(this.listaAE)
+
       for(let i=0; i<this.listaAE.length; i++){
         if(this.listaAE[i].estado==null){
           this.estadoFicha=false
@@ -80,7 +80,7 @@ export class PlanificacionSubdirectivoComponent implements OnInit {
     let datos=JSON.parse(localStorage.getItem('usuario'))
     this.api.getListarAOUnidadDireccion(datos.dependencia).subscribe(res=>{
       this.listaDatosVinculados=this.numeracion(res.content)
-      console.log(this.listaDatosVinculados)
+
       for(let i=0; i<this.listaDatosVinculados.length; i++){
         if(this.listaDatosVinculados[i].estado==null){
           this.estadoValidado=false
@@ -112,7 +112,7 @@ export class PlanificacionSubdirectivoComponent implements OnInit {
       this.confirmationService.confirm({
         message: '¿Esta seguro que desea validar la programación realizada?',
         accept: () => {
-          console.log(this.listaAE)
+
           for(let i=0; i<this.listaAE.length; i++){
             this.api.updateEstadoDirectivo(this.listaAE[i].idaccionEstregica).subscribe(res=>{
                this.getAEDireccion()

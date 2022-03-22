@@ -33,7 +33,7 @@ export class MenuAccionesIniciativasComponent implements OnInit {
         this.rol="SUBDIRECTIVO"
       }
     }else{
-      console.log(this.nombreDireccion)
+
       if(this.nombreDireccion=='GERENCIA GENERAL' || this.nombreDireccion=='PRESIDENCIA EJECUTIVA'){
         this.rol='ALTA DIRECCION'
       }else{
@@ -41,7 +41,7 @@ export class MenuAccionesIniciativasComponent implements OnInit {
       }
 
     }
-    console.log(this.rol)
+
   }
   cargarDireccion(){
     this.api.getDireccion().subscribe(res=>{
@@ -49,7 +49,7 @@ export class MenuAccionesIniciativasComponent implements OnInit {
       let dato=JSON.parse(localStorage.getItem('usuario'))
       this.nombreDireccion=dato.dependencia
       this.nombreUnidad=dato.unidad
-      console.log(this.nombreUnidad)
+
       this.cargarUGP()
 
     })
@@ -59,7 +59,7 @@ export class MenuAccionesIniciativasComponent implements OnInit {
     this.api.getUGP().subscribe(res=>{
       this.listaUGP=res
       this.obtenerRol()
-      console.log(this.listaUGP)
+
     })
   }
 }

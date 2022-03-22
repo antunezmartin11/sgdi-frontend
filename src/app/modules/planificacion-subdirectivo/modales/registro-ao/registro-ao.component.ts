@@ -105,7 +105,7 @@ export class RegistroAOComponent implements OnInit {
     this.api.datosModificar.subscribe(res=>{
       if(res!=undefined){
         if(res.modo==2){
-          console.log(res.datos)
+
          let d=this.addAEDireccion.find(a=>a.nomAccionEstrategica==res.datos.nomAccionEstrategica)
           this.valorAE=d.idaccionEstregica
           this.codigoAE=d.codAccionEstra
@@ -129,7 +129,7 @@ export class RegistroAOComponent implements OnInit {
     })
   }
   getDatosSubDirectivo(){
-    console.log(this.idUnidad)
+
     this.datoResponable=this.listaPersonal.find(p=>p.cod_emp==this.idUnidad)
     this.responsable=this.datoResponable.a_paterno+' '+this.datoResponable.a_materno+' '+this.datoResponable.nom_emp
     this.dniResponsable=this.datoResponable.dni
@@ -180,9 +180,9 @@ export class RegistroAOComponent implements OnInit {
               "nomAccEstra":ae.nomAccionEstrategica,
               "codigoPlaza": this.addUnidad[j].idUnidad
             }
-            console.log(datos)
+
             this.api.addVinculaAO(datos).subscribe(res=>{
-              console.log(res)
+
               let idAO=0
               let nomAO
               let nomDir

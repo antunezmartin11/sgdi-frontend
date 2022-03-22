@@ -73,7 +73,7 @@ export class PlanificacionServidoresComponent implements OnInit, OnChanges {
     let da=JSON.parse(localStorage.getItem('usuario'))
     this.api.listarServidorUnidad(da.unidad).subscribe(res=>{
       this.listaDatos=this.numeracion(res.content)
-      console.log(this.listaDatos)
+
       for(let i=0; i<this.listaDatos.length; i++){
         this.estadoValidar = this.listaDatos[i].flag != null;
 

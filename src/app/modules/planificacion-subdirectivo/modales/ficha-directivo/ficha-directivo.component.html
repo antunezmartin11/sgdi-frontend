@@ -62,9 +62,9 @@
           </tr>
           <tr>
             <td class="cabecera1" width="25%">SEGMENTO</td>
-            <td class="contenido" width="25%">Sub Directivo</td>
-            <td class="cabecera1" width="25%">SEGMENTO</td>
             <td class="contenido" width="25%">Directivo</td>
+            <td class="cabecera1" width="25%">SEGMENTO</td>
+            <td class="contenido" width="25%">Alta Dirección</td>
           </tr>
           <tr>
             <td class="cabecera1" width="25%">ÓRGANO O UNIDAD ORGÁNICA</td>
@@ -83,22 +83,21 @@
       </div>
       <br>
       <div class="grid">
-        <table width="100%">
+        <table width="80%">
           <thead>
           <tr>
             <td class="cabecera" width="50%" colspan="7">ETAPA DE PLANIFICACIÓN</td>
             <td class="cabecera" width="25%">ETAPA DE SEGUIMIENTO</td>
-            <td class="cabecera" width="25%" colspan="3">ETAPA DE EVALUACIÓN</td>
           </tr>
           </thead>
           <tbody>
-          <tr>
+          <tr style="height: 20px">
             <td colspan="2" rowspan="2" class="cabecera1">PRIORIDADES ANUALES DE GESTIÓN DEL ÓRGANO O UNIDAD ORGÁNICA </td>
             <td colspan="5" class="cabecera1">META</td>
             <td class="cabecera1">SEGUIMIENTO Y RETROALIMENTACIÓN</td>
-            <td rowspan="2" class="cabecera1">PUNTUACIÓN POR META</td>
+
           </tr>
-          <tr>
+          <tr style="height: 10px">
             <td class="cabecera1">INDICADOR / PRODUCTO</td>
             <td class="cabecera1">VALOR META</td>
             <td class="cabecera1">PESO</td>
@@ -106,58 +105,42 @@
             <td class="cabecera1">PLAZOS</td>
             <td class="cabecera1">COMENTARIOS</td>
           </tr>
-          <tr>
+          <tr *ngFor="let item of listaFinal">
             <td class="contenido">1</td>
             <td class="contenido">
-              <table>
-                <tbody>
-                <tr *ngFor="let lista of listaActividad" >
-                  <td style="border-bottom: 1px solid black">{{lista.nomActividadOperativa}}</td>
-                  <td></td>
-                </tr>
-                </tbody>
-              </table>
+              {{item.actividad}}
             </td>
             <td style="border: 1px black solid ">
-              <table>
-                <tbody>
-                <tr *ngFor="let listap of listaProducto" >
-                  <td style="border-bottom: 1px solid black">{{listap.nomProducto}}</td>
-                </tr>
-                </tbody>
-              </table>
+              {{item.producto}}
             </td>
             <td style="border: 1px black solid ">
-              <table width="100%">
-                <tbody>
-                <tr *ngFor="let lista of listaProducto" >
-                  <td >{{lista.peso}}</td>
-                </tr>
-                </tbody>
-              </table>
+              {{item.meta}}
             </td>
             <td style="border: 1px black solid ">
-              <table width="100%">
-                <tbody>
-                <tr *ngFor="let lista of listaProducto" >
-                  <td >{{lista.peso}}</td>
-                </tr>
-                </tbody>
-              </table>
+              {{item.peso}}
             </td>
             <td style="border: 1px black solid ">
-              <table width="100%">
-                <tbody>
-                <tr *ngFor="let lista of listaProducto" >
-                  <td >{{lista.tipoEvidencia}}</td>
-                </tr>
-
-                </tbody>
-              </table>
+              {{item.medio}}
             </td>
-            <td style="border: 1px black solid ">{{plazo}}</td>
+            <td style="border: 1px black solid ">{{item.plazo}}</td>
             <td style="border: 1px black solid "></td>
-            <td style="border: 1px black solid ">{{valorFormulaPEI | number :'2.1-2'}}</td>
+
+          </tr>
+          </tbody>
+        </table>
+        <table width="20%" border="1">
+          <thead>
+          <tr style="height: 20px">
+            <th class="cabecera">ETAPA DE EVALUACIÓN</th>
+          </tr>
+
+          </thead>
+          <tbody>
+          <tr>
+            <td class="cabecera1" colspan="3">PUNTUACIÓN POR META</td>
+          </tr>
+          <tr>
+            <td style="text-align: center">{{valorMetaFinal |percent:'1.1-2'}}</td>
           </tr>
           </tbody>
         </table>

@@ -28,7 +28,7 @@ export class ValoracionComponent implements OnInit {
   getDatos(){
     this.api.datos.subscribe(res=>{
       this.datos=res
-      console.log(this.datos)
+
     })
 
   }
@@ -53,7 +53,7 @@ export class ValoracionComponent implements OnInit {
           this.api.addValoracion(datos).subscribe(res=>{
             if(res.estado){
               this.api.updateAccion(this.datos.idAccionIniciativa).subscribe(res=>{
-                console.log(res)
+
               })
               this.messageService.add({key: 'mensaje', severity:'success', summary: 'Error en el proceso', detail: 'Valoración Registrada'});
               this.cancelar()

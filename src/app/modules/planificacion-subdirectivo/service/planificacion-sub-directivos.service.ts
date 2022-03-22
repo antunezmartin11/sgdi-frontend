@@ -72,4 +72,16 @@ export class PlanificacionSubDirectivosService {
   getlistaProductosAO(parametro: any){
     return this.apiSGDI.post('productoAO/listarProductosAO', parametro)
   }
+  getListarDirecciones(){
+    return this.api.getDirectivo('organo/lista?id_organo=0')
+  }
+  getProductoAE(parametro: any){
+    return this.apiSGDI.post('productoAE/listarProductoAE', parametro)
+  }
+  getPeriodoAE(id: number){
+    return this.apiSGDI.get('accionEstrategica/listarPeriodoAE/'+id);
+  }
+  getEquipoAI(parametro: any){
+    return this.apiSGDI.post('equipo/listarAIEquipo',parametro)
+  }
 }

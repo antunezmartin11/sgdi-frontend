@@ -21,7 +21,7 @@ export class ListaDireccionComponent implements OnInit {
     this.api.datosDireccion.subscribe(res=>{
       this.api.getAEDireccion(res).subscribe(data=>{
         this.listaDireccion=this.numeracion(data.content)
-        console.log(this.listaDireccion)
+
       })
     })
   }

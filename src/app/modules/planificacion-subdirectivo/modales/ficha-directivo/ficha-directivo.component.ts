@@ -36,25 +36,25 @@ export class FichaDirectivoComponent implements OnInit {
   valorFormulaPEI: number
   valorAccion: number
   valorIniciativa: number
-  valorMeta: number
+  valorMetaFinal: number
+  listarPersonal: any =[]
   listaDireccion: any
   dependenciaEvaluador: any=[]
   idresponsable: any
   listaActividad: any []
   idAO:number
   listaProducto:any
+  personalE: any=[]
+  listaFinal: any=[]
+  codigoDirectivo:string
+  listaEquipo:any=[]
   constructor(private api: PlanificacionSubDirectivosService) { }
 
   ngOnInit(): void {
-
     this.getDatosEvaluado()
-    this.getPersonal()/*
-    this.getPlanificacion()
+    this.getPersonal()
     this.cargarDireccion()
-    this.getActividadOperativa()*/
   }
-
-
   cancelar(){
     this.abrirFichaDirectivo=false
     this.api.modalFichaDirectivo.emit(false)
@@ -64,12 +64,11 @@ export class FichaDirectivoComponent implements OnInit {
     this.nombreCompleto=this.datosServidor.aPaterno+' '+this.datosServidor.aMaterno+' '+this.datosServidor.nombre
     this.puesto=this.datosServidor.cargo
     this.unidad=this.datosServidor.unidad
-
-
-  }
-  getDatosEvaluador(){
+    this.codigoDirectivo=this.datosServidor.codigo
+    this.getProductosAE()
 
   }
+
   getPDF(){
     // Extraemos el
     const DATA = document.getElementById('fichaServidor');
@@ -99,43 +98,25 @@ export class FichaDirectivoComponent implements OnInit {
 
       while (heightLeft >= 0) {
         position = heightLeft - imgHeight;
-        console.log(position)
+
         doc.addPage();
         doc.addImage(img, 'PNG', 15, -280, imgWidth, imgHeight);
         heightLeft -= pageHeight;
       }
       return doc;
     }).then((docResult) => {
-      docResult.save(`fichaServidor.pdf`);
+      docResult.save(`ficha-Directivo.pdf`);
     });
   }
   getPersonal(){
-    let datoPersona=JSON.parse(localStorage.getItem('usuario'))
+
     this.api.getPersonal().subscribe(res=>{
       this.personal=res
       let datos=this.personal.find(p=>p.cod_emp==this.idresponsable)
-      console.log(datos)
       this.dniEvaluador=datos.dni
-      this.nombreEvaluador=datos.a_paterno+' '+datos.a_materno+' '+datos.nom_emp
-      this.puestoEvaluador=datos.nombre_crg_fisico
       this.unidadEvaluador=datos.nombre_dependencia
     })
   }
-  /*getPlanificacion(){
-    this.api.modalDatosSubdirectivo.subscribe(res=>{
-      this.listaPlanificada=res
-      this.actividad=this.listaPlanificada[0].nomActividad
-      console.log(this.listaPlanificada)
-      this.idProductoA0=this.listaPlanificada[0].idProductoAOActividad
-      console.log(this.idProductoA0)
-      for (let i=0; i<this.listaPlanificada.length; i++){
-        this.peso=this.peso+this.listaPlanificada[i].peso
-      }
-
-
-    })
-
-  }*/
 
   formula(){
     this.peso=this.peso
@@ -143,37 +124,82 @@ export class FichaDirectivoComponent implements OnInit {
 
   }
 
-  /*cargarDireccion(){
-    this.api.getDireccion().subscribe(res=>{
+  cargarDireccion(){
+    this.api.getListarDirecciones().subscribe(res=>{
       this.listaDireccion=res
       let dato=JSON.parse(localStorage.getItem('usuario'))
-      this.dependenciaEvaluador=this.listaDireccion.find(d=>d.nombre==dato.dependencia)
+      this.dependenciaEvaluador=this.listaDireccion.find(d=>d.nombre=="GERENCIA GENERAL")
       this.idresponsable=this.dependenciaEvaluador.id_responsable
+      this.nombreEvaluador=this.dependenciaEvaluador.nombre_responsable
+      this.getPersonal()
+    })
+  }
+
+  getProductosAE() {
+    let sum = 0
+    this.api.getProductoAE({nombreDireccion: this.unidad}).subscribe(res => {
+      this.listaProducto = res.content
+      for (let i = 0; i < this.listaProducto.length; i++) {
+        this.getPeriodoAE(this.listaProducto[i].idAEDireccion,
+          this.listaProducto[i].nombreAE, this.listaProducto[i].producto,
+          this.listaProducto[i].pesoAE, this.listaProducto[i].medioVerificacion)
+      }
+      this.getEquipoAI()
+    })
+  }
+  getPeriodoAE(id:number, ae, producto,peso,medio){
+    let suma=0;
+    this.api.getPeriodoAE(id).subscribe(res=>{
+      for(let j=0; j<res.content.length; j++){
+        suma+=res.content[j].peso
+      }
+      this.listaFinal.push({actividad:ae,
+        producto:producto,
+        peso:peso,
+        meta:suma,
+        evidencia:medio,
+        plazo:'',
+        tipo:1})
 
     })
 
-  }*/
-  /*
-  getActividadOperativa(){
-    let dato=JSON.parse(localStorage.getItem('usuario'))
+  }
+  getEquipoAI(){
 
-    this.api.getAOXunidad(dato.unidad).subscribe(res=>{
-
-      this.listaActividad=res.content
-      console.log(this.listaActividad)
-      this.getProductoAO()
+    this.api.getEquipoAI({idPlaza: this.codigoDirectivo}).subscribe(res=>{
+      this.listaEquipo=res.content
+      for (let i=0; i<this.listaEquipo.length; i++){
+        this.listaFinal.push({
+          actividad: this.listaEquipo[i].descripcion,
+          producto: this.listaEquipo[i].priorizado,
+          meta: this.listaEquipo[i].valoracion,
+          peso: this.listaEquipo[i].contribucion,
+          evidencia: this.listaEquipo[i].medioVerificacion,
+          plazo: this.listaEquipo[i].fecInicio+' '+this.listaEquipo[i].fecFin,
+          tipo: 2
+        })
+      }
+      this.valorMeta()
     })
 
-  }*/
-  /*
-  getProductoAO(){
-    for(let i=0; i<this.listaActividad.length; i++){
-      this.api.getProductoAOUnidad(this.listaActividad[i].idAOUnidad).subscribe(res=>{
-        this.listaProducto=res.content
+  }
+  valorMeta() {
 
-      })
+
+    let v1 = 0
+    let v2 = 0
+    let v3 = 0
+    for (let i = 0; i < this.listaFinal.length; i++) {
+      if (this.listaFinal[i].tipo == 1) {
+        v1 = this.listaFinal[i].peso * this.listaFinal[i].meta
+        v2 += v1
+      }
+      if (this.listaFinal[i].tipo == 2) {
+        v1 = this.listaFinal[i].peso * this.listaFinal[i].meta
+        v3 += v1
+      }
+      this.valorMetaFinal = (v2 + v3) * 0.1
+
     }
-
-
-  }*/
+  }
 }

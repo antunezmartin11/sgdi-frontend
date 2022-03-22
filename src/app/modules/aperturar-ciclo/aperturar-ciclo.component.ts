@@ -43,7 +43,7 @@ export class AperturarCicloComponent implements OnInit {
     this.api.listarCiclo().subscribe(res=>{
       this.listaCiclo=res.content
       this.listaC=this.numeracion(this.listaCiclo)
-      console.log(this.listaC)
+
 
     });
   }

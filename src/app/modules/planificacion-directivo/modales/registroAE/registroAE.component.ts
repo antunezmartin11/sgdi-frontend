@@ -263,10 +263,10 @@ export class RegistroAEComponent implements OnInit {
 
 
   getProcesos(){//Metodo para obtener los productos del mapro de nivel 0
-    //console.log(this.idObjetivo)
+
     this.api.getProcesos(this.idObjetivo).subscribe(res=>{
       this.listaProducto=res
-      //console.log(this.listaProducto)
+
     })
 
   }
@@ -317,7 +317,7 @@ export class RegistroAEComponent implements OnInit {
         this.messageService.add({key: 'mensaje', severity:'error', summary: 'Accion Estrategica', detail: 'Tiene que seleccionar una Acción Estrategica'});
       }
     }else{
-     // console.log('esta para modificar')
+
     }
   }
   validarProgramacion(){//Validar que se realiza una programacion
@@ -336,7 +336,7 @@ export class RegistroAEComponent implements OnInit {
       "idAEDireccion":idAE
     }
     this.api.addProgramacionAE(datos).subscribe(res=>{
-     // console.log(res)
+
     })
   }
   addProgramacion(idAE:number){
@@ -492,7 +492,7 @@ export class RegistroAEComponent implements OnInit {
               this.listaProductos.push({idProducto: this.idProducto,nombreProducto:producto.nombre, peso: this.peso, formula: this.formula, evidencia: this.evidencia, contribucionProducto: this.contribucionProducto})
               this.listaProductos=this.numeracion(this.listaProductos)
               this.limpiarProductos()
-              //console.log(this.listaProductos)
+
             }else {
               this.messageService.add({key: 'mensaje', severity:'error', summary: 'Agregar Productos', detail: 'Tiene que ingresar una contribución para el producto'});
             }
@@ -534,21 +534,21 @@ export class RegistroAEComponent implements OnInit {
   getDirectivo(){
     this.api.getDirectivo().subscribe(res=>{
       this.listaDirectivo=res
-      console.log(this.listaDirectivo)
+
     })
   }
   getNombreDireccion(){
     let dato=this.listaDirectivo.find(a=>a.id == this.direccion)
     this.nombreDireccion=dato.nombre
     this.nomResponsable=dato.nombre_responsable
-    //console.log(this.nombreDireccion)
+
   }
   sumarContribucion(){
     this.totalContribucion=0
     if(this.addDireccion.length>0){
       for(let i=0; i<this.addDireccion.length; i++){
         this.totalContribucion+=parseFloat(this.addDireccion[i].contribucion)
-        //console.log(this.totalContribucion)
+
 
       }
     }
@@ -565,7 +565,7 @@ export class RegistroAEComponent implements OnInit {
             if(existe==undefined){
               let lobjetivo= this.listaObjetivo.find(d=>d.id==this.idObjetivo)
               this.addDireccion.push({id: this.direccion, nombre: this.nombreDireccion, responsable:this.nomResponsable,contribucion: parseFloat(this.contribucionObjetivo), idObjetivo: this.idObjetivo, nomObjetivo: lobjetivo.descripcion, estado: false})
-              //console.log(this.addDireccion)
+
               this.addDireccion=this.numeracion(this.addDireccion)
               this.sumarContribucion()
               this.idObjetivo=0
@@ -595,18 +595,11 @@ export class RegistroAEComponent implements OnInit {
     let idDi=this.addDireccion.findIndex(a=>a.id==id)
     this.addDireccion.splice(idDi,1)
   }
-  valDir(id,estado){
-    //console.log(estado)
-    if(estado){
-      //console.log(id)
-    }else{
-      //console.log('No se selecciono ')
-    }
-  }
+
   eliminarProducto(id){
     let idDi=this.listaProductos.findIndex(a=>a.idProducto==id)
     this.listaProductos.splice(idDi,1)
-    console.log(this.listaProductos)
+
   }
   agregarDireccionPost(idAE){
     for(let i=0; i<this.addDireccion.length; i++){

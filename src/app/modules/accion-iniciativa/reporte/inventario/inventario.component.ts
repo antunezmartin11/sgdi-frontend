@@ -27,8 +27,7 @@ export class InventarioComponent implements OnInit {
           this.listaAuditoria.push(this.listaAccion[i])
         }
       }
-      console.log(this.listaAuditoria)
-      console.log(this.listaProductosPriorizados)
+
     })
   }
   getPDF(){
@@ -60,7 +59,7 @@ export class InventarioComponent implements OnInit {
 
       while (heightLeft >= 0) {
         position = heightLeft - imgHeight;
-        console.log(position)
+
         doc.addPage();
         doc.addImage(img, 'PNG', 15, -280, imgWidth, imgHeight);
         heightLeft -= pageHeight;

@@ -1,33 +1,37 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {InformeAuditoriaService} from "./services/informe-auditoria.service";
+import {Router} from "@angular/router";
+import {Location} from "@angular/common";
+import {stringify} from "querystring";
 
 @Component({
   selector: 'app-informes-auditoria',
   templateUrl: './informes-auditoria.component.html',
-  styleUrls: ['./informes-auditoria.component.css']
+  styleUrls: ['./informes-auditoria.component.css'],
+
 })
 export class InformesAuditoriaComponent implements OnInit {
 
-  @Output()
+
 
   datos: any[];
   loading: boolean = true;
-  constructor(private api: InformeAuditoriaService) { }
+  constructor(private api: InformeAuditoriaService,  private location: Location) { }
   modalRegistro: boolean;
   modalRecomendacion: boolean;
   ngOnInit(): void {
     this.getListaInformes()
 
     this.loading=false
-  }
 
+  }
   abrirModalRegistro(){
     this.modalRegistro=true
 
   }
   getListaInformes(){
     this.api.listarInformes().subscribe(res=>{
-      console.log(res)
+
       this.datos=this.numeracion(res.content)
     })
   }
@@ -46,5 +50,9 @@ export class InformesAuditoriaComponent implements OnInit {
       data[i].numeracion = i + 1;
     }
     return data;
+  }
+  modificar(datos){
+    window.location.href='../registroInforme'
+    localStorage.setItem('datos',JSON.stringify(datos))
   }
 }

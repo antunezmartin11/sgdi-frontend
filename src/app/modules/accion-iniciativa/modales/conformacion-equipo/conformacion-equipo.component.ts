@@ -57,7 +57,7 @@ export class ConformacionEquipoComponent implements OnInit {
   getDatos(){
     this.api.datos.subscribe(res=>{
       this.datos=res
-      console.log(this.datos)
+
       this.accionIniciativa=this.datos.descripcion
       this.idOrgano=this.datos.idUnidad
       this.medioVerificacion=this.datos.medioVerificacion
@@ -71,9 +71,8 @@ export class ConformacionEquipoComponent implements OnInit {
   }
 
   agregarLider(){
-    console.log(this.listaPersonal)
-    console.log(this.responsable)
-    this.equipo=this.equipo
+
+
     if(this.responsable!=0){
       if(this.valorRol!=0){
 
@@ -83,6 +82,7 @@ export class ConformacionEquipoComponent implements OnInit {
           let unidad=this.listaOrgano.find(o=>o.id==this.idOrgano)
           let cargo= nombre.nombre_crg_fisico
           let vRol=this.rol.find(r=>r.idRol===this.valorRol)
+
           this.equipo.push({idPlaza:this.responsable,nomServidor: nombre.a_paterno+' '+nombre.a_materno+' '+nombre.nom_emp,
             idAccionIniciativa:this.idAccionIniciativa, idUnidad: this.idOrgano,
             nomUnidad: unidad.nombre, contribucion: this.contribucionLider,
@@ -155,7 +155,7 @@ export class ConformacionEquipoComponent implements OnInit {
       }
     }
     this.personalUnidad=this.numeracion(this.personalUnidad)
-    console.log(this.personalUnidad)
+
   }
   servidoresUnidadC(){
     this.personalUnidad1=[]
@@ -166,7 +166,7 @@ export class ConformacionEquipoComponent implements OnInit {
       }
     }
     this.personalUnidad1=this.numeracion(this.personalUnidad1)
-    console.log(this.personalUnidad1)
+
   }
   numeracion(data: any) {
     for (let i = 0; i < data.length; i++) {
@@ -210,7 +210,7 @@ export class ConformacionEquipoComponent implements OnInit {
     this.accion.getAccionIniciativa()
   }
   guardarEquipo(){
-    console.log(this.equipo)
+
     if(this.equipo.length>0){
         for (let i=0; i<this.equipo.length; i++){
           this.api.addEquipo(this.equipo[i]).subscribe(res=>{

@@ -83,20 +83,19 @@
       </div>
       <br>
       <div class="grid">
-        <table width="100%">
+        <table width="80%">
           <thead>
-          <tr>
+          <tr style="height: 20px">
             <td class="cabecera" width="50%" colspan="7">ETAPA DE PLANIFICACIÓN</td>
             <td class="cabecera" width="25%">ETAPA DE SEGUIMIENTO</td>
-            <td class="cabecera" width="25%" colspan="3">ETAPA DE EVALUACIÓN</td>
+
           </tr>
           </thead>
           <tbody>
-          <tr>
+          <tr style="height: 10px">
             <td colspan="2" rowspan="2" class="cabecera1" style="text-align: center">PRIORIDADES ANUALES DE GESTIÓN DEL ÓRGANO O UNIDAD ORGÁNICA </td>
             <td colspan="5" class="cabecera1" style="text-align: center">META</td>
             <td class="cabecera1" style="text-align: center">SEGUIMIENTO Y RETROALIMENTACIÓN</td>
-            <td rowspan="2" class="cabecera1" style="text-align: center">PUNTUACIÓN POR META</td>
           </tr>
           <tr>
             <td class="cabecera1">INDICADOR / PRODUCTO</td>
@@ -109,10 +108,10 @@
           <tr *ngFor="let item of listaFinal">
             <td class="contenido">1</td>
             <td class="contenido">
-              {{item.nombreAO}}
+              {{item.actividad}}
             </td>
             <td style="border: 1px black solid ">
-              {{item.nombreProducto}}
+              {{item.producto}}
             </td>
             <td style="border: 1px black solid ">
               {{item.meta}}
@@ -125,7 +124,22 @@
             </td>
             <td style="border: 1px black solid ">{{item.plazo}}</td>
             <td style="border: 1px black solid "></td>
-            <td style="border: 1px black solid ">{{valorFormulaPEI | number :'2.1-2'}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <table width="20%" border="1">
+          <thead>
+          <tr style="height: 20px">
+            <th class="cabecera">ETAPA DE EVALUACIÓN</th>
+          </tr>
+
+          </thead>
+          <tbody>
+          <tr>
+            <td class="cabecera1" colspan="3">PUNTUACIÓN POR META</td>
+          </tr>
+          <tr>
+            <td style="text-align: center">{{valorMetaFinal |percent:'1.1-2'}}</td>
           </tr>
           </tbody>
         </table>

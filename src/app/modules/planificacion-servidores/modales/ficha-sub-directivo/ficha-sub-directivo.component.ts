@@ -36,7 +36,7 @@ export class FichaSubDirectivoComponent implements OnInit {
   valorFormulaPEI: number
   valorAccion: number
   valorIniciativa: number
-  valorMeta: number
+  valorMetaFinal: number
   listaDireccion: any
   dependenciaEvaluador: any=[]
   idresponsable: any
@@ -50,6 +50,8 @@ export class FichaSubDirectivoComponent implements OnInit {
   listaAO: any=[]
   lista_ae: any=[]
   listaPlazos: any=[]
+  codigoSubDirectivo: string
+  listaEquipo: any=[]
   constructor(private api: PlanificacionServidorService) { }
 
   ngOnInit(): void {
@@ -71,7 +73,7 @@ export class FichaSubDirectivoComponent implements OnInit {
     this.nombreCompleto=this.datosServidor.aPaterno+' '+this.datosServidor.aMaterno+' '+this.datosServidor.nombre
     this.puesto=this.datosServidor.cargo
     this.unidad=this.datosServidor.unidad
-
+    this.codigoSubDirectivo=this.datosServidor.codigo
   }
   getDatosEvaluador(){
 
@@ -193,8 +195,7 @@ export class FichaSubDirectivoComponent implements OnInit {
 
     this.api.getCEPLAN(dato.id,2022).subscribe(res=>{
       this.listaAE=res[0].lista_ae
-      console.log(this.listaAE)
-      console.log(this.listaGenerada)
+
       for(let i=0; i<this.listaGenerada.length; i++){
         this.lista_ae=this.listaAE.find(a=>a.nombre==this.listaGenerada[i].nombreAE)
 
@@ -245,15 +246,60 @@ export class FichaSubDirectivoComponent implements OnInit {
               }
             }
           }
-          console.log(mes)
-          this.listaFinal.push({nombreAO: this.listaGenerada[i].nombreActividadOperativa,
-           nombreProducto: this.listaGenerada[i].nombreProducto, meta: ao.meta_fisica,
-             peso:this.listaGenerada[i].peso, evidencia: this.listaGenerada[i].evidencia, plazo: mes})
+          this.listaFinal.push({
+            actividad: this.listaGenerada[i].nombreActividadOperativa,
+            producto: this.listaGenerada[i].nombreProducto,
+            meta: ao.meta_fisica,
+            peso: this.listaGenerada[i].peso,
+            evidencia: this.listaGenerada[i].evidencia,
+            plazo: mes,
+            tipo: 1
+          })
         }
 
       }
-      console.log(this.listaPlazos)
-      console.log(this.listaFinal)
+      this.getEquipoAI()
     })
+  }
+  getEquipoAI(){
+
+    this.api.getEquipoAI({idPlaza: this.codigoSubDirectivo}).subscribe(res=>{
+      this.listaEquipo=res.content
+      for (let i=0; i<this.listaEquipo.length; i++){
+        this.listaFinal.push({
+          actividad: this.listaEquipo[i].descripcion,
+          producto: this.listaEquipo[i].priorizado,
+          meta: this.listaEquipo[i].valoracion,
+          peso: this.listaEquipo[i].contribucion,
+          evidencia: this.listaEquipo[i].medioVerificacion,
+          plazo: this.listaEquipo[i].fecInicio+' '+this.listaEquipo[i].fecFin,
+          tipo: 2
+        })
+      }
+      this.valorMeta()
+    })
+
+  }
+  valorMeta(){
+
+    let v1=0
+    let v2=0
+    let v3=0
+
+    for (let i=0; i<this.listaFinal.length; i++){
+      if(this.listaFinal[i].tipo==1){
+        v1=this.listaFinal[i].peso*this.listaFinal[i].meta
+        v2+=v1
+      }
+      if(this.listaFinal[i].tipo==2){
+        v1=this.listaFinal[i].peso*this.listaFinal[i].meta
+        v3+=v1
+      }
+
+      this.valorMetaFinal=(v2+v3)*0.1
+
+    }
+
+
   }
 }

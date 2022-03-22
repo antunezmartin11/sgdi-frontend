@@ -32,8 +32,6 @@ export class LoginComponent implements OnInit {
       if(this.contrasenna.length>4){
         this.loginService.login(this.usuario, this.contrasenna).subscribe(res=>{
           this.datos=res
-
-          console.log(this.datos)
           if(this.datos.codigo!=null){
             localStorage.setItem('usuario', JSON.stringify(this.datos))
             this.router.navigate(['home'])

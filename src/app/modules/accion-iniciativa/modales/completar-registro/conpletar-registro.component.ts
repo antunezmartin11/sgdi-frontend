@@ -50,7 +50,7 @@ export class ConpletarRegistroComponent implements OnInit {
   getDocumento(){
     this.api.getDocumento().subscribe(res=>{
       this.listDocumento=res.content
-      console.log(this.listDocumento)
+
     })
   }
   validarFecha(e: any){
@@ -88,7 +88,7 @@ export class ConpletarRegistroComponent implements OnInit {
                 this.api.completarRegistro(dato, this.idAccionIniciativa).subscribe(res=>{
                     this.cancelar()
                     this.actualizarLitaPrincipal()
-                  
+
                 })
               }else {
                 this.messageService.add({key: 'mensaje', severity:'error', summary: 'Conformación de Equipo', detail: 'Tiene que seleccionar el rango de fechas adecuado'});

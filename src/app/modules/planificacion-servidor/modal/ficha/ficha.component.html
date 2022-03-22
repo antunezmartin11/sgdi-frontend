@@ -92,12 +92,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr style="height: 20px">
               <td  rowspan="2" class="cabecera1">PRIORIDADES ANUALES DE GESTIÓN DEL ÓRGANO O UNIDAD ORGÁNICA </td>
               <td colspan="5" class="cabecera1">META</td>
               <td class="cabecera1">SEGUIMIENTO Y RETROALIMENTACIÓN</td>
             </tr>
-            <tr>
+            <tr style="height: 10px">
               <td class="cabecera1">INDICADOR / PRODUCTO</td>
               <td class="cabecera1">VALOR META</td>
               <td class="cabecera1">PESO</td>
@@ -105,25 +105,26 @@
               <td class="cabecera1">PLAZOS</td>
               <td class="cabecera1">COMENTARIOS</td>
             </tr>
-            <tr *ngFor="let lista of productosServidor; index as i">
+            <tr *ngFor="let lista of listaFinal; index as i">
 
-              <td class="contenido">{{lista.nomActividad}}</td>
+              <td class="contenido">{{lista.actividad}}</td>
               <td style="border: 1px black solid ">
-                {{lista.nomProducto}}
+                {{lista.producto}}
               </td>
-              <td style="border: 1px black solid ">{{sumarPeriodo(lista.idProAIAct)}}</td>
+              <td style="border: 1px black solid ">{{lista.meta}}</td>
               <td style="border: 1px black solid ">
                 {{lista.peso}}
               </td>
               <td style="border: 1px black solid ">
                 {{lista.evidencia}}
               </td>
-              <td style="border: 1px black solid ">{{obtenerPlazo(lista.idProAIAct)}}</td>
+              <td style="border: 1px black solid ">{{lista.plazo}}</td>
               <td style="border: 1px black solid "></td>
             </tr>
+
             </tbody>
           </table>
-          <table width="20%">
+          <table width="20%" border="1">
             <thead>
               <tr>
                 <th class="cabecera">ETAPA DE EVALUACIÓN</th>
@@ -131,11 +132,11 @@
 
             </thead>
             <tbody>
-              <tr>
-                <td class="cabecera1" height="37.5%">PUNTUACIÓN POR META</td>
+              <tr style="height: 20px">
+                <td class="cabecera1"  colspan="3">PUNTUACIÓN POR META</td>
               </tr>
               <tr>
-                <td>{{meta}}</td>
+                <td style="text-align: center">{{valorMetaFinal |percent:'1.1-2'}}</td>
               </tr>
             </tbody>
           </table>

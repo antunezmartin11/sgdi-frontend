@@ -21,9 +21,9 @@ export class ListaProductosComponent implements OnInit {
   cargarProductos(){
     this.api.datosProducto.subscribe(res=>{
       this.api.getProductoAE(res).subscribe(data=>{
-        console.log(data)
+
         this.listaProductos=this.numeracion(data.content)
-        console.log(this.listaProductos)
+
       })
     })
   }

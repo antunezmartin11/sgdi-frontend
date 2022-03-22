@@ -35,18 +35,18 @@ export class CompletarRegistroComponent implements OnInit {
   txtOct: boolean=true
   txtNov: boolean=true
   txtDic: boolean=true
-  valEne: number
-  valFeb: number
-  valMar: number
-  valAbr: number
-  valMay: number
-  valJun: number
-  valJul: number
-  valAgo: number
-  valSet: number
-  valOct: number
-  valNov: number
-  valDic: number
+  valEne: number | string
+  valFeb: number| string
+  valMar: number| string
+  valAbr: number| string
+  valMay: number| string
+  valJun: number| string
+  valJul: number| string
+  valAgo: number| string
+  valSet: number| string
+  valOct: number| string
+  valNov: number| string
+  valDic: number| string
   idEne: number
   idFeb: number
   idMar: number
@@ -74,7 +74,7 @@ export class CompletarRegistroComponent implements OnInit {
     this.obtenerDatos()
   }
   asignarValor(valor){
-    console.log(valor)
+
     switch (valor.idPeriodo){
       case 1:
         this.chkEne=true
@@ -159,17 +159,56 @@ export class CompletarRegistroComponent implements OnInit {
       this.plani.getPeriodo(this.idProductoAO).subscribe(resp=>{
         this.periodos=resp.content
         for (let i=0; i<this.periodos.length; i++){
-          console.log(this.periodos[i])
+
             this.asignarValor(this.periodos[i])
         }
       })
 
     })
   }
+  limpiar(){
+    this.txtEne=true
+    this.chkEne=false
+    this.chkFeb=false
+    this.txtFeb=true
+    this.chkMar=false
+    this.chkMar=true
+    this.chkAbr=false
+    this.txtAbr=true
+    this.chkMay=false
+    this.txtMay=true
+    this.chkJun=false
+    this.txtJun=true
+    this.chkJul=false
+    this.txtJul=true
+    this.chkAgo=false
+    this.txtAgo=true
+    this.chkSet=false
+    this.txtSet=true
+    this.chkOct=false
+    this.txtOct=true
+    this.chkNov=false
+    this.txtNov=true
+    this.chkDic=false
+    this.txtDic=true
+    this.valEne=''
+    this.valFeb=''
+    this.valMar=''
+    this.valAbr=''
+    this.valMay=''
+    this.valJun=''
+    this.valJul=''
+    this.valAgo=''
+    this.valSet=''
+    this.valOct=''
+    this.valNov=''
+    this.valDic=''
 
+  }
   cancelar(){
     this.completarRegistroModal=false
     this.plani.modalRegistro.emit(false)
+    this.limpiar()
   }
   cambiarEstado(num: number){
     switch (num){
@@ -223,14 +262,14 @@ export class CompletarRegistroComponent implements OnInit {
         break;
     }
   }
-  programacion(peso: number, idPeriodo: number, idAE:number){
+  programacion(peso: number|string, idPeriodo: number, idAE:number){
     let datos={
       "peso": peso,
       "idPeriodo":idPeriodo,
       "idProductoAO_Actividad":idAE
     }
     this.api.addProgramacionServidor(datos).subscribe(res=>{
-      console.log(res)
+
     })
   }
 
@@ -342,7 +381,7 @@ export class CompletarRegistroComponent implements OnInit {
 
       this.addProgramacion(this.idProductoAO)
       this.api.updateEstado({flag:1},this.idProductoAO).subscribe(res=>{
-        console.log(res)
+
       })
       this.actualizarDatos()
       this.cancelar()
@@ -350,7 +389,7 @@ export class CompletarRegistroComponent implements OnInit {
       this.messageService.add({key: 'mensaje', severity:'error', summary: 'Asignación de actividades', detail: 'Tiene que ingresar minimo un mes de contribución'});
     }
   }
-  update(id: number, peso: number, idPeriod: number){
+  update(id: number, peso: number|string, idPeriod: number){
     let dato={
       peso: peso,
       idPeriodo: idPeriod

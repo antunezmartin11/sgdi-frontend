@@ -41,7 +41,7 @@ export class PlanificacionServidorComponent implements OnInit {
     this.api.getListarAsignado(this.codigoServidor).subscribe(res=>{
       this.listaDatos=res.content
       this.listaDatos=this.numeracion(this.listaDatos)
-      console.log(this.listaDatos)
+
       for(let i=0; i<this.listaDatos.length; i++){
         this.idServidor=this.listaDatos[i].idActividadServidor
         this.estado = this.listaDatos[i].flag != null;
