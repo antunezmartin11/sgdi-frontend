@@ -9,11 +9,11 @@ export class CicloService {
   constructor(private api: ApiSGDIService) { }
 
   listarCiclo(){
-    return this.api.getCiclo('ciclo/listarCiclo');
+    return this.api.get('ciclo/listarCiclo');
   }
 
   addCiclo(parametro: any){
-    return this.api.addCiclo('ciclo/agregar',parametro);
+    return this.api.post('ciclo/agregar',parametro);
   }
 
 }

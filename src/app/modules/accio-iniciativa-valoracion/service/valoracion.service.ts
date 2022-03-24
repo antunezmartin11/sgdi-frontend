@@ -11,9 +11,9 @@ export class ValoracionService {
   constructor(private api: ApiSGDIService) { }
 
   addValoracion(parametro : any){
-    return this.api.addValoracion('accionIniciativa/agregarValoracion',parametro)
+    return this.api.post('accionIniciativa/agregarValoracion',parametro)
   }
   updateAccion(id: number){
-    return this.api.updateAccion('accionIniciativa/updateFlag/'+id)
+    return this.api.post('accionIniciativa/updateFlag/'+id, null)
   }
 }

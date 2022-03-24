@@ -13,30 +13,30 @@ export class AccionIniciativaService {
   constructor(private api: ApiSGDIService, private apiSIGP: ApiSIGPService) { }
 
   getAccionIniciativa(){
-    return this.api.getAccionIniciativa('accionIniciativa/listar')
+    return this.api.get('accionIniciativa/listar')
   }
   getUnidad(){
-    return this.apiSIGP.getOrgano('organo/lista?id_organo=0');
+    return this.apiSIGP.getSIGP('organo/lista?id_organo=0');
   }
   getDocumento(){
-    return this.api.getTipoDocumento('tipoDocumento/listar')
+    return this.api.get('tipoDocumento/listar')
   }
   addAccionIniciativa(parametro: any){
-    return this.api.addAccionIniciativa('accionIniciativa/agregar',parametro)
+    return this.api.post('accionIniciativa/agregar',parametro)
   }
   getRol(){
-    return this.api.getRol('accionIniciativa/listarRol')
+    return this.api.get('accionIniciativa/listarRol')
   }
   getPersonal(){
-    return this.apiSIGP.getPersonal('PersonalActivo/listar');
+    return this.apiSIGP.getSIGP('PersonalActivo/listar');
   }
   addEquipo(parametro: any){
-    return this.api.addEquipo('equipo/agregar',parametro)
+    return this.api.post('equipo/agregar',parametro)
   }
   completarRegistro(parametro: any, id: number){
-    return this.api.completarRegistro('accionIniciativa/updateAccionIniciativa/'+id, parametro)
+    return this.api.post('accionIniciativa/updateAccionIniciativa/'+id, parametro)
   }
   listarInformes(){
-    return this.api.getInformeAuditoria('informeAuditoria/listaCompleta')
+    return this.api.get('informeAuditoria/listaCompleta')
   }
 }

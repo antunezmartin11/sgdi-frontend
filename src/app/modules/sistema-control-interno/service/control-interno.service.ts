@@ -11,17 +11,17 @@ export class ControlInternoService {
   constructor(private apiSGDI: ApiSGDIService,
               private api: ApiSIGPService) { }
   getTipoDoc(){
-    return this.apiSGDI.getTipoDocumento('tipoDocumento/listar');
+    return this.apiSGDI.get('tipoDocumento/listar');
   }
 
   getOrgano(){
-    return this.api.getOrgano('organo/lista?id_organo=0');
+    return this.api.getSIGP('organo/lista?id_organo=0');
   }
   addProducto(param:any){
-    return this.apiSGDI.addProductoPriorizado('productoPriorizado/agregar',param)
+    return this.apiSGDI.post('productoPriorizado/agregar',param)
   }
   getProductoPriorizado(){
-    return this.apiSGDI.getProductoPriorizado('productoPriorizado/listarCompleto')
+    return this.apiSGDI.get('productoPriorizado/listarCompleto')
   }
   updateProducto(id: number, parametro: any){
     return this.apiSGDI.post('productoPriorizado/updateProducto/'+id,parametro)

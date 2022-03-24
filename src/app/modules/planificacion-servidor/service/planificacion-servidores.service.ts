@@ -14,34 +14,34 @@ export class PlanificacionServidoresService {
   constructor(private api: ApiSGDIService, private apiSIGP: ApiSIGPService) { }
 
   getListarAsignado(codigo: string){
-    return this.api.getListaAsignaciones('productoServidor/listarProductosCodigo?codigo='+codigo);
+    return this.api.get('productoServidor/listarProductosCodigo?codigo='+codigo);
   }
   getPeriodo(id: number){
-    return this.api.getPeriodoServidor('periodoActividad/listarId/'+id)
+    return this.api.get('periodoActividad/listarId/'+id)
   }
   updatePeriodoServidor(id: number,parametro: any){
-    return this.api.updatePeriodoServidor('periodoActividad/updatePeriodoActividad/'+id,parametro)
+    return this.api.post('periodoActividad/updatePeriodoActividad/'+id,parametro)
   }
   updateEstadoServidor(id: number, parametro: any){
-    return this.api.updateEstadoServidor('productoServidor/updateEstadoServidor/'+id, parametro)
+    return this.api.post('productoServidor/updateEstadoServidor/'+id, parametro)
   }
   getServidor(codigo: string){
-    return this.api.getServidor('productoServidor/listarServidorId/'+codigo)
+    return this.api.get('productoServidor/listarServidorId/'+codigo)
   }
   getUGP(){
-    return this.apiSIGP.getUGP('ugp_organo/lista?id=0')
+    return this.apiSIGP.getSIGP('ugp_organo/lista?id=0')
   }
   getPersonal(){
-    return this.apiSIGP.getPersonal('PersonalActivo/listar');
+    return this.apiSIGP.getSIGP('PersonalActivo/listar');
   }
   getDireccion(){
-    return this.apiSIGP.getDirectivo('organo/lista?id_organo=0')
+    return this.apiSIGP.getSIGP('organo/lista?id_organo=0')
   }
   getProductosCodigo(codigo: string){
-    return this.api.getProductosCodigo('productoServidor/listaProducto/'+codigo)
+    return this.api.get('productoServidor/listaProducto/'+codigo)
   }
   getProductosPeriodo(id: number){
-    return this.api.getProductosCodigo('productoServidor/listarProductoPeriodo/'+id)
+    return this.api.get('productoServidor/listarProductoPeriodo/'+id)
   }
   getEquipoAI(parametro: any){
     return this.api.post('equipo/listarAIEquipo',parametro)

@@ -16,7 +16,7 @@ export class PlanificacionSubDirectivosService {
               private apiSGDI: ApiSGDIService) { }
 
   cargarAE(){
-    return this.api.getAccionEstrategica('AccionEstrategica/lista');
+    return this.api.getSIGP('AccionEstrategica/lista');
   }
   getObjetivo(){
     return this.apiMAPRO.getObjetivo('procesos/listar-con-objetivo')
@@ -25,55 +25,55 @@ export class PlanificacionSubDirectivosService {
     return this.apiMAPRO.getProcesos('procesos/detalle/indicador/'+id)
   }
   getActividadOperativa(){
-    return this.api.getActividadOperativa('ActividadOperativa/filtro?id_ae=0&id_ciclo=126&id_etapa=7')
+    return this.api.getSIGP('ActividadOperativa/filtro?id_ae=0&id_ciclo=126&id_etapa=7')
   }
   getUnidad(){
-    return this.api.getUnidad('OrganoPersonal/listar')
+    return this.api.getSIGP('OrganoPersonal/listar')
   }
   getDocumento(){
-    return this.apiSGDI.getTipoDocumento('tipoDocumento/listar')
+    return this.apiSGDI.get('tipoDocumento/listar')
   }
   getAOVinculada(){
-    return this.apiSGDI.getActividadOperativaVinculada('actividadOperativa/listarAO')
+    return this.apiSGDI.get('actividadOperativa/listarAO')
   }
   addVinculaAO(parametro: any){
-    return this.apiSGDI.addVincularAO('actividadOperativa/agregar', parametro)
+    return this.apiSGDI.post('actividadOperativa/agregar', parametro)
   }
   getUltimoidAOV(){
-    return this.apiSGDI.getUltimoAOV('actividadOperativa/listarUltimo')
+    return this.apiSGDI.get('actividadOperativa/listarUltimo')
   }
   addProductoAO(parametro: any){
-    return this.apiSGDI.addProductoAO('productoAO/agregar',parametro)
+    return this.apiSGDI.post('productoAO/agregar',parametro)
   }
   gerProductoAO(id: number){
-    return this.apiSGDI.getProductosAO('productoAO/listarId?id='+id)
+    return this.apiSGDI.get('productoAO/listarId?id='+id)
   }
   getAccionEstrategicaDireccion(nombre: string){
-    return this.apiSGDI.getAccionEstrategicaDireccion('accionEstrategica/listarAEDireccion?nombre='+nombre)
+    return this.apiSGDI.get('accionEstrategica/listarAEDireccion?nombre='+nombre)
   }
   addAOUnidad(parametro: any){
-    return this.apiSGDI.addUnidadActividadOperativa('actividadOperativa/agregarAOUnidad', parametro)
+    return this.apiSGDI.post('actividadOperativa/agregarAOUnidad', parametro)
   }
   getListarAOUnidad(){
-    return this.apiSGDI.getListaAOUnidad('actividadOperativa/listarAOUnidad')
+    return this.apiSGDI.get('actividadOperativa/listarAOUnidad')
   }
   contarAO(id: number){
-    return this.apiSGDI.contarAO('actividadOperativa/countAO?id='+id)
+    return this.apiSGDI.get('actividadOperativa/countAO?id='+id)
   }
   getListarAOUnidadDireccion(nombre: string){
-    return this.apiSGDI.getListaAOUnidad('actividadOperativa/listarAODireccion?nombreUnidad='+nombre)
+    return this.apiSGDI.get('actividadOperativa/listarAODireccion?nombreUnidad='+nombre)
   }
   getPersonal(){
-    return this.api.getPersonal('PersonalActivo/listar');
+    return this.api.getSIGP('PersonalActivo/listar');
   }
   updateEstadoDirectivo(id: number){
-    return this.apiSGDI.updateEstadoAE('accionEstrategica/updateEstadoAE/'+id);
+    return this.apiSGDI.post('accionEstrategica/updateEstadoAE/'+id, null);
   }
   getlistaProductosAO(parametro: any){
     return this.apiSGDI.post('productoAO/listarProductosAO', parametro)
   }
   getListarDirecciones(){
-    return this.api.getDirectivo('organo/lista?id_organo=0')
+    return this.api.getSIGP('organo/lista?id_organo=0')
   }
   getProductoAE(parametro: any){
     return this.apiSGDI.post('productoAE/listarProductoAE', parametro)

@@ -18,43 +18,43 @@ export class PlanificacionServidorService {
 
 
   addVinculoServidor(parametro: any){
-     return this.api.addVincularServidor('productoServidor/agregar',parametro)
+     return this.api.post('productoServidor/agregar',parametro)
   }
   getListaVinculados(){
-    return this.api.getServidorAsignacion('productoServidor/listar')
+    return this.api.get('productoServidor/listar')
   }
   addProgramacionServidor(parametro: any){
-    return this.api.addProgramacionServidor('periodoActividad/agregar',parametro);
+    return this.api.post('periodoActividad/agregar',parametro);
   }
   getPersonal(){
-    return this.apiSIGP.getPersonal('PersonalActivo/listar');
+    return this.apiSIGP.getSIGP('PersonalActivo/listar');
   }
   getAOXunidad(nombre: any){
-    return this.api.getAOxUnidad('actividadOperativa/getAOxUnidad?nombre='+nombre)
+    return this.api.get('actividadOperativa/getAOxUnidad?nombre='+nombre)
   }
   getProductoAOUnidad(id: number){
-    return this.api.getProductoAOUnidad('productoAO/listarId?id='+id)
+    return this.api.get('productoAO/listarId?id='+id)
   }
   addServidor(parametro: any){
-    return this.api.addServidor('productoServidor/agregarServidor',parametro)
+    return this.api.post('productoServidor/agregarServidor',parametro)
   }
   countServidor(codigo: string){
-    return this.api.countServidor('productoServidor/validarUsuario?codigo='+codigo)
+    return this.api.get('productoServidor/validarUsuario?codigo='+codigo)
   }
   listarServidor(){
-    return this.api.listarServidor('productoServidor/listarServidor');
+    return this.api.get('productoServidor/listarServidor');
   }
   listarProductoServidor(id: number){
-    return this.api.listarProductoServidor('productoServidor/listarProductos?id='+id)
+    return this.api.get('productoServidor/listarProductos?id='+id)
   }
   listarServidorUnidad(nombre: string){
-    return this.api.listarServidor('productoServidor/listarServidorUnidad?nombreUnidad='+nombre);
+    return this.api.get('productoServidor/listarServidorUnidad?nombreUnidad='+nombre);
   }
   updateEstado(parametro: any, id: number){
-    return this.api.updateEstado('productoServidor/updateEstado/'+id,parametro)
+    return this.api.post('productoServidor/updateEstado/'+id,parametro)
   }
   getListaActividadValidar(unidad: string){
-    return this.api.getAOxUnidad('actividadOperativa/getAOxUnidad?nombre='+unidad)
+    return this.api.get('actividadOperativa/getAOxUnidad?nombre='+unidad)
   }
   updateEstadoSubDirectivo(id: number, parametro: any){
     return this.api.post('actividadOperativa/updateEstadoSubDirectivo/'+id, parametro)
@@ -63,10 +63,10 @@ export class PlanificacionServidorService {
     return this.api.post('actividadOperativa/updateEstadoAOUnidad/'+id,parametro)
   }
   getUGP(){
-    return this.apiSIGP.getUGP('ugp_organo/lista?id=0')
+    return this.apiSIGP.getSIGP('ugp_organo/lista?id=0')
   }
   getDireccion(){
-    return this.apiSIGP.getDirectivo('organo/lista?id_organo=0')
+    return this.apiSIGP.getSIGP('organo/lista?id_organo=0')
   }
   updateProductoServidor(parametro: any, id: number){
     return this.api.post('productoServidor/updateProducto/'+id,parametro)

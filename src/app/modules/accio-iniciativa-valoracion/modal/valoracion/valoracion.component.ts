@@ -39,7 +39,9 @@ export class ValoracionComponent implements OnInit {
     this.impacto=0
     this.valoracion=0
     this.val=null
+
   }
+
   guardarValoracion(){
     if(this.impacto>0){
       if(this.complejidad>0){
@@ -57,9 +59,11 @@ export class ValoracionComponent implements OnInit {
               })
               this.messageService.add({key: 'mensaje', severity:'success', summary: 'Error en el proceso', detail: 'Valoración Registrada'});
               this.cancelar()
+
             }
+
           })
-          this.accion.getAccionIniciativa()
+
         }else{
           this.messageService.add({key: 'mensaje', severity:'error', summary: 'Error en el proceso', detail: 'No se complete la información requerida'});
         }

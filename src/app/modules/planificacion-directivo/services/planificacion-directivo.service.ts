@@ -20,7 +20,7 @@ export class PlanificacionDirectivoService {
   @Output() cerraModalProducto: EventEmitter<any> = new EventEmitter<any>();
   @Output() cerraModalDireccion: EventEmitter<any> = new EventEmitter<any>();
   cargarAE(){//Para cargar los datos de las acciones estrategicas del SIGP
-    return this.api.getAccionEstrategica('AccionEstrategica/lista');
+    return this.api.getSIGP('AccionEstrategica/lista');
   }
   getObjetivo(){//Obtener los objetivos dle MAPRO
     return this.apiMAPRO.getObjetivo('procesos/listar-con-objetivo')
@@ -29,51 +29,49 @@ export class PlanificacionDirectivoService {
     return this.apiMAPRO.getProcesos('procesos/detalle/indicador/'+id)
   }
   getAccionVinculada(){//Obtener los acciones estrategicas vinculadas del sgdi
-    return this.apiSGDI.listarAccionEstrategica('accionEstrategica/listar');
+    return this.apiSGDI.get('accionEstrategica/listar');
   }
   addVincularAE(parametro: any){
-    return this.apiSGDI.addAEDirectivo('accionEstrategica/agregar',parametro)
+    return this.apiSGDI.post('accionEstrategica/agregar',parametro)
   }
   getDocumento(){//Metodo para obtner los valores de la tabla tipodocumento
-    return this.apiSGDI.getTipoDocumento('tipoDocumento/listar');
+    return this.apiSGDI.get('tipoDocumento/listar');
   }
   addProductoAE(parametro: any){//Agregar productos a la accion estrategica
-    return this.apiSGDI.addProductoAE('productoAE/agregar', parametro)
+    return this.apiSGDI.post('productoAE/agregar', parametro)
   }
   getUltimoIdAE(){//Obtener el ultimo registro de vincular accion estratefica
-    return this.apiSGDI.getUltimoIdAE('accionEstrategica/listarUltimo')
+    return this.apiSGDI.get('accionEstrategica/listarUltimo')
   }
   getProductoAE(id: number){//Metodo para obtener la lista de productos por el id de la accion estrategica
-    return this.apiSGDI.getProductosAE('productoAE/listarId?id='+id)
+    return this.apiSGDI.get('productoAE/listarId?id='+id)
   }
   getDirectivo(){//Retornara la lista de directivos
-    return this.api.getDirectivo('organo/lista?id_organo=0');
+    return this.api.getSIGP('organo/lista?id_organo=0');
   }
   addHitoDirectivo(param: any){//agregar registro de gito directivo
-    return this.apiSGDI.addHitoDirectivo('hito/agregar',param)
+    return this.apiSGDI.post('hito/agregar',param)
   }
   getHitoDirectivo(id: number){//Obtener los hitos registros para directivos
-    return this.apiSGDI.getHitoDirectivo('hito/listarTipo?tipo='+id)
+    return this.apiSGDI.get('hito/listarTipo?tipo='+id)
   }
   addProgramacionAE(parametro: any){//Agregar registro de programacion de la AE
-    return this.apiSGDI.addProgramacion('accionEstrategica/agregarPeriodoAE',parametro)
+    return this.apiSGDI.post('accionEstrategica/agregarPeriodoAE',parametro)
   }
-  getUltimoHito(){//retorna el valor del ultimo hito
-    return this.apiSGDI.getultimoHito('hito/ultimoHito');
-  }
+
   addvinculaHito(parametro: any){//AGREGAR VINCULACION DE SERVIDORES CON EL HITO
-    return this.apiSGDI.addVincularHito('hito/agregarHitoDirectivo',parametro)
+    return this.apiSGDI.post('hito/agregarHitoDirectivo',parametro)
   }
   getHitoVinculado(tipo: number, idHito: number){//Obtener el hito vinculado
-    return this.apiSGDI.getHitoVinculado('hito/getHitoVinculado?tipo='+tipo+'&idHito='+idHito)
+    return this.apiSGDI.get('hito/getHitoVinculado?tipo='+tipo+'&idHito='+idHito)
   }
   addAEDireccion(parametro: any){
-    return this.apiSGDI.addAEDirectivo('accionEstrategica/agregarAEDirectivo',parametro)
+    return this.apiSGDI.post('accionEstrategica/agregarAEDirectivo',parametro)
   }
   getAEDireccion(id){
-    return this.apiSGDI.getAEDireccion('accionEstrategica/listarDireccionAE?id='+id)
+    return this.apiSGDI.get('accionEstrategica/listarDireccionAE?id='+id)
   }
   getPersonal(){
-    return this.api.getPersonal('PersonalActivo/listar');
+    return this.api.getSIGP('PersonalActivo/listar');
   }
 }

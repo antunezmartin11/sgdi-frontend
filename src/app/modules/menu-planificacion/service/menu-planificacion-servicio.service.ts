@@ -9,9 +9,9 @@ export class MenuPlanificacionServicioService {
   constructor(private api: ApiSIGPService) { }
 
   getDireccion(){
-    return this.api.getDirectivo('organo/lista?id_organo=0')
+    return this.api.getSIGP('organo/lista?id_organo=0')
   }
   getUGP(){
-    return this.api.getUGP('ugp_organo/lista?id=0')
+    return this.api.getSIGP('ugp_organo/lista?id=0')
   }
 }
