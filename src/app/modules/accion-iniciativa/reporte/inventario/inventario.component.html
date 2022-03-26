@@ -123,10 +123,10 @@
                 <td>{{auditoria.descripcion}}</td>
                 <td></td>
                 <td>X</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{auditoria.descripcion}}</td>
+                <td>{{auditoria.impacto | number: '1.1-2'}}</td>
+                <td>{{auditoria.complejidad | number: '1.1-2'}}</td>
+                <td>{{auditoria.valoracion | number: '1.1-2'}}</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -144,10 +144,10 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{producto.descripcion}}</td>
+                <td>{{producto.impacto | number: '1.1-2'}} </td>
+                <td>{{producto.complejidad | number: '1.1-2'}}</td>
+                <td>{{producto.valoracion | number: '1.1-2'}}</td>
               </tr>
             </tbody>
             <tfoot>

@@ -17,7 +17,7 @@ export class InventarioComponent implements OnInit {
     this.getLista()
   }
   getLista(){
-    this.api.getAccionIniciativa().subscribe(res=>{
+    this.api.getAccionIniciativaValorada().subscribe(res=>{
       this.listaAccion=res.content
       for(let i=0; i<this.listaAccion.length; i++){
         if(this.listaAccion[i].idProductoPriorizado!=null){

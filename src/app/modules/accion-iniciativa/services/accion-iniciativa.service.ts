@@ -15,6 +15,9 @@ export class AccionIniciativaService {
   getAccionIniciativa(){
     return this.api.get('accionIniciativa/listar')
   }
+  getAccionIniciativaValorada(){
+    return this.api.get('accionIniciativa/listarViewAI')
+  }
   getUnidad(){
     return this.apiSIGP.getSIGP('organo/lista?id_organo=0');
   }
