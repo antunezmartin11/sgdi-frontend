@@ -117,8 +117,8 @@
             </tr>
             </tbody>
             <tbody>
-              <tr *ngFor="let auditoria of listaAuditoria">
-                <td >2</td>
+              <tr *ngFor="let auditoria of listaAuditoria, index as i">
+                <td >{{i+1}}</td>
                 <td >Sistema de control Interno</td>
                 <td>{{auditoria.descripcion}}</td>
                 <td></td>
@@ -134,8 +134,8 @@
               </tr>
             </tbody>
             <tbody>
-              <tr *ngFor="let producto of listaProductosPriorizados">
-                <td >3</td>
+              <tr *ngFor="let producto of listaProductosPriorizados, index as i">
+                <td >{{i+1}}</td>
                 <td >Organos del sistema de control interno</td>
                 <td>{{producto.descripcion}}</td>
                 <td>X</td>
